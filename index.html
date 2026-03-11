@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<title>Do — Task Manager</title>
+<title>Notes — Task Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -35,7 +35,7 @@
   --purple-dim: rgba(167,139,250,0.12);
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { font-family:'DM Mono',monospace; background:var(--black); color:var(--white); min-height:100vh; max-width:430px; margin:0 auto; overflow-x:hidden; font-size:12px; }
+body { font-family:Arial, sans-serif; background:var(--black); color:var(--white); min-height:100vh; max-width:430px; margin:0 auto; overflow-x:hidden; font-size:13px; }
 
 #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 .header, nav.nav, .view, .fab, .modal-overlay, .toast { position:relative; z-index:2; }
@@ -47,22 +47,22 @@ body { font-family:'DM Mono',monospace; background:var(--black); color:var(--whi
 /* HEADER */
 .header {
   padding:52px 24px 20px;
-  border-bottom:1px solid var(--gray-800);
+  border-bottom:1px solid rgba(255,255,255,0.08);
   position:sticky; top:0;
-  background:rgba(10,10,10,0.93);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
+  background:rgba(10,10,10,0.35);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
   z-index:100;
 }
 .header-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-.app-name { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--gray-400); }
+.app-name { font-family:Arial, sans-serif; font-size:17px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--white); }
 .header-date { font-size:9px; letter-spacing:0.15em; color:var(--gray-600); text-transform:uppercase; }
 
 /* STATS ROW */
-.stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--gray-800); border:1px solid var(--gray-800); border-radius:12px; overflow:hidden; }
-.stat-item { background:rgba(17,17,17,0.9); padding:12px 14px; }
+.stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:20px; overflow:hidden; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.stat-item { background:rgba(255,255,255,0.03); padding:12px 14px; }
 .stat-label { font-size:10px; letter-spacing:0.18em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; }
-.stat-value { font-family:'Roboto',sans-serif; font-size:22px; font-weight:500; color:var(--white); }
+.stat-value { font-family:Arial, sans-serif; font-size:22px; font-weight:500; color:var(--white); }
 .stat-value.neon { color:var(--neon); }
 .stat-value.gold { color:var(--gold); }
 .stat-value.danger { color:var(--danger); }
@@ -70,14 +70,15 @@ body { font-family:'DM Mono',monospace; background:var(--black); color:var(--whi
 /* NAV */
 nav.nav {
   display:flex; padding:0 16px;
-  border-bottom:1px solid var(--gray-800);
-  background:rgba(20,20,20,0.93);
-  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  background:rgba(10,10,10,0.25);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
   position:sticky; top:160px; z-index:99;
   overflow-x:auto; scrollbar-width:none;
 }
 nav.nav::-webkit-scrollbar { display:none; }
-.nav-btn { flex:0 0 auto; background:none; border:none; color:var(--gray-500); font-family:'DM Mono',monospace; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; padding:16px 10px; cursor:pointer; position:relative; transition:color 0.2s; white-space:nowrap; }
+.nav-btn { flex:0 0 auto; background:none; border:none; color:var(--gray-500); font-family:Arial, sans-serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; padding:16px 10px; cursor:pointer; position:relative; transition:color 0.2s; white-space:nowrap; }
 .nav-btn.active { color:var(--white); }
 .nav-btn.active::after { content:''; position:absolute; bottom:0; left:10px; right:10px; height:1px; background:var(--white); }
 
@@ -94,7 +95,7 @@ nav.nav::-webkit-scrollbar { display:none; }
 /* SECTION HEADERS */
 .section-header { padding:20px 24px 10px; display:flex; justify-content:space-between; align-items:center; }
 .section-label { font-size:10px; letter-spacing:0.25em; color:var(--gray-500); text-transform:uppercase; }
-.section-count { font-family:'Roboto',sans-serif; font-size:13px; color:var(--gray-600); }
+.section-count { font-family:Arial, sans-serif; font-size:13px; color:var(--gray-600); }
 
 /* TASK ITEM */
 .task-item {
@@ -153,7 +154,7 @@ nav.nav::-webkit-scrollbar { display:none; }
   position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
   background:var(--white); color:var(--black);
   border:none; border-radius:50px; padding:16px 32px;
-  font-family:'Syne',sans-serif; font-size:15px; font-weight:700;
+  font-family:Arial, sans-serif; font-size:15px; font-weight:700;
   letter-spacing:0.1em; text-transform:uppercase;
   cursor:pointer; z-index:200;
   box-shadow:0 8px 32px rgba(0,0,0,0.6);
@@ -167,30 +168,30 @@ nav.nav::-webkit-scrollbar { display:none; }
 .modal { background:var(--gray-900); border-radius:24px 24px 0 0; padding:32px 24px 48px; width:100%; border-top:1px solid var(--gray-800); animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); max-height:92vh; overflow-y:auto; }
 @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 .modal-handle { width:36px; height:3px; background:var(--gray-700); border-radius:2px; margin:-16px auto 28px; }
-.modal-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:700; margin-bottom:24px; }
+.modal-title { font-family:Arial, sans-serif; font-size:22px; font-weight:700; margin-bottom:24px; }
 
 .form-group { margin-bottom:16px; }
 .form-label { display:block; font-size:11px; letter-spacing:0.2em; color:var(--gray-500); text-transform:uppercase; margin-bottom:8px; }
-.input-plain { width:100%; background:var(--gray-800); border:1px solid var(--gray-700); border-radius:12px; color:var(--white); font-family:'DM Mono',monospace; font-size:16px; padding:14px 16px; outline:none; transition:border-color 0.2s; }
+.input-plain { width:100%; background:var(--gray-800); border:1px solid var(--gray-700); border-radius:12px; color:var(--white); font-family:Arial, sans-serif; font-size:16px; padding:14px 16px; outline:none; transition:border-color 0.2s; }
 .input-plain:focus { border-color:var(--gray-400); }
-.input-select { width:100%; background:var(--gray-800); border:1px solid var(--gray-700); border-radius:12px; color:var(--white); font-family:'DM Mono',monospace; font-size:15px; padding:14px 16px; outline:none; appearance:none; cursor:pointer; }
+.input-select { width:100%; background:var(--gray-800); border:1px solid var(--gray-700); border-radius:12px; color:var(--white); font-family:Arial, sans-serif; font-size:15px; padding:14px 16px; outline:none; appearance:none; cursor:pointer; }
 
 /* PRIORITY TOGGLE */
 .priority-toggle { display:flex; background:var(--gray-800); border-radius:10px; padding:4px; gap:4px; }
-.priority-btn { flex:1; background:transparent; border:none; border-radius:8px; color:var(--gray-400); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:10px 6px; cursor:pointer; transition:all 0.2s; }
+.priority-btn { flex:1; background:transparent; border:none; border-radius:8px; color:var(--gray-400); font-family:Arial, sans-serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:10px 6px; cursor:pointer; transition:all 0.2s; }
 .priority-btn.active.low { background:var(--gray-700); color:var(--neon); }
 .priority-btn.active.med { background:var(--gray-700); color:var(--gold); }
 .priority-btn.active.high { background:var(--gray-700); color:var(--danger); }
 
 /* BTN SUBMIT */
-.btn-submit { width:100%; background:var(--white); color:var(--black); border:none; border-radius:12px; padding:16px; font-family:'Syne',sans-serif; font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:8px; transition:background 0.15s, transform 0.1s; }
+.btn-submit { width:100%; background:var(--white); color:var(--black); border:none; border-radius:12px; padding:16px; font-family:Arial, sans-serif; font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:8px; transition:background 0.15s, transform 0.1s; }
 .btn-submit:active { transform:scale(0.98); }
 .btn-submit.danger-btn { background:var(--danger); color:var(--white); margin-top:8px; }
 
 /* CHARTS */
 .charts-sec { padding:20px 24px; }
 .chart-card { background:rgba(17,17,17,0.88); border:1px solid var(--gray-800); border-radius:16px; padding:20px; margin-bottom:14px; }
-.chart-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:600; margin-bottom:3px; }
+.chart-title { font-family:Arial, sans-serif; font-size:16px; font-weight:600; margin-bottom:3px; }
 .chart-sub { font-size:12px; color:var(--gray-500); margin-bottom:18px; letter-spacing:0.05em; }
 
 /* PROGRESS RING */
@@ -200,13 +201,13 @@ nav.nav::-webkit-scrollbar { display:none; }
 .ring-item { display:flex; align-items:center; gap:8px; }
 .ring-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .ring-label { font-size:11px; letter-spacing:0.1em; color:var(--gray-400); text-transform:uppercase; flex:1; }
-.ring-val { font-family:'Roboto',sans-serif; font-size:14px; font-weight:500; color:var(--white); }
+.ring-val { font-family:Arial, sans-serif; font-size:14px; font-weight:500; color:var(--white); }
 
 /* STREAKS / KPI */
 .kpi-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
 .kpi-card { background:rgba(17,17,17,0.88); border:1px solid var(--gray-800); border-radius:16px; padding:16px; }
 .kpi-label { font-size:10px; letter-spacing:0.18em; color:var(--gray-500); text-transform:uppercase; margin-bottom:6px; }
-.kpi-value { font-family:'Roboto',sans-serif; font-size:28px; font-weight:300; color:var(--white); line-height:1; }
+.kpi-value { font-family:Arial, sans-serif; font-size:28px; font-weight:300; color:var(--white); line-height:1; }
 .kpi-sub { font-size:10px; color:var(--gray-600); margin-top:4px; letter-spacing:0.08em; }
 
 /* NEW SEC DIVIDER */
@@ -218,6 +219,10 @@ nav.nav::-webkit-scrollbar { display:none; }
 
 /* TODAY BADGE */
 .today-badge { display:inline-flex; align-items:center; gap:6px; background:var(--neon-dim); border:1px solid rgba(57,255,106,0.2); border-radius:20px; padding:5px 12px; font-size:10px; letter-spacing:0.15em; color:var(--neon); text-transform:uppercase; margin-bottom:16px; }
+
+/* MONTH FILTER BTN */
+.month-btn { background:var(--gray-900); border:1px solid var(--gray-800); border-radius:20px; padding:7px 14px; font-size:11px; letter-spacing:0.1em; color:var(--gray-400); text-transform:uppercase; cursor:pointer; white-space:nowrap; transition:all 0.15s; font-family:Arial, sans-serif; }
+.month-btn.active { background:var(--white); border-color:var(--white); color:var(--black); }
 
 /* COMPLETION ANIMATION */
 @keyframes checkPop { 0%{transform:scale(0.8)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
@@ -236,7 +241,7 @@ nav.nav::-webkit-scrollbar { display:none; }
 <!-- HEADER -->
 <div class="header">
   <div class="header-top">
-    <div class="app-name">Do</div>
+    <div class="app-name">Notes</div>
     <div class="header-date" id="today-date"></div>
   </div>
   <div class="stats-row">
@@ -250,7 +255,7 @@ nav.nav::-webkit-scrollbar { display:none; }
   <button class="nav-btn active" onclick="switchTab('tasks',this)">Tareas</button>
   <button class="nav-btn" onclick="switchTab('today',this)">Hoy</button>
   <button class="nav-btn" onclick="switchTab('done',this)">Completadas</button>
-  <button class="nav-btn" onclick="switchTab('stats',this)">Stats</button>
+  <button class="nav-btn" onclick="switchTab('stats',this)">Dashboard</button>
 </nav>
 
 <!-- TAREAS -->
@@ -286,9 +291,15 @@ nav.nav::-webkit-scrollbar { display:none; }
   <div id="done-list"></div>
 </div>
 
-<!-- STATS -->
+<!-- STATS / DASHBOARD -->
 <div class="view" id="view-stats">
   <div class="charts-sec">
+
+    <!-- MONTH FILTER -->
+    <div id="month-filter-bar" style="margin-bottom:18px;">
+      <div style="font-size:10px;letter-spacing:0.2em;color:var(--gray-500);text-transform:uppercase;margin-bottom:10px;">Filtrar por mes</div>
+      <div id="month-btns" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+    </div>
 
     <div class="kpi-row">
       <div class="kpi-card">
@@ -325,8 +336,8 @@ nav.nav::-webkit-scrollbar { display:none; }
           <circle cx="55" cy="55" r="44" fill="none" stroke="#262626" stroke-width="10"/>
           <circle id="ring-done" cx="55" cy="55" r="44" fill="none" stroke="#39ff6a" stroke-width="10" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="276.46" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1)"/>
           <circle id="ring-pending" cx="55" cy="55" r="44" fill="none" stroke="#f0c040" stroke-width="10" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="276.46" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s"/>
-          <text x="55" y="50" text-anchor="middle" fill="#f5f5f5" font-family="Roboto" font-size="20" font-weight="300" id="ring-pct-text">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#5a5a5a" font-family="DM Mono" font-size="8" letter-spacing="2">LISTO</text>
+          <text x="55" y="50" text-anchor="middle" fill="#f5f5f5" font-family="Arial" font-size="20" font-weight="300" id="ring-pct-text">0%</text>
+          <text x="55" y="65" text-anchor="middle" fill="#5a5a5a" font-family="Arial" font-size="8" letter-spacing="2">LISTO</text>
         </svg>
         <div class="ring-legend">
           <div class="ring-item"><div class="ring-dot" style="background:var(--neon)"></div><div class="ring-label">Completadas</div><div class="ring-val" id="rl-done">0</div></div>
@@ -373,12 +384,14 @@ nav.nav::-webkit-scrollbar { display:none; }
 
     <div class="form-group">
       <label class="form-label">Categoría</label>
-      <select class="input-select" id="inp-cat">
-        <option value="work">💼 Trabajo</option>
-        <option value="personal">🙋 Personal</option>
-        <option value="urgent">🔴 Urgente</option>
-        <option value="other">📌 Otro</option>
-      </select>
+      <div class="custom-select-wrap">
+        <select class="input-select" id="inp-cat">
+          <option value="work">● Trabajo</option>
+          <option value="personal">● Personal</option>
+          <option value="urgent">● Urgente</option>
+          <option value="other">● Otro</option>
+        </select>
+      </div>
     </div>
 
     <div class="form-group">
@@ -405,32 +418,76 @@ nav.nav::-webkit-scrollbar { display:none; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 
-/* ── BACKGROUND CANVAS ── */
+/* ── BACKGROUND CANVAS — NEON HALOS ── */
 (function(){
   const cvs=document.getElementById('bg-canvas');
   const c=cvs.getContext('2d');
-  let W,H,lines;
+  let W,H,orbs;
+
   function resize(){ W=cvs.width=Math.min(window.innerWidth,430); H=cvs.height=window.innerHeight; }
+
   function rnd(a,b){ return a+Math.random()*(b-a); }
-  function mkLine(){
-    const hz=Math.random()<0.5;
-    return { hz, cross:hz?rnd(0,H):rnd(0,W), pos:hz?rnd(-W*0.6,-W*0.1):rnd(-H*0.6,-H*0.1), speed:rnd(0.1,0.28), alpha:rnd(0.015,0.05), lw:rnd(0.3,0.8), len:(hz?W:H)*rnd(0.2,0.6) };
+
+  const COLORS=[
+    {r:255,g:255,b:255},
+    {r:255,g:255,b:255},
+    {r:255,g:255,b:255},
+    {r:255,g:255,b:255},
+    {r:255,g:255,b:255},
+  ];
+
+  function mkOrb(){
+    const col=COLORS[Math.floor(Math.random()*COLORS.length)];
+    return {
+      x: rnd(0,430),
+      y: rnd(0,H||800),
+      r: rnd(120,260),          // much larger, more diffuse
+      alpha: rnd(0.006,0.022),  // very faint
+      col,
+      vx: rnd(-0.08,0.08),
+      vy: rnd(-0.07,0.07),
+      pulse: rnd(0,Math.PI*2),
+      pulseSpeed: rnd(0.003,0.008),
+      pulseMag: rnd(0.003,0.010),
+    };
   }
-  function init(){ lines=Array.from({length:20},mkLine); }
+
+  function init(){ orbs=Array.from({length:7},mkOrb); }
+
   function draw(){
     c.clearRect(0,0,W,H);
-    for(const l of lines){
-      c.save(); c.globalAlpha=l.alpha; c.strokeStyle='#ffffff'; c.lineWidth=l.lw; c.beginPath();
-      if(l.hz){ c.moveTo(l.pos,l.cross); c.lineTo(l.pos+l.len,l.cross); }
-      else { c.moveTo(l.cross,l.pos); c.lineTo(l.cross,l.pos+l.len); }
-      c.stroke(); c.restore();
-      l.pos+=l.speed;
-      const limit=l.hz?W*1.1:H*1.1;
-      if(l.pos>limit){ const f=mkLine(); f.pos=l.hz?-W*rnd(0.1,0.6):-H*rnd(0.1,0.6); Object.assign(l,f); }
+
+    for(const o of orbs){
+      o.pulse+=o.pulseSpeed;
+      const a=o.alpha+Math.sin(o.pulse)*o.pulseMag;
+
+      const grad=c.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      grad.addColorStop(0,   `rgba(${o.col.r},${o.col.g},${o.col.b},${Math.min(a*1.4,0.06).toFixed(4)})`);
+      grad.addColorStop(0.3, `rgba(${o.col.r},${o.col.g},${o.col.b},${Math.min(a*0.8,0.035).toFixed(4)})`);
+      grad.addColorStop(0.7, `rgba(${o.col.r},${o.col.g},${o.col.b},${Math.min(a*0.2,0.01).toFixed(4)})`);
+      grad.addColorStop(1,   `rgba(${o.col.r},${o.col.g},${o.col.b},0)`);
+
+      c.beginPath();
+      c.arc(o.x,o.y,o.r,0,Math.PI*2);
+      c.fillStyle=grad;
+      c.fill();
+
+      // Drift slowly
+      o.x+=o.vx;
+      o.y+=o.vy;
+
+      // Wrap around edges
+      if(o.x<-o.r)   o.x=W+o.r;
+      if(o.x>W+o.r)  o.x=-o.r;
+      if(o.y<-o.r)   o.y=H+o.r;
+      if(o.y>H+o.r)  o.y=-o.r;
     }
+
     requestAnimationFrame(draw);
   }
-  window.addEventListener('resize',resize); resize(); init(); draw();
+
+  window.addEventListener('resize',resize);
+  resize(); init(); draw();
 })();
 
 /* ── DATA ── */
@@ -441,6 +498,7 @@ let currentDoneFilter='all';
 let currentPriority='low';
 let editingId=null;
 let catChart=null, actChart=null;
+let currentMonthFilter='all';
 
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(TASKS)); }catch(e){} }
@@ -481,7 +539,6 @@ function renderTasks(){
   const el=document.getElementById('task-list');
   let list=TASKS.filter(t=>!t.done);
   if(currentFilter!=='all') list=list.filter(t=>t.cat===currentFilter);
-  // Sort: urgent first, then by due date, then by priority
   list.sort((a,b)=>{
     if(isOverdue(a)&&!isOverdue(b)) return -1;
     if(!isOverdue(a)&&isOverdue(b)) return 1;
@@ -676,11 +733,48 @@ function switchTab(tab,btn){
 }
 
 /* ── STATS ── */
+function buildMonthFilter(){
+  const bar=document.getElementById('month-btns');
+  // Collect unique year-month from all tasks
+  const months=new Set();
+  TASKS.forEach(t=>{
+    const src=t.completedAt||t.createdAt||t.due;
+    if(src) months.add(src.slice(0,7));
+  });
+  // Always add current month
+  months.add(TODAY.slice(0,7));
+  const sorted=[...months].sort().reverse();
+  const allBtn=`<button class="month-btn${currentMonthFilter==='all'?' active':''}" onclick="setMonthFilter('all',this)">Todos</button>`;
+  const monthBtns=sorted.map(m=>{
+    const [y,mo]=m.split('-');
+    const label=new Date(y,parseInt(mo)-1,1).toLocaleDateString('es',{month:'short',year:'2-digit'}).toUpperCase();
+    return `<button class="month-btn${currentMonthFilter===m?' active':''}" onclick="setMonthFilter('${m}',this)">${label}</button>`;
+  }).join('');
+  bar.innerHTML=allBtn+monthBtns;
+}
+
+function setMonthFilter(m,el){
+  currentMonthFilter=m;
+  document.querySelectorAll('.month-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderStats();
+}
+
+function filterByMonth(tasks){
+  if(currentMonthFilter==='all') return tasks;
+  return tasks.filter(t=>{
+    const src=t.completedAt||t.createdAt||t.due;
+    return src && src.startsWith(currentMonthFilter);
+  });
+}
+
 function renderStats(){
-  const total=TASKS.length;
-  const done=TASKS.filter(t=>t.done).length;
-  const pending=TASKS.filter(t=>!t.done).length;
-  const overdue=TASKS.filter(t=>isOverdue(t)).length;
+  buildMonthFilter();
+  const filtered=filterByMonth(TASKS);
+  const total=filtered.length;
+  const done=filtered.filter(t=>t.done).length;
+  const pending=filtered.filter(t=>!t.done).length;
+  const overdue=filtered.filter(t=>isOverdue(t)).length;
   const rate=total>0?Math.round(done/total*100):0;
 
   document.getElementById('kpi-total').textContent=total;
@@ -692,47 +786,45 @@ function renderStats(){
   document.getElementById('rl-overdue').textContent=overdue;
   document.getElementById('ring-pct-text').textContent=rate+'%';
 
-  // Ring chart (SVG)
   const circ=276.46;
   const doneOff=circ-(circ*done/Math.max(total,1));
   const pendOff=circ-(circ*pending/Math.max(total,1));
   document.getElementById('ring-done').style.strokeDashoffset=doneOff;
-  // Pending ring offset shifted after done arc
-  const pendStart=circ*done/Math.max(total,1);
   const pendEl=document.getElementById('ring-pending');
   pendEl.style.strokeDashoffset=pendOff;
   pendEl.setAttribute('transform',`rotate(${-90+360*done/Math.max(total,1)} 55 55)`);
 
-  // Category chart
   const cats=['work','personal','urgent','other'];
   const catLabels=['Trabajo','Personal','Urgente','Otro'];
   const catColors=['rgba(74,158,255,0.85)','rgba(167,139,250,0.8)','rgba(192,57,43,0.85)','rgba(90,90,90,0.7)'];
-  const catVals=cats.map(c=>TASKS.filter(t=>t.cat===c).length);
+  const catVals=cats.map(c=>filtered.filter(t=>t.cat===c).length);
   const ctx1=document.getElementById('cat-chart').getContext('2d');
   if(catChart) catChart.destroy();
   catChart=new Chart(ctx1,{
     type:'bar',
     data:{labels:catLabels,datasets:[{data:catVals,backgroundColor:catColors,borderColor:catColors.map(c=>c.replace('0.85','1').replace('0.8','1').replace('0.7','1')),borderWidth:1,borderRadius:6}]},
-    options:{responsive:true,animation:{duration:600,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#5a5a5a',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,bodyFont:{family:'Roboto',size:12}}},scales:{x:{grid:{display:false},ticks:{color:'#a0a0a0',font:{family:'Roboto',size:12}},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#a0a0a0',font:{family:'Roboto',size:12},stepSize:1},border:{color:'rgba(255,255,255,0.05)'}}}}
+    options:{responsive:true,animation:{duration:600,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#5a5a5a',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,bodyFont:{family:'Arial',size:12}}},scales:{x:{grid:{display:false},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12}},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12},stepSize:1},border:{color:'rgba(255,255,255,0.05)'}}}}
   });
 
-  // Activity last 7 days
-  const days=Array.from({length:7},(_,i)=>{
-    const d=new Date(); d.setDate(d.getDate()-6+i);
-    return d.toISOString().split('T')[0];
-  });
+  // Activity: last 7 days if "all", else all days in selected month
+  let days, actLabels;
+  if(currentMonthFilter==='all'){
+    days=Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-6+i); return d.toISOString().split('T')[0]; });
+    actLabels=days.map(d=>new Date(d+'T12:00:00').toLocaleDateString('es',{weekday:'short'}).slice(0,2).toUpperCase());
+  } else {
+    const [y,mo]=currentMonthFilter.split('-');
+    const daysInMonth=new Date(parseInt(y),parseInt(mo),0).getDate();
+    days=Array.from({length:daysInMonth},(_,i)=>`${currentMonthFilter}-${String(i+1).padStart(2,'0')}`);
+    actLabels=days.map(d=>new Date(d+'T12:00:00').getDate());
+  }
   const actVals=days.map(day=>TASKS.filter(t=>t.done&&t.completedAt&&t.completedAt.startsWith(day)).length);
-  const actLabels=days.map(d=>{
-    const dd=new Date(d+'T12:00:00');
-    return dd.toLocaleDateString('es',{weekday:'short'}).slice(0,2).toUpperCase();
-  });
   const ctx2=document.getElementById('activity-chart').getContext('2d');
   if(actChart) actChart.destroy();
   const maxAct=Math.max(...actVals,1);
   actChart=new Chart(ctx2,{
     type:'line',
     data:{labels:actLabels,datasets:[{data:actVals,borderColor:'rgba(57,255,106,0.9)',backgroundColor:'rgba(57,255,106,0.08)',borderWidth:2,pointBackgroundColor:actVals.map(v=>v===maxAct&&v>0?'#fff':'rgba(57,255,106,0.9)'),pointRadius:4,pointHoverRadius:6,tension:0.4,fill:true}]},
-    options:{responsive:true,animation:{duration:600,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#5a5a5a',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,bodyFont:{family:'Roboto',size:12},callbacks:{label:i=>` ${i.raw} completada${i.raw!==1?'s':''}`}}},scales:{x:{grid:{display:false},ticks:{color:'#a0a0a0',font:{family:'Roboto',size:12}},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#a0a0a0',font:{family:'Roboto',size:12},stepSize:1},border:{color:'rgba(255,255,255,0.05)'}}}}
+    options:{responsive:true,animation:{duration:600,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#5a5a5a',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,bodyFont:{family:'Arial',size:12},callbacks:{label:i=>` ${i.raw} completada${i.raw!==1?'s':''}`}}},scales:{x:{grid:{display:false},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12},maxTicksLimit:currentMonthFilter==='all'?7:10},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12},stepSize:1},border:{color:'rgba(255,255,255,0.05)'}}}}
   });
 }
 
