@@ -87,21 +87,16 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 ═══════════════════════════════════ */
 .habit-matrix-wrap{padding:0 24px 20px;}
 .habit-matrix-title{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.4;text-transform:uppercase;margin-bottom:12px;}
-.habit-matrix-scroll{overflow-x:auto;scrollbar-width:none;}
-.habit-matrix-scroll::-webkit-scrollbar{display:none;}
-.habit-matrix-table{display:flex;gap:3px;}
+.habit-matrix-scroll{width:100%;}
+.habit-matrix-table{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:100%;}
 .habit-matrix-col{display:flex;flex-direction:column;gap:3px;}
-.habit-matrix-cell{
-  width:14px;height:14px;border-radius:3px;
-  background:var(--gray-800);flex-shrink:0;
-  transition:background 0.2s;cursor:default;
-}
+.habit-matrix-cell{width:100%;aspect-ratio:1;border-radius:3px;background:var(--gray-800);}
 .habit-matrix-cell.done-1{background:rgba(167,139,250,0.3);}
 .habit-matrix-cell.done-2{background:rgba(167,139,250,0.55);}
 .habit-matrix-cell.done-3{background:rgba(167,139,250,0.75);}
 .habit-matrix-cell.done-full{background:rgba(167,139,250,0.95);}
-.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:4px;}
-.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:8px;}
+.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:3px;}
+.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:10px;}
 .habit-matrix-legend-label{font-size:10px;color:var(--white);opacity:0.35;}
 .habit-matrix-legend-cells{display:flex;gap:3px;}
 
@@ -144,7 +139,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 /* ═══════════════════════════════════
    DRAG & DROP
 ═══════════════════════════════════ */
-.task-item{touch-action:none;}
+.task-item{touch-action:pan-y;}
 .task-item.dragging{opacity:0.4;background:var(--gray-800);}
 .task-item.drag-over{border-top:2px solid var(--white);}
 .drag-handle{background:transparent;border:none;color:var(--gray-700);cursor:grab;padding:6px 4px;display:flex;align-items:center;flex-shrink:0;touch-action:none;}
@@ -195,19 +190,21 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 
 /* BACK BUTTON (top of each section view) */
 .section-topbar{
-  display:flex;align-items:center;gap:12px;
-  padding:16px 24px 8px;position:sticky;top:0;
-  background:rgba(20,20,20,0.92);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  padding:52px 24px 14px;
+  position:sticky;top:0;
+  background:rgba(20,20,20,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   z-index:90;border-bottom:1px solid rgba(255,255,255,0.05);
 }
-.back-btn{
-  background:var(--gray-800);border:1px solid var(--gray-700);
-  border-radius:10px;color:var(--gray-300);
-  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;flex-shrink:0;transition:all 0.15s;
+.back-btn{display:none;}
+.section-topbar-title{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);text-align:center;}
+.section-topbar-right{
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);margin-top:18px;
+  background:transparent;border:1px solid var(--gray-700);border-radius:10px;
+  color:var(--gray-400);font-family:Arial,sans-serif;font-size:13px;
+  letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;cursor:pointer;
 }
-.back-btn:active{background:var(--gray-700);}
-.section-topbar-title{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);}
+.section-topbar-right:active{border-color:var(--white);color:var(--white);}
 .topbar-action-btn{
   margin-left:auto;
   background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
@@ -755,7 +752,6 @@ html, body {
 <!-- TAREAS -->
 <div class="view" id="view-tasks">
   <div class="section-topbar">
-    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="section-topbar-title">Tareas</span>
   </div>
   <div id="notif-banner-wrap"></div>
@@ -817,7 +813,7 @@ html, body {
 
 <!-- HOY — expanded view with tasks + events -->
 <div class="view" id="view-today">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Para hoy</span></div>
+  <div class="section-topbar"><span class="section-topbar-title">Para hoy</span></div>
   <div style="padding:16px 24px 20px;" id="today-full-content"></div>
 </div>
 
@@ -829,7 +825,10 @@ html, body {
 
 <!-- HÁBITOS -->
 <div class="view" id="view-habits">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Hábitos</span><button style="margin-left:auto;background:transparent;border:1px solid var(--gray-700);border-radius:10px;color:var(--gray-400);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;cursor:pointer;" onclick="openHabitModal()">Gestionar</button></div>
+  <div class="section-topbar">
+    <span class="section-topbar-title">Hábitos</span>
+    <button class="section-topbar-right" onclick="openHabitModal()">Gestionar</button>
+  </div>
   <div class="habits-header">
     <div class="habits-date-label" id="habits-date-label"></div>
   </div>
@@ -880,7 +879,6 @@ html, body {
 <!-- CALENDARIO -->
 <div class="view" id="view-calendar">
   <div class="section-topbar">
-    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="section-topbar-title">Calendario</span>
   </div>
 
