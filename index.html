@@ -250,10 +250,18 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 
 .fab{display:none !important;}
 
-/* ── LAYOUT: each view is a full isolated scroll container ── */
+/* ── DISABLE PULL-TO-REFRESH ── */
 html, body {
   height:100%;
   overflow:hidden;
+  overscroll-behavior:none;
+  overscroll-behavior-y:none;
+}
+#app-shell {
+  overscroll-behavior:none;
+}
+.home-view, .view {
+  overscroll-behavior:none;
 }
 #app-shell {
   position:fixed;
@@ -2113,6 +2121,14 @@ function importBackup(e){
 }
 
 /* ── INIT ── */
+// Disable pull-to-refresh
+document.addEventListener('touchmove', function(e){
+  if(e.touches.length===1){
+    const el=e.target.closest('.home-view, .view');
+    if(!el) e.preventDefault();
+    else if(el.scrollTop===0 && e.touches[0].clientY > e.touches[0].radiusY) e.preventDefault();
+  }
+},{passive:false});
 load();loadHabits();loadEvents();
 renderAll();
 checkNotifBanner();
