@@ -2119,16 +2119,26 @@ function importBackup(e){
 }
 
 /* ── INIT ── */
-// Block ONLY pull-to-refresh (scroll down when already at top)
-document.addEventListener('touchstart', function(e){
-  window._ptStartY = e.touches[0].clientY;
-}, {passive:true});
-document.addEventListener('touchmove', function(e){
-  const el = e.target.closest('.home-view.active, .view.active');
-  if(!el) return;
-  const dy = e.touches[0].clientY - (window._ptStartY||0);
-  // Only block if: pulling down AND scroll is within first 4px of top
-  if(el.scrollTop <= 4 && dy > 0) e.preventDefault();
+// Completely eliminate pull-to-refresh
+// Block at document level, re-enable scroll manually on scroll containers
+let _lastY = 0;
+document.addEventListener('touchstart', e => { _lastY = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchmove', function(e) {
+  // Find if touch is inside a scrollable view
+  const scrollEl = e.target.closest('.home-view, .view, .cal-week-scroll, .filter-bar, .habit-grid, .habit-matrix-scroll, .modal, .habit-modal, .event-modal, .detail-modal, .event-detail-modal');
+  if (!scrollEl) {
+    e.preventDefault();
+    return;
+  }
+  const dy = e.touches[0].clientY - _lastY;
+  const atTop = scrollEl.scrollTop <= 0;
+  const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
+  // Block pull-down at top and pull-up at bottom (prevents rubber-band refresh)
+  if ((atTop && dy > 0) || (atBottom && dy < 0)) {
+    e.preventDefault();
+    return;
+  }
+  // Allow normal scroll
 }, {passive:false});
 load();loadHabits();loadEvents();
 renderAll();
