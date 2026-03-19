@@ -38,7 +38,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .header,.view,.fab,.modal-overlay,.toast,.bottom-nav{position:relative;z-index:2;}
 
 /* LANDSCAPE */
-#landscape-block{display:none;position:fixed;inset:0;z-index:9999;background:var(--black);flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:32px;}
+#landscape-block{display:none;position:absolute;inset:0;z-index:9999;background:var(--black);flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:32px;}
 @media(orientation:landscape){#landscape-block{display:flex;}}
 
 /* ═══════════════════════════════════
@@ -108,7 +108,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 /* ═══════════════════════════════════
    POMODORO
 ═══════════════════════════════════ */
-.pomo-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.pomo-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.92);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
 .pomo-overlay.open{display:flex;}
 .pomo-modal{
   background:var(--gray-900);border:1px solid var(--gray-800);
@@ -208,15 +208,23 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 }
 .back-btn:active{background:var(--gray-700);}
 .section-topbar-title{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);}
+.topbar-action-btn{
+  margin-left:auto;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;color:var(--white);font-family:Arial,sans-serif;
+  font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:all 0.15s;white-space:nowrap;flex-shrink:0;
+}
+.topbar-action-btn:active{background:rgba(255,255,255,0.15);}
 
 /* ═══════════════════════════════════
-   BOTTOM NAV (home / back indicator)
+   BOTTOM BAR (home pill + FAB zone)
 ═══════════════════════════════════ */
 .bottom-nav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:430px;
+  position:absolute;bottom:0;left:0;right:0;
   padding:10px 24px 28px;
-  background:linear-gradient(to top,rgba(20,20,20,0.98),transparent);
+  background:linear-gradient(to top,rgba(20,20,20,0.98) 60%,transparent);
   display:flex;align-items:center;justify-content:center;
   z-index:200;pointer-events:none;
 }
@@ -230,27 +238,51 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .bottom-home-pill:active{transform:scale(0.96);}
 .bottom-home-dot{width:6px;height:6px;border-radius:50%;background:var(--white);}
 .bottom-home-label{font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gray-300);}
-
-/* FAB */
-.fab{
-  position:fixed;bottom:78px;right:24px;
-  background:var(--white);color:var(--black);
-  border:none;border-radius:50px;padding:14px 22px;
-  font-family:Arial,sans-serif;font-size:16px;font-weight:700;
-  letter-spacing:0.08em;text-transform:uppercase;
-  cursor:pointer;z-index:200;
-  box-shadow:0 8px 32px rgba(0,0,0,0.6);
-  transition:transform 0.15s,opacity 0.2s;white-space:nowrap;
-  display:flex;align-items:center;gap:8px;
+.bottom-action-pill{
+  background:var(--white);border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(12px);border-radius:50px;
+  padding:12px 22px;display:flex;align-items:center;gap:8px;
+  cursor:pointer;pointer-events:all;
+  transition:all 0.2s;color:var(--black);font-family:Arial,sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
 }
-.fab:active{transform:scale(0.96);}
-.fab.hidden{opacity:0;pointer-events:none;}
+.bottom-action-pill:active{transform:scale(0.96);}
 
-/* VIEWS */
-.view{display:none;padding-bottom:140px;min-height:60vh;}
-.view.active{display:block;}
-.home-view{display:none;}
+.fab{display:none !important;}
+
+/* ── LAYOUT: each view is a full isolated scroll container ── */
+html, body {
+  height:100%;
+  overflow:hidden;
+}
+#app-shell {
+  position:fixed;
+  inset:0;
+  max-width:430px;
+  margin:0 auto;
+  overflow:hidden;
+}
+.home-view{
+  display:none;
+  position:absolute;
+  inset:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:100px;
+}
 .home-view.active{display:block;}
+.view{
+  display:none;
+  position:absolute;
+  inset:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:100px;
+  padding-top:env(safe-area-inset-top, 0px);
+}
+.view.active{display:block;}
 
 /* FILTER BAR */
 .filter-bar{display:flex;gap:8px;padding:12px 24px;overflow-x:auto;scrollbar-width:none;}
@@ -309,7 +341,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 /* ═══════════════════════════════════
    MODALS
 ═══════════════════════════════════ */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;backdrop-filter:blur(2px);}
+.modal-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;backdrop-filter:blur(2px);}
 .modal-overlay.open{display:flex;}
 .modal{background:rgba(20,20,20,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid rgba(255,255,255,0.08);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -346,7 +378,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .photo-remove-btn{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:28px;height:28px;color:var(--white);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
 /* DETAIL MODAL */
-.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:400;align-items:flex-end;backdrop-filter:blur(6px);}
+.detail-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);z-index:400;align-items:flex-end;backdrop-filter:blur(6px);}
 .detail-overlay.open{display:flex;}
 .detail-modal{background:var(--gray-900);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid var(--gray-800);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
 .detail-img{width:100%;max-height:200px;object-fit:cover;border-radius:14px;margin-bottom:20px;display:block;}
@@ -367,7 +399,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .detail-btn.close-btn{background:var(--gray-800);color:var(--gray-300);}
 
 /* TOAST */
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gray-700);color:var(--white);padding:10px 20px;border-radius:20px;font-size:15px;opacity:0;transition:all 0.3s;z-index:600;pointer-events:none;white-space:nowrap;}
+.toast{position:absolute;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gray-700);color:var(--white);padding:10px 20px;border-radius:20px;font-size:15px;opacity:0;transition:all 0.3s;z-index:600;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* ═══════════════════════════════════
@@ -447,7 +479,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .hchart-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:3px;}
 .hchart-sub{font-size:13px;color:var(--gray-500);margin-bottom:16px;}
 /* habit manage modal */
-.habit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:350;align-items:flex-end;backdrop-filter:blur(4px);}
+.habit-modal-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.85);z-index:350;align-items:flex-end;backdrop-filter:blur(4px);}
 .habit-modal-overlay.open{display:flex;}
 .habit-modal{background:var(--gray-900);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid var(--gray-800);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:90vh;overflow-y:auto;}
 .habit-modal-title{font-size:22px;font-weight:700;margin-bottom:6px;}
@@ -587,7 +619,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .tl-bar-days{font-size:10px;opacity:0.7;margin-left:6px;flex-shrink:0;}
 
 /* event modal */
-.event-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;backdrop-filter:blur(2px);}
+.event-modal-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;backdrop-filter:blur(2px);}
 .event-modal-overlay.open{display:flex;}
 .event-modal{background:rgba(20,20,20,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid rgba(255,255,255,0.08);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
 .event-type-toggle{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
@@ -600,7 +632,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .linked-task-banner{background:var(--neon-dim);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;}
 .linked-task-banner-text{flex:1;font-size:14px;color:var(--neon);line-height:1.4;}
 /* event detail overlay */
-.event-detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:450;align-items:flex-end;backdrop-filter:blur(6px);}
+.event-detail-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.88);z-index:450;align-items:flex-end;backdrop-filter:blur(6px);}
 .event-detail-overlay.open{display:flex;}
 .event-detail-modal{background:var(--gray-900);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid var(--gray-800);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
 .event-detail-type-bar{height:4px;border-radius:2px;margin-bottom:20px;}
@@ -613,72 +645,74 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 <body>
 
 <canvas id="bg-canvas"></canvas>
-<div id="landscape-block">
+<div id="app-shell">
+<div id="landscape-block" style="display:none;position:absolute;inset:0;z-index:9999;background:var(--black);flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:32px;">
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2l-4 4-4-4"/></svg>
   <p style="font-family:Arial,sans-serif;font-size:16px;color:#5a5a5a;letter-spacing:0.1em;">Rota a modo vertical<br>para continuar</p>
 </div>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div class="app-name">Day Planner</div>
-    <div class="header-greeting" id="header-greeting">Buenos días</div>
-    <div class="header-date" id="today-date"></div>
-    <div class="streak-badge" id="streak-badge">
-      <span class="streak-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
-      <span id="streak-count">0</span> días seguidos
-    </div>
-  </div>
-  <div class="summary-grid">
-    <!-- PARA HOY — top of all, full width -->
-    <div class="summary-block" style="cursor:pointer;border-color:rgba(255,255,255,0.1);" onclick="goTo('today')">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round" style="opacity:0.7"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <div class="summary-block-title" style="margin-bottom:0;">Para hoy</div>
-        </div>
-        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);opacity:0.35;">Tareas &amp; Eventos</div>
-      </div>
-      <div id="home-today-preview"></div>
-    </div>
-
-    <div class="summary-block">
-      <div class="summary-block-title">Tareas</div>
-      <div class="summary-kpis">
-        <div class="summary-kpi"><div class="summary-kpi-val neon" id="stat-done">0</div><div class="summary-kpi-lbl">Completadas</div></div>
-        <div class="summary-kpi"><div class="summary-kpi-val purple" id="stat-today">0</div><div class="summary-kpi-lbl">Para hoy</div></div>
-        <div class="summary-kpi"><div class="summary-kpi-val danger" id="stat-pending">0</div><div class="summary-kpi-lbl">Pendientes</div></div>
-      </div>
-      <div class="habit-bar-row"><div class="header-habit-bar-wrap"><div class="header-habit-bar" id="hdr-task-bar" style="width:0%"></div></div><span class="habit-bar-pct-lbl" id="hdr-task-bar-pct">0%</span></div>
-    </div>
-    <div class="summary-block">
-      <div class="summary-block-title">Hábitos del día</div>
-      <div class="summary-kpis">
-        <div class="summary-kpi"><div class="summary-kpi-val neon" id="hdr-hab-done">0</div><div class="summary-kpi-lbl">Completados</div></div>
-        <div class="summary-kpi"><div class="summary-kpi-val purple" id="hdr-hab-pct">0%</div><div class="summary-kpi-lbl">del total</div></div>
-        <div class="summary-kpi"><div class="summary-kpi-val danger" id="hdr-hab-pending">0</div><div class="summary-kpi-lbl">Pendientes</div></div>
-      </div>
-      <div class="habit-bar-row"><div class="header-habit-bar-wrap"><div class="header-habit-bar" id="hdr-hab-bar" style="width:0%"></div></div><span class="habit-bar-pct-lbl" id="hdr-hab-bar-pct">0%</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ RADAR HOME ══ -->
-<div style="padding:0 24px 4px;position:relative;z-index:2;">
-  <div class="summary-block" style="padding:18px 18px 14px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div class="summary-block-title" style="margin-bottom:0;">Performance</div>
-      <div style="display:flex;gap:14px;">
-        <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#a78bfa;"></div><span style="font-size:11px;color:var(--white);opacity:0.6;">Tú</span></div>
-        <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#5a5a5a;"></div><span style="font-size:11px;color:var(--white);opacity:0.6;">Promedio</span></div>
-      </div>
-    </div>
-    <canvas id="radar-home" height="240"></canvas>
-  </div>
-</div>
-
-<!-- ══ HOME MENU ══ -->
+<!-- ══ HOME ══ -->
 <div class="home-view active" id="home-view">
+
+  <!-- HEADER (only visible in home) -->
+  <div class="header">
+    <div class="header-top">
+      <div class="app-name">Day Planner</div>
+      <div class="header-greeting" id="header-greeting">Buenos días</div>
+      <div class="header-date" id="today-date"></div>
+      <div class="streak-badge" id="streak-badge">
+        <span class="streak-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+        <span id="streak-count">0</span> días seguidos
+      </div>
+    </div>
+    <div class="summary-grid">
+      <!-- PARA HOY -->
+      <div class="summary-block" style="cursor:pointer;border-color:rgba(255,255,255,0.1);" onclick="goTo('today')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round" style="opacity:0.7"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="summary-block-title" style="margin-bottom:0;">Para hoy</div>
+          </div>
+          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);opacity:0.35;">Tareas &amp; Eventos</div>
+        </div>
+        <div id="home-today-preview"></div>
+      </div>
+      <div class="summary-block">
+        <div class="summary-block-title">Tareas</div>
+        <div class="summary-kpis">
+          <div class="summary-kpi"><div class="summary-kpi-val neon" id="stat-done">0</div><div class="summary-kpi-lbl">Completadas</div></div>
+          <div class="summary-kpi"><div class="summary-kpi-val purple" id="stat-today">0</div><div class="summary-kpi-lbl">Para hoy</div></div>
+          <div class="summary-kpi"><div class="summary-kpi-val danger" id="stat-pending">0</div><div class="summary-kpi-lbl">Pendientes</div></div>
+        </div>
+        <div class="habit-bar-row"><div class="header-habit-bar-wrap"><div class="header-habit-bar" id="hdr-task-bar" style="width:0%"></div></div><span class="habit-bar-pct-lbl" id="hdr-task-bar-pct">0%</span></div>
+      </div>
+      <div class="summary-block">
+        <div class="summary-block-title">Hábitos del día</div>
+        <div class="summary-kpis">
+          <div class="summary-kpi"><div class="summary-kpi-val neon" id="hdr-hab-done">0</div><div class="summary-kpi-lbl">Completados</div></div>
+          <div class="summary-kpi"><div class="summary-kpi-val purple" id="hdr-hab-pct">0%</div><div class="summary-kpi-lbl">del total</div></div>
+          <div class="summary-kpi"><div class="summary-kpi-val danger" id="hdr-hab-pending">0</div><div class="summary-kpi-lbl">Pendientes</div></div>
+        </div>
+        <div class="habit-bar-row"><div class="header-habit-bar-wrap"><div class="header-habit-bar" id="hdr-hab-bar" style="width:0%"></div></div><span class="habit-bar-pct-lbl" id="hdr-hab-bar-pct">0%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RADAR -->
+  <div id="radar-home-wrap" style="padding:0 24px 4px;position:relative;z-index:2;">
+    <div class="summary-block" style="padding:18px 18px 14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div class="summary-block-title" style="margin-bottom:0;">Performance</div>
+        <div style="display:flex;gap:14px;">
+          <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#a78bfa;"></div><span style="font-size:11px;color:var(--white);opacity:0.6;">Tú</span></div>
+          <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#5a5a5a;"></div><span style="font-size:11px;color:var(--white);opacity:0.6;">Promedio</span></div>
+        </div>
+      </div>
+      <canvas id="radar-home" height="240"></canvas>
+    </div>
+  </div>
+
+  <!-- MENU GRID -->
   <div class="home-menu visible">
     <div class="home-menu-grid">
 
@@ -698,20 +732,12 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
         <div class="home-menu-sub" id="hm-habits-sub">0% hoy</div>
       </div>
 
-      <div class="home-menu-btn" onclick="goTo('calendar')">
+      <div class="home-menu-btn wide" onclick="goTo('calendar')">
         <div class="home-menu-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <div class="home-menu-label">Calendario</div>
         <div class="home-menu-sub" id="hm-cal-sub">Ver eventos</div>
-      </div>
-
-      <div class="home-menu-btn" onclick="goTo('stats')">
-        <div class="home-menu-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        </div>
-        <div class="home-menu-label">Dashboard</div>
-        <div class="home-menu-sub">Estadísticas</div>
       </div>
 
     </div>
@@ -722,7 +748,10 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 
 <!-- TAREAS -->
 <div class="view" id="view-tasks">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Tareas</span></div>
+  <div class="section-topbar">
+    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="section-topbar-title">Tareas</span>
+  </div>
   <div id="notif-banner-wrap"></div>
   <div class="filter-bar">
     <div class="filter-chip active" onclick="setTasksMode('pending',this)">Pendientes</div>
@@ -735,34 +764,10 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
   </div>
   <div id="task-list"></div>
   <div id="done-list" style="display:none;"></div>
-</div>
 
-<!-- HOY — expanded view with tasks + events -->
-<div class="view" id="view-today">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Para hoy</span></div>
-  <div style="padding:16px 24px 20px;" id="today-full-content"></div>
-</div>
-
-<!-- COMPLETADAS (kept as standalone view, accessible only from Tareas) -->
-<div class="view" id="view-done" style="display:none !important;"></div>
-
-<!-- STATS -->
-<div class="view" id="view-stats">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Dashboard</span></div>
-  <div class="charts-sec">
+  <!-- STATS CHARTS (moved from Dashboard) -->
+  <div class="charts-sec" id="tasks-charts-section">
     <div id="month-filter-bar" style="margin-bottom:16px;"><div style="font-size:11px;letter-spacing:0.2em;color:var(--gray-500);text-transform:uppercase;margin-bottom:8px;">Filtrar por mes</div><div id="month-btns" style="display:flex;flex-wrap:wrap;gap:8px;"></div></div>
-
-    <!-- RADAR CHART — before the 4 KPI cards -->
-    <div class="chart-card" style="margin-bottom:14px;">
-      <div class="chart-title">Performance</div>
-      <div class="chart-sub">Tareas y hábitos completados</div>
-      <div style="display:flex;gap:16px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:50%;background:#a78bfa;"></div><span style="font-size:12px;color:var(--white);opacity:0.7;">Tú</span></div>
-        <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:50%;background:#5a5a5a;"></div><span style="font-size:12px;color:var(--white);opacity:0.7;">Promedio global</span></div>
-      </div>
-      <canvas id="radar-chart" height="260"></canvas>
-    </div>
-
     <div class="kpi-row">
       <div class="kpi-card"><div class="kpi-label">Total tareas</div><div class="kpi-value" id="kpi-total">0</div><div class="kpi-sub">registradas</div></div>
       <div class="kpi-card"><div class="kpi-label">Completadas</div><div class="kpi-value" style="color:var(--neon)" id="kpi-done">0</div><div class="kpi-sub">finalizadas</div></div>
@@ -803,6 +808,18 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
     </div>
   </div>
 </div>
+
+<!-- HOY — expanded view with tasks + events -->
+<div class="view" id="view-today">
+  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Para hoy</span></div>
+  <div style="padding:16px 24px 20px;" id="today-full-content"></div>
+</div>
+
+<!-- COMPLETADAS -->
+<div class="view" id="view-done" style="display:none !important;"></div>
+
+<!-- STATS (removed — content moved to Tareas) -->
+<div class="view" id="view-stats" style="display:none !important;"></div>
 
 <!-- HÁBITOS -->
 <div class="view" id="view-habits">
@@ -856,7 +873,10 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 
 <!-- CALENDARIO -->
 <div class="view" id="view-calendar">
-  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Calendario</span></div>
+  <div class="section-topbar">
+    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="section-topbar-title">Calendario</span>
+  </div>
 
   <div class="cal-header">
     <div class="cal-month-nav">
@@ -957,9 +977,15 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav" id="bottom-nav" style="display:none;">
-  <div class="bottom-home-pill" onclick="goHome()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span class="bottom-home-label">Inicio</span>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <div class="bottom-home-pill" onclick="goHome()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="bottom-home-label">Inicio</span>
+    </div>
+    <div class="bottom-action-pill" id="bottom-action-btn" onclick="bottomAction()" style="display:none;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span id="bottom-action-label">Nueva tarea</span>
+    </div>
   </div>
 </div>
 
@@ -1119,40 +1145,32 @@ function goTo(tab){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
   currentTab=tab;
+  document.body.setAttribute('data-section',tab);
   document.getElementById('bottom-nav').style.display='';
-  const fab=document.getElementById('main-fab');
-  const fabLabel=document.getElementById('fab-label');
-  if(tab==='habits'){
-    fab.classList.add('hidden');
-    renderHabits();renderHabitCharts();
-  } else if(tab==='calendar'){
-    fab.classList.remove('hidden');
-    fabLabel.textContent='Nuevo evento';
-    renderCalendar();
-  } else if(tab==='stats'){
-    fab.classList.add('hidden');
-    renderStats();
-  } else {
-    fab.classList.remove('hidden');
-    fabLabel.textContent='Nueva tarea';
-    if(tab==='today') renderTodayFull();
-  }
+  const actionBtn=document.getElementById('bottom-action-btn');
+  const actionLabel=document.getElementById('bottom-action-label');
+  if(tab==='tasks'){actionBtn.style.display='flex';actionLabel.textContent='Nueva tarea';}
+  else if(tab==='calendar'){actionBtn.style.display='flex';actionLabel.textContent='Nuevo evento';}
+  else{actionBtn.style.display='none';}
+  if(tab==='habits'){renderHabits();renderHabitCharts();renderHabitMatrix();}
+  else if(tab==='calendar'){renderCalendar();}
+  else if(tab==='tasks'){renderTasks();renderStats();}
+  else if(tab==='today'){renderTodayFull();}
   window.scrollTo({top:0,behavior:'instant'});
 }
 function goHome(){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('home-view').classList.add('active');
+  document.body.removeAttribute('data-section');
   document.getElementById('bottom-nav').style.display='none';
-  document.getElementById('main-fab').classList.add('hidden');
+  document.getElementById('bottom-action-btn').style.display='none';
   currentTab='home';
   updateHomeMenu();
   renderRadarHome();
   window.scrollTo({top:0,behavior:'instant'});
 }
-function fabAction(){
-  if(currentTab==='calendar') openEventModal();
-  else openModal();
-}
+function bottomAction(){ if(currentTab==='calendar') openEventModal(); else openModal(); }
+function fabAction(){ bottomAction(); }
 
 /* ── RENDER ALL ── */
 function renderAll(){
@@ -2099,8 +2117,10 @@ load();loadHabits();loadEvents();
 renderAll();
 checkNotifBanner();
 scheduleNotifs();
-// Start on home
-document.getElementById('main-fab').classList.add('hidden');
+// Start on home — FAB hidden, no section
+document.getElementById('main-fab').classList.remove('visible');
+document.body.removeAttribute('data-section');
 </script>
+</div><!-- /app-shell -->
 </body>
 </html>
