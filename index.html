@@ -87,14 +87,24 @@ margin-top:8px;
 ═══════════════════════════════════ */
 .habit-matrix-wrap{padding:0 24px 20px;}
 .habit-matrix-title{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.4;text-transform:uppercase;margin-bottom:12px;}
+.habit-matrix-scroll{overflow-x:auto;scrollbar-width:none;}
+.habit-matrix-scroll::-webkit-scrollbar{display:none;}
+.habit-matrix-table{display:flex;gap:3px;}
 .habit-matrix-scroll{width:100%;}
 .habit-matrix-table{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:100%;}
 .habit-matrix-col{display:flex;flex-direction:column;gap:3px;}
+.habit-matrix-cell{
+  width:14px;height:14px;border-radius:3px;
+  background:var(--gray-800);flex-shrink:0;
+  transition:background 0.2s;cursor:default;
+}
 .habit-matrix-cell{width:100%;aspect-ratio:1;border-radius:3px;background:var(--gray-800);}
 .habit-matrix-cell.done-1{background:rgba(167,139,250,0.3);}
 .habit-matrix-cell.done-2{background:rgba(167,139,250,0.55);}
 .habit-matrix-cell.done-3{background:rgba(167,139,250,0.75);}
 .habit-matrix-cell.done-full{background:rgba(167,139,250,0.95);}
+.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:4px;}
+.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:8px;}
 .habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:3px;}
 .habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:10px;}
 .habit-matrix-legend-label{font-size:10px;color:var(--white);opacity:0.35;}
@@ -139,6 +149,7 @@ transition:all 0.15s;flex:1;
 /* ═══════════════════════════════════
   DRAG & DROP
 ═══════════════════════════════════ */
+.task-item{touch-action:none;}
 .task-item{touch-action:pan-y;}
 .task-item.dragging{opacity:0.4;background:var(--gray-800);}
 .task-item.drag-over{border-top:2px solid var(--white);}
@@ -190,20 +201,30 @@ position:relative;overflow:hidden;text-align:left;
 
 /* BACK BUTTON (top of each section view) */
 .section-topbar{
-display:flex;align-items:center;justify-content:center;
-padding:52px 24px 14px;
-position:sticky;top:0;
-background:rgba(20,20,20,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:flex;align-items:center;gap:12px;
+  padding:16px 24px 8px;position:sticky;top:0;
+  background:rgba(20,20,20,0.92);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  padding:52px 24px 14px;
+  position:sticky;top:0;
+  background:rgba(20,20,20,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
 z-index:90;border-bottom:1px solid rgba(255,255,255,0.05);
 }
+.back-btn{
+  background:var(--gray-800);border:1px solid var(--gray-700);
+  border-radius:10px;color:var(--gray-300);
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;transition:all 0.15s;
 .back-btn{display:none;}
 .section-topbar-title{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);text-align:center;}
 .section-topbar-right{
-position:absolute;right:24px;top:50%;transform:translateY(-50%);margin-top:18px;
-background:transparent;border:1px solid var(--gray-700);border-radius:10px;
-color:var(--gray-400);font-family:Arial,sans-serif;font-size:13px;
-letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;cursor:pointer;
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);margin-top:18px;
+  background:transparent;border:1px solid var(--gray-700);border-radius:10px;
+  color:var(--gray-400);font-family:Arial,sans-serif;font-size:13px;
+  letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;cursor:pointer;
 }
+.back-btn:active{background:var(--gray-700);}
+.section-topbar-title{font-size:18px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);}
 .section-topbar-right:active{border-color:var(--white);color:var(--white);}
 .topbar-action-btn{
 margin-left:auto;
@@ -278,31 +299,14 @@ padding-bottom:100px;
 display:none;
 position:absolute;
 inset:0;
-overflow:hidden;
-}
-.view.active{display:block;}
-
-/* Fixed topbar inside each view */
-.section-topbar{
-position:absolute;
-top:0;left:0;right:0;
-display:flex;align-items:center;justify-content:center;
-padding:52px 24px 14px;
-background:rgba(20,20,20,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-z-index:90;border-bottom:1px solid rgba(255,255,255,0.05);
-box-sizing:border-box;
-}
-/* Scrollable body inside each view — starts below topbar */
-.view-body{
-position:absolute;
-top:0;left:0;right:0;bottom:0;
 overflow-y:auto;
 overflow-x:hidden;
 -webkit-overflow-scrolling:touch;
 overscroll-behavior-y:contain;
-padding-top:110px; /* matches topbar height */
 padding-bottom:100px;
+padding-top:env(safe-area-inset-top, 0px);
 }
+.view.active{display:block;}
 
 /* FILTER BAR */
 .filter-bar{display:flex;gap:8px;padding:12px 24px;overflow-x:auto;scrollbar-width:none;}
@@ -474,8 +478,8 @@ padding-bottom:100px;
 .wday-lbl{font-size:8px;color:var(--gray-600);}
 .week-day.all-done .wday-lbl,.week-day.today .wday-lbl{color:var(--white);}
 .habit-section-label{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.4;text-transform:uppercase;padding:14px 24px 8px;}
-.habit-grid{display:flex;flex-direction:column;gap:8px;padding:0 24px 6px;touch-action:pan-y;}
-.habit-pill{background:var(--gray-800);border:1px solid var(--gray-700);border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px;text-align:left;transition:all 0.22s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;touch-action:pan-y;}
+.habit-grid{display:flex;flex-direction:column;gap:8px;padding:0 24px 6px;}
+.habit-pill{background:var(--gray-800);border:1px solid var(--gray-700);border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px;text-align:left;transition:all 0.22s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;}
 .habit-pill:active{transform:scale(0.97);}
 .habit-pill.done{background:var(--gray-900);border-color:var(--white);}
 @keyframes pillPop{0%{transform:scale(1)}35%{transform:scale(1.05)}65%{transform:scale(0.97)}100%{transform:scale(1)}}
@@ -769,9 +773,9 @@ cursor:pointer;transition:opacity 0.15s;min-width:30px;
 <!-- TAREAS -->
 <div class="view" id="view-tasks">
 <div class="section-topbar">
+    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
 <span class="section-topbar-title">Tareas</span>
 </div>
-<div class="view-body">
 <div id="notif-banner-wrap"></div>
 <div class="filter-bar">
 <div class="filter-chip active" onclick="setTasksMode('pending',this)">Pendientes</div>
@@ -827,15 +831,13 @@ Importar
 <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importBackup(event)">
 </div>
 </div>
-</div><!-- /view-body -->
 </div>
 
 <!-- HOY — expanded view with tasks + events -->
 <div class="view" id="view-today">
-<div class="section-topbar"><span class="section-topbar-title">Para hoy</span></div>
-<div class="view-body">
+  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Para hoy</span></div>
+  <div class="section-topbar"><span class="section-topbar-title">Para hoy</span></div>
 <div style="padding:16px 24px 20px;" id="today-full-content"></div>
-</div><!-- /view-body -->
 </div>
 
 <!-- COMPLETADAS -->
@@ -846,11 +848,11 @@ Importar
 
 <!-- HÁBITOS -->
 <div class="view" id="view-habits">
-<div class="section-topbar">
-<span class="section-topbar-title">Hábitos</span>
-<button class="section-topbar-right" onclick="openHabitModal()">Gestionar</button>
-</div>
-<div class="view-body">
+  <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Hábitos</span><button style="margin-left:auto;background:transparent;border:1px solid var(--gray-700);border-radius:10px;color:var(--gray-400);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;cursor:pointer;" onclick="openHabitModal()">Gestionar</button></div>
+  <div class="section-topbar">
+    <span class="section-topbar-title">Hábitos</span>
+    <button class="section-topbar-right" onclick="openHabitModal()">Gestionar</button>
+  </div>
 <div class="habits-header">
 <div class="habits-date-label" id="habits-date-label"></div>
 </div>
@@ -896,15 +898,16 @@ Importar
 <span class="habit-matrix-legend-label">Más</span>
 </div>
 </div>
-</div><!-- /view-body -->
 </div>
 
 <!-- CALENDARIO -->
 <div class="view" id="view-calendar">
 <div class="section-topbar">
+    <button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
 <span class="section-topbar-title">Calendario</span>
 </div>
-<div class="view-body">
+
+<div class="cal-header">
 <div class="cal-month-nav">
 <button class="cal-nav-btn" onclick="calNavMonth(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
 <span class="cal-month-label" id="cal-month-label"></span>
@@ -947,7 +950,6 @@ Importar
 <div class="cal-events-date-label" id="cal-events-label"></div>
 <div id="cal-events-list"></div>
 </div>
-</div><!-- /view-body -->
 </div>
 
 <!-- MANAGE HABITS MODAL -->
@@ -2145,30 +2147,21 @@ e.target.value='';
 let _lastY = 0;
 document.addEventListener('touchstart', e => { _lastY = e.touches[0].clientY; }, {passive:true});
 document.addEventListener('touchmove', function(e) {
-  const scrollEl = e.target.closest('.view-body, .home-view, .cal-week-scroll, .filter-bar, .habit-matrix-scroll, .modal, .habit-modal, .event-modal, .detail-modal, .event-detail-modal');
-  if (!scrollEl) {
-    e.preventDefault();
-  // If inside a view-body or home-view, let native scroll handle it — only block pull-to-refresh
-  const viewBody = e.target.closest('.view-body');
-  const homeView = e.target.closest('.home-view');
-  const anyModal = e.target.closest('.modal, .habit-modal, .event-modal, .detail-modal, .event-detail-modal, .pomo-modal');
-  if (viewBody || homeView || anyModal) {
-    // Only block pull-to-refresh (down swipe when at very top)
-    const scrollEl = viewBody || homeView || anyModal;
-    const dy = e.touches[0].clientY - _lastY;
-    if (scrollEl.scrollTop <= 0 && dy > 0) {
-      e.preventDefault();
-    }
+// Find if touch is inside a scrollable view
+const scrollEl = e.target.closest('.home-view, .view, .cal-week-scroll, .filter-bar, .habit-grid, .habit-matrix-scroll, .modal, .habit-modal, .event-modal, .detail-modal, .event-detail-modal');
+if (!scrollEl) {
+e.preventDefault();
 return;
 }
-  const dy = e.touches[0].clientY - _lastY;
-  const atTop = scrollEl.scrollTop <= 0;
-  const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
-  if ((atTop && dy > 0) || (atBottom && dy < 0)) {
-    e.preventDefault();
-  }
-  // Block everything else (non-scrollable areas)
-  e.preventDefault();
+const dy = e.touches[0].clientY - _lastY;
+const atTop = scrollEl.scrollTop <= 0;
+const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
+// Block pull-down at top and pull-up at bottom (prevents rubber-band refresh)
+if ((atTop && dy > 0) || (atBottom && dy < 0)) {
+e.preventDefault();
+return;
+}
+// Allow normal scroll
 }, {passive:false});
 load();loadHabits();loadEvents();
 renderAll();
