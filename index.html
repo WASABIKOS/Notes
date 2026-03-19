@@ -71,8 +71,110 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 .habit-bar-pct-lbl{font-size:14px;color:var(--white);font-weight:600;letter-spacing:0.05em;white-space:nowrap;}
 
 /* ═══════════════════════════════════
-   HOME SCREEN MENU (replaces tabs)
+   STREAK BADGE
 ═══════════════════════════════════ */
+.streak-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:6px 14px;
+  font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);opacity:0.75;
+  margin-top:8px;
+}
+.streak-icon{display:flex;align-items:center;opacity:0.6;}
+
+/* ═══════════════════════════════════
+   HABIT MATRIX (GitHub style)
+═══════════════════════════════════ */
+.habit-matrix-wrap{padding:0 24px 20px;}
+.habit-matrix-title{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.4;text-transform:uppercase;margin-bottom:12px;}
+.habit-matrix-scroll{overflow-x:auto;scrollbar-width:none;}
+.habit-matrix-scroll::-webkit-scrollbar{display:none;}
+.habit-matrix-table{display:flex;gap:3px;}
+.habit-matrix-col{display:flex;flex-direction:column;gap:3px;}
+.habit-matrix-cell{
+  width:14px;height:14px;border-radius:3px;
+  background:var(--gray-800);flex-shrink:0;
+  transition:background 0.2s;cursor:default;
+}
+.habit-matrix-cell.done-1{background:rgba(167,139,250,0.3);}
+.habit-matrix-cell.done-2{background:rgba(167,139,250,0.55);}
+.habit-matrix-cell.done-3{background:rgba(167,139,250,0.75);}
+.habit-matrix-cell.done-full{background:rgba(167,139,250,0.95);}
+.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:4px;}
+.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:8px;}
+.habit-matrix-legend-label{font-size:10px;color:var(--white);opacity:0.35;}
+.habit-matrix-legend-cells{display:flex;gap:3px;}
+
+/* ═══════════════════════════════════
+   POMODORO
+═══════════════════════════════════ */
+.pomo-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.pomo-overlay.open{display:flex;}
+.pomo-modal{
+  background:var(--gray-900);border:1px solid var(--gray-800);
+  border-radius:28px;padding:40px 32px 36px;width:calc(100% - 48px);max-width:360px;
+  text-align:center;position:relative;
+}
+.pomo-close{position:absolute;top:16px;right:16px;background:var(--gray-800);border:none;border-radius:8px;color:var(--gray-400);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.pomo-task-label{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);opacity:0.4;margin-bottom:8px;}
+.pomo-task-name{font-size:17px;font-weight:600;color:var(--white);margin-bottom:32px;line-height:1.3;}
+.pomo-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:32px;}
+.pomo-svg{transform:rotate(-90deg);}
+.pomo-track{fill:none;stroke:var(--gray-800);stroke-width:8;}
+.pomo-progress{fill:none;stroke:var(--purple);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1s linear;}
+.pomo-time-display{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.pomo-time{font-size:42px;font-weight:300;color:var(--white);letter-spacing:-0.02em;line-height:1;}
+.pomo-phase{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--white);opacity:0.4;}
+.pomo-controls{display:flex;gap:12px;justify-content:center;}
+.pomo-btn{
+  background:var(--gray-800);border:1px solid var(--gray-700);border-radius:14px;
+  color:var(--white);font-family:Arial,sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;padding:14px 24px;cursor:pointer;
+  transition:all 0.15s;flex:1;
+}
+.pomo-btn:active{transform:scale(0.96);}
+.pomo-btn.primary{background:var(--white);color:var(--black);border-color:var(--white);}
+.pomo-sessions{display:flex;gap:6px;justify-content:center;margin-top:20px;}
+.pomo-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-700);transition:background 0.3s;}
+.pomo-dot.done{background:var(--purple);}
+/* Pomodoro FAB trigger on task item */
+.task-pomo-btn{background:transparent;border:none;color:var(--gray-600);cursor:pointer;padding:6px;border-radius:8px;transition:color 0.15s;display:flex;align-items:center;}
+.task-pomo-btn:active{color:var(--purple);}
+
+/* ═══════════════════════════════════
+   DRAG & DROP
+═══════════════════════════════════ */
+.task-item{touch-action:none;}
+.task-item.dragging{opacity:0.4;background:var(--gray-800);}
+.task-item.drag-over{border-top:2px solid var(--white);}
+.drag-handle{background:transparent;border:none;color:var(--gray-700);cursor:grab;padding:6px 4px;display:flex;align-items:center;flex-shrink:0;touch-action:none;}
+.drag-handle:active{cursor:grabbing;color:var(--gray-400);}
+
+/* ═══════════════════════════════════
+   NOTIFICATIONS BANNER
+═══════════════════════════════════ */
+.notif-banner{
+  margin:0 24px 10px;padding:12px 16px;
+  background:rgba(74,158,255,0.1);border:1px solid rgba(74,158,255,0.25);
+  border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;
+}
+.notif-banner-text{flex:1;font-size:13px;color:var(--white);opacity:0.8;line-height:1.4;}
+.notif-banner-btn{background:var(--blue);border:none;border-radius:8px;color:var(--white);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:7px 12px;cursor:pointer;flex-shrink:0;}
+
+/* ═══════════════════════════════════
+   EXPORT / IMPORT
+═══════════════════════════════════ */
+.backup-section{padding:0 24px 20px;}
+.backup-row{display:flex;gap:10px;}
+.backup-btn{
+  flex:1;background:var(--gray-800);border:1px solid var(--gray-700);
+  border-radius:12px;color:var(--white);font-family:Arial,sans-serif;
+  font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  padding:13px 8px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.backup-btn:active{background:var(--gray-700);}
+.backup-btn.import{border-color:var(--teal);color:var(--teal);}
+.backup-btn.export{border-color:var(--neon);color:var(--neon);}
 .home-menu{padding:20px 24px 24px;display:none;}
 .home-menu.visible{display:block;}
 .home-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
@@ -522,6 +624,10 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
     <div class="app-name">Day Planner</div>
     <div class="header-greeting" id="header-greeting">Buenos días</div>
     <div class="header-date" id="today-date"></div>
+    <div class="streak-badge" id="streak-badge">
+      <span class="streak-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+      <span id="streak-count">0</span> días seguidos
+    </div>
   </div>
   <div class="summary-grid">
     <!-- PARA HOY — top of all, full width -->
@@ -617,6 +723,7 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
 <!-- TAREAS -->
 <div class="view" id="view-tasks">
   <div class="section-topbar"><button class="back-btn" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="section-topbar-title">Tareas</span></div>
+  <div id="notif-banner-wrap"></div>
   <div class="filter-bar">
     <div class="filter-chip active" onclick="setTasksMode('pending',this)">Pendientes</div>
     <div class="filter-chip" onclick="setTasksMode('done',this)">Completadas</div>
@@ -680,6 +787,20 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
     <div class="chart-card"><div class="chart-title">Distribución</div><div class="chart-sub">Tareas por tipo</div><canvas id="cat-chart" height="150"></canvas></div>
     <div class="sec-divider">Actividad</div>
     <div class="chart-card"><div class="chart-title">Últimos 7 días</div><div class="chart-sub">Tareas completadas por día</div><canvas id="activity-chart" height="120"></canvas></div>
+    <div class="sec-divider">Datos</div>
+    <div class="backup-section" style="padding:0;">
+      <div class="backup-row">
+        <button class="backup-btn export" onclick="exportBackup()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar
+        </button>
+        <button class="backup-btn import" onclick="triggerImport()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Importar
+        </button>
+      </div>
+      <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importBackup(event)">
+    </div>
   </div>
 </div>
 
@@ -711,6 +832,25 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
     <div class="hchart-card"><div class="hchart-title">% por día</div><div class="hchart-sub" id="habit-day-chart-sub">Esta semana</div><canvas id="habit-day-chart" height="120"></canvas></div>
     <div class="hchart-card"><div class="hchart-title">% por semana</div><div class="hchart-sub">Últimas 7 semanas</div><canvas id="habit-week-chart" height="120"></canvas></div>
     <div class="hchart-card"><div class="hchart-title">Promedio mensual</div><div class="hchart-sub">% por mes</div><canvas id="habit-month-chart" height="120"></canvas></div>
+  </div>
+
+  <!-- HABIT MATRIX -->
+  <div class="habit-matrix-wrap">
+    <div class="habit-matrix-title">Historial · últimas 10 semanas</div>
+    <div class="habit-matrix-scroll">
+      <div class="habit-matrix-table" id="habit-matrix-table"></div>
+    </div>
+    <div class="habit-matrix-legend">
+      <span class="habit-matrix-legend-label">Menos</span>
+      <div class="habit-matrix-legend-cells">
+        <div class="habit-matrix-cell"></div>
+        <div class="habit-matrix-cell done-1"></div>
+        <div class="habit-matrix-cell done-2"></div>
+        <div class="habit-matrix-cell done-3"></div>
+        <div class="habit-matrix-cell done-full"></div>
+      </div>
+      <span class="habit-matrix-legend-label">Más</span>
+    </div>
   </div>
 </div>
 
@@ -781,6 +921,31 @@ body{font-family:Arial,sans-serif;background:var(--black);color:var(--white);min
     </div>
     <button class="btn-submit" onclick="saveHabit()">Agregar hábito</button>
     <button class="btn-submit danger-btn" onclick="closeHabitModal()">Cerrar</button>
+  </div>
+</div>
+
+<!-- POMODORO MODAL -->
+<div class="pomo-overlay" id="pomo-overlay">
+  <div class="pomo-modal">
+    <button class="pomo-close" onclick="closePomo()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="pomo-task-label">Trabajando en</div>
+    <div class="pomo-task-name" id="pomo-task-name">—</div>
+    <div class="pomo-ring-wrap">
+      <svg class="pomo-svg" width="180" height="180" viewBox="0 0 180 180">
+        <circle class="pomo-track" cx="90" cy="90" r="80"/>
+        <circle class="pomo-progress" id="pomo-progress-ring" cx="90" cy="90" r="80"
+          stroke-dasharray="502.65" stroke-dashoffset="0"/>
+      </svg>
+      <div class="pomo-time-display">
+        <div class="pomo-time" id="pomo-time-display">25:00</div>
+        <div class="pomo-phase" id="pomo-phase-label">Foco</div>
+      </div>
+    </div>
+    <div class="pomo-controls">
+      <button class="pomo-btn" onclick="resetPomo()">Reset</button>
+      <button class="pomo-btn primary" id="pomo-start-btn" onclick="togglePomo()">Iniciar</button>
+    </div>
+    <div class="pomo-sessions" id="pomo-sessions"></div>
   </div>
 </div>
 
@@ -996,6 +1161,8 @@ function renderAll(){
   renderTodayFull();
   updateHomeMenu();
   renderRadarHome();
+  updateStreak();
+  setTimeout(initDragDrop,100);
 }
 function updateHeader(){
   const now=new Date(),h=now.getHours();
@@ -1150,7 +1317,12 @@ function taskHTML(t){
         ${subsBadge}${photoBadge}${evtBadge}
       </div>
     </div>
-    <div class="task-actions"><button class="task-del-btn" onclick="deleteTask('${t.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></div>
+    <div class="task-actions">
+      <button class="task-pomo-btn" onclick="openPomo('${t.id}')" title="Pomodoro">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+      </button>
+      <button class="task-del-btn" onclick="deleteTask('${t.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
+    </div>
   </div>`;
 }
 function catLabel(cat){return{work:'Trabajo',personal:'Personal',urgent:'Urgente',other:'Otro'}[cat]||cat;}
@@ -1675,9 +1847,258 @@ function saveEvent(){
 }
 function deleteCurrentEvent(){if(!editingEventId)return;EVENTS=EVENTS.filter(e=>e.id!==editingEventId);saveEvents();closeEventModal();renderCalendar();renderAll();toast('Evento eliminado');}
 
+/* ══════════════════════════════════════════
+   🔥 STREAK
+══════════════════════════════════════════ */
+function calcCurrentStreak(){
+  const now=new Date();
+  let streak=0;
+  const check=new Date(now);
+  // if today not done, start checking from yesterday
+  if(!HABITS.some(h=>(h.log||[]).includes(getTodayKey()))) check.setDate(check.getDate()-1);
+  for(let i=0;i<365;i++){
+    const key=check.toISOString().split('T')[0];
+    const anyDone=HABITS.some(h=>(h.log||[]).includes(key));
+    if(anyDone){streak++;check.setDate(check.getDate()-1);}
+    else break;
+  }
+  return streak;
+}
+function updateStreak(){
+  const streak=calcCurrentStreak();
+  const el=document.getElementById('streak-count');
+  if(el) el.textContent=streak;
+  const badge=document.getElementById('streak-badge');
+  if(badge) badge.style.display=streak>0?'inline-flex':'none';
+}
+
+/* ══════════════════════════════════════════
+   🔔 NOTIFICATIONS
+══════════════════════════════════════════ */
+function checkNotifBanner(){
+  const wrap=document.getElementById('notif-banner-wrap');
+  if(!wrap) return;
+  if(!('Notification' in window)||Notification.permission==='granted'){wrap.innerHTML='';return;}
+  if(Notification.permission==='denied'){wrap.innerHTML='';return;}
+  wrap.innerHTML=`<div class="notif-banner">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    <span class="notif-banner-text">Activa notificaciones para recibir recordatorios de tareas y hábitos</span>
+    <button class="notif-banner-btn" onclick="requestNotifs()">Activar</button>
+  </div>`;
+}
+function requestNotifs(){
+  Notification.requestPermission().then(p=>{
+    if(p==='granted'){toast('Notificaciones activadas ✓');scheduleNotifs();}
+    checkNotifBanner();
+  });
+}
+function scheduleNotifs(){
+  if(Notification.permission!=='granted') return;
+  // Remind about pending tasks due today
+  const dueTasks=TASKS.filter(t=>!t.done&&isToday(t.due));
+  if(dueTasks.length>0){
+    new Notification('Day Planner',{
+      body:`Tienes ${dueTasks.length} tarea${dueTasks.length>1?'s':''} para hoy`,
+      icon:''
+    });
+  }
+}
+
+/* ══════════════════════════════════════════
+   🖱 DRAG & DROP (touch + mouse)
+══════════════════════════════════════════ */
+let dragSrcId=null,dragOverId=null;
+
+function initDragDrop(){
+  const list=document.getElementById('task-list');
+  if(!list) return;
+  list.querySelectorAll('.task-item').forEach(item=>{
+    const id=item.id.replace('ti-','');
+    // Mouse
+    item.draggable=true;
+    item.addEventListener('dragstart',e=>{dragSrcId=id;item.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    item.addEventListener('dragend',()=>{item.classList.remove('dragging');list.querySelectorAll('.task-item').forEach(i=>i.classList.remove('drag-over'));});
+    item.addEventListener('dragover',e=>{e.preventDefault();item.classList.add('drag-over');dragOverId=id;});
+    item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
+    item.addEventListener('drop',e=>{e.preventDefault();dropTask();});
+    // Touch
+    item.addEventListener('touchstart',e=>handleTouchStart(e,id),{passive:true});
+    item.addEventListener('touchmove',e=>handleTouchMove(e),{passive:false});
+    item.addEventListener('touchend',()=>handleTouchEnd());
+  });
+}
+let touchStartY=0,touchItem=null;
+function handleTouchStart(e,id){dragSrcId=id;touchStartY=e.touches[0].clientY;touchItem=e.currentTarget;}
+function handleTouchMove(e){
+  if(!touchItem) return;
+  e.preventDefault();
+  const y=e.touches[0].clientY;
+  const els=document.getElementById('task-list').querySelectorAll('.task-item');
+  els.forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(y>r.top&&y<r.bottom){dragOverId=el.id.replace('ti-','');el.classList.add('drag-over');}
+    else el.classList.remove('drag-over');
+  });
+}
+function handleTouchEnd(){
+  dropTask();
+  document.getElementById('task-list')?.querySelectorAll('.task-item').forEach(i=>i.classList.remove('drag-over'));
+  touchItem=null;
+}
+function dropTask(){
+  if(!dragSrcId||!dragOverId||dragSrcId===dragOverId) return;
+  const srcIdx=TASKS.findIndex(t=>t.id===dragSrcId);
+  const dstIdx=TASKS.findIndex(t=>t.id===dragOverId);
+  if(srcIdx<0||dstIdx<0) return;
+  const [moved]=TASKS.splice(srcIdx,1);
+  TASKS.splice(dstIdx,0,moved);
+  save();renderTasks();
+  setTimeout(initDragDrop,50);
+  dragSrcId=null;dragOverId=null;
+}
+
+/* ══════════════════════════════════════════
+   🍅 POMODORO
+══════════════════════════════════════════ */
+const POMO_WORK=25*60, POMO_BREAK=5*60, POMO_LONG=15*60;
+let pomoTimer=null,pomoSecondsLeft=POMO_WORK,pomoRunning=false;
+let pomoPhase='work',pomoSession=0,pomoTaskId=null;
+const POMO_CIRC=2*Math.PI*80; // r=80
+
+function openPomo(taskId){
+  const t=TASKS.find(x=>x.id===taskId);
+  pomoTaskId=taskId;
+  document.getElementById('pomo-task-name').textContent=t?t.title:'Tarea sin título';
+  pomoPhase='work';pomoSession=0;pomoSecondsLeft=POMO_WORK;pomoRunning=false;
+  clearInterval(pomoTimer);
+  updatePomoUI();
+  document.getElementById('pomo-overlay').classList.add('open');
+}
+function closePomo(){
+  clearInterval(pomoTimer);pomoRunning=false;
+  document.getElementById('pomo-overlay').classList.remove('open');
+}
+function togglePomo(){
+  if(pomoRunning){clearInterval(pomoTimer);pomoRunning=false;document.getElementById('pomo-start-btn').textContent='Reanudar';}
+  else{pomoRunning=true;document.getElementById('pomo-start-btn').textContent='Pausar';
+    pomoTimer=setInterval(()=>{
+      pomoSecondsLeft--;
+      if(pomoSecondsLeft<=0){
+        clearInterval(pomoTimer);pomoRunning=false;
+        if(pomoPhase==='work'){
+          pomoSession++;
+          if(Notification.permission==='granted') new Notification('🍅 Pomodoro',{body:'¡Descanso! 5 minutos.'});
+          pomoPhase=pomoSession%4===0?'long':'break';
+          pomoSecondsLeft=pomoSession%4===0?POMO_LONG:POMO_BREAK;
+        } else {
+          if(Notification.permission==='granted') new Notification('⚡ Day Planner',{body:'¡De vuelta al trabajo!'});
+          pomoPhase='work';pomoSecondsLeft=POMO_WORK;
+        }
+        document.getElementById('pomo-start-btn').textContent='Iniciar';
+      }
+      updatePomoUI();
+    },1000);
+  }
+}
+function resetPomo(){
+  clearInterval(pomoTimer);pomoRunning=false;
+  pomoPhase='work';pomoSecondsLeft=POMO_WORK;
+  document.getElementById('pomo-start-btn').textContent='Iniciar';
+  updatePomoUI();
+}
+function updatePomoUI(){
+  const total=pomoPhase==='work'?POMO_WORK:pomoPhase==='break'?POMO_BREAK:POMO_LONG;
+  const pct=pomoSecondsLeft/total;
+  const offset=POMO_CIRC*(1-pct);
+  document.getElementById('pomo-progress-ring').style.strokeDashoffset=offset;
+  const phaseColors={work:'#a78bfa',break:'#4ade80',long:'#4a9eff'};
+  document.getElementById('pomo-progress-ring').style.stroke=phaseColors[pomoPhase]||'#a78bfa';
+  const m=Math.floor(pomoSecondsLeft/60).toString().padStart(2,'0');
+  const s=(pomoSecondsLeft%60).toString().padStart(2,'0');
+  document.getElementById('pomo-time-display').textContent=`${m}:${s}`;
+  const phaseLabels={work:'Foco',break:'Descanso corto',long:'Descanso largo'};
+  document.getElementById('pomo-phase-label').textContent=phaseLabels[pomoPhase];
+  // Sessions dots
+  const dots=document.getElementById('pomo-sessions');
+  dots.innerHTML=Array.from({length:4},(_,i)=>`<div class="pomo-dot${i<pomoSession%4||(pomoSession>0&&pomoSession%4===0&&i<4)?' done':''}"></div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   📊 HABIT MATRIX
+══════════════════════════════════════════ */
+function renderHabitMatrix(){
+  const el=document.getElementById('habit-matrix-table');
+  if(!el) return;
+  // 10 weeks = 70 days, starting from monday 10 weeks ago
+  const now=new Date();
+  const dow=now.getDay();
+  const monday=new Date(now);
+  monday.setDate(now.getDate()-(dow===0?6:dow-1)-69); // 70 days ago on a monday
+  const DAYS_ES=['L','M','X','J','V','S','D'];
+  let html='';
+  for(let w=0;w<10;w++){
+    html+='<div class="habit-matrix-col">';
+    for(let d=0;d<7;d++){
+      const date=new Date(monday);date.setDate(monday.getDate()+w*7+d);
+      const key=date.toISOString().split('T')[0];
+      const done=HABITS.filter(h=>(h.log||[]).includes(key)).length;
+      const total=HABITS.length||1;
+      const ratio=done/total;
+      let cls='habit-matrix-cell';
+      if(ratio===0) cls+='';
+      else if(ratio<=0.33) cls+=' done-1';
+      else if(ratio<=0.66) cls+=' done-2';
+      else if(ratio<1) cls+=' done-3';
+      else cls+=' done-full';
+      const isToday2=key===TODAY;
+      html+=`<div class="${cls}" title="${key}: ${done}/${total} hábitos"${isToday2?' style="outline:1px solid rgba(255,255,255,0.4);outline-offset:1px;"':''}></div>`;
+    }
+    // Week label
+    const weekStart=new Date(monday);weekStart.setDate(monday.getDate()+w*7);
+    const lbl=weekStart.getDate()+'/'+('0'+(weekStart.getMonth()+1)).slice(-2);
+    html+=`<div class="habit-matrix-day-label">${lbl}</div>`;
+    html+='</div>';
+  }
+  el.innerHTML=html;
+}
+
+/* ══════════════════════════════════════════
+   💾 EXPORT / IMPORT
+══════════════════════════════════════════ */
+function exportBackup(){
+  const data={tasks:TASKS,habits:HABITS,events:EVENTS,exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`dayplanner-backup-${TODAY}.json`;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('Backup exportado ✓');
+}
+function triggerImport(){document.getElementById('import-file-input').click();}
+function importBackup(e){
+  const file=e.target.files[0];if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(data.tasks) TASKS=data.tasks;
+      if(data.habits) HABITS=data.habits;
+      if(data.events) EVENTS=data.events;
+      save();saveHabits();saveEvents();
+      renderAll();renderCalendar();
+      toast('Backup importado ✓');
+    }catch(err){toast('Archivo inválido ✗');}
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
 /* ── INIT ── */
 load();loadHabits();loadEvents();
 renderAll();
+checkNotifBanner();
+scheduleNotifs();
 // Start on home
 document.getElementById('main-fab').classList.add('hidden');
 </script>
