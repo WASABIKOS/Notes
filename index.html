@@ -86,26 +86,23 @@ margin-top:8px;
   HABIT MATRIX (GitHub style)
 ═══════════════════════════════════ */
 .habit-matrix-wrap{padding:0 24px 20px;overflow:hidden;}
-.habit-matrix-title{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.4;text-transform:uppercase;margin-bottom:12px;}
-.habit-matrix-scroll{overflow-x:hidden;scrollbar-width:none;width:100%;}
-.habit-matrix-scroll::-webkit-scrollbar{display:none;}
-.habit-matrix-table{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:100%;}
-.habit-matrix-col{display:flex;flex-direction:column;gap:3px;}
-.habit-matrix-cell{
-  width:14px;height:14px;border-radius:3px;
-  background:var(--gray-800);flex-shrink:0;
-  transition:background 0.2s;cursor:default;
-}
-.habit-matrix-cell{width:100%;aspect-ratio:1;border-radius:3px;background:var(--gray-800);}
-.habit-matrix-cell.done-1{background:rgba(167,139,250,0.3);}
-.habit-matrix-cell.done-2{background:rgba(167,139,250,0.55);}
-.habit-matrix-cell.done-3{background:rgba(167,139,250,0.75);}
-.habit-matrix-cell.done-full{background:rgba(167,139,250,0.95);}
-.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:4px;}
-.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;}
-.habit-matrix-day-label{font-size:9px;color:var(--white);opacity:0.3;letter-spacing:0.05em;text-align:center;margin-top:3px;}
-.habit-matrix-legend{display:flex;align-items:center;gap:6px;margin-top:10px;}
-.habit-matrix-legend-label{font-size:10px;color:var(--white);opacity:0.35;}
+.habit-matrix-title{font-size:11px;letter-spacing:0.22em;color:var(--white);opacity:0.5;text-transform:uppercase;margin-bottom:14px;}
+.habit-month-grid{width:100%;}
+.habit-month-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
+.habit-month-dow-lbl{font-size:9px;color:rgba(255,255,255,0.3);text-align:center;letter-spacing:0.08em;text-transform:uppercase;}
+.habit-month-weeks{display:flex;flex-direction:column;gap:4px;}
+.habit-month-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.habit-day-cell{aspect-ratio:1;border-radius:6px;background:var(--gray-800);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,0.25);cursor:pointer;transition:all 0.15s;position:relative;}
+.habit-day-cell.empty{background:transparent;cursor:default;}
+.habit-day-cell.hd-1{background:rgba(167,139,250,0.25);color:rgba(255,255,255,0.6);}
+.habit-day-cell.hd-2{background:rgba(167,139,250,0.5);color:rgba(255,255,255,0.8);}
+.habit-day-cell.hd-3{background:rgba(167,139,250,0.75);color:var(--white);}
+.habit-day-cell.hd-full{background:rgba(167,139,250,0.95);color:var(--white);}
+.habit-day-cell.hd-today{outline:2px solid var(--white);outline-offset:1px;}
+.habit-day-cell.hd-selected{outline:2px solid rgba(167,139,250,1);outline-offset:2px;}
+.habit-matrix-legend{display:flex;align-items:center;gap:8px;margin-top:12px;justify-content:flex-end;}
+.habit-matrix-legend-cell{width:12px;height:12px;border-radius:3px;}
+.habit-matrix-legend-label{font-size:10px;color:rgba(255,255,255,0.35);}
 .habit-matrix-legend-cells{display:flex;gap:3px;}
 
 /* ═══════════════════════════════════
@@ -433,7 +430,7 @@ touch-action:pan-y;
   CHARTS / STATS
 ═══════════════════════════════════ */
 .charts-sec{padding:16px 24px;}
-.chart-card{background:rgba(17,17,17,0.88);border:1px solid var(--gray-800);border-radius:16px;padding:18px;margin-bottom:12px;}
+.chart-card{background:transparent;border:none;border-radius:16px;padding:0;margin-bottom:12px;}
 .chart-title{font-size:18px;font-weight:600;margin-bottom:3px;}
 .chart-sub{font-size:14px;color:var(--gray-500);margin-bottom:16px;}
 .ring-wrap{display:flex;align-items:center;gap:24px;margin-bottom:8px;}
@@ -503,7 +500,7 @@ touch-action:pan-y;
 .htf-btn[data-filter="tarde"].active{background:transparent;border-color:#a78bfa;color:#a78bfa;}
 .htf-btn[data-filter="noche"].active{background:transparent;border-color:#a78bfa;color:#a78bfa;}
 .habits-charts-section{padding:12px 24px 20px;display:flex;flex-direction:column;gap:12px;}
-.hchart-card{background:rgba(17,17,17,0.88);border:1px solid var(--gray-800);border-radius:16px;padding:18px;}
+.hchart-card{background:transparent;border:none;border-radius:16px;padding:0;margin-bottom:16px;}
 .hchart-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:3px;}
 .hchart-sub{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:16px;}
 /* habit manage modal */
@@ -614,7 +611,8 @@ touch-action:pan-y;
 .gym-picker-ex:active{background:var(--gray-700);}
 .gym-picker-ex-name{flex:1;font-size:15px;color:var(--white);}
 /* charts */
-.gym-chart-wrap{padding:12px 24px 20px;display:flex;flex-direction:column;gap:12px;}
+.gym-chart-wrap{padding:12px 24px 20px;display:flex;flex-direction:column;gap:16px;}
+.gym-chart-card{background:transparent;border:none;padding:0;}
 .gym-ex-stat-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:13px 14px;cursor:pointer;transition:all 0.15s;}
 .gym-ex-stat-card:active{background:rgba(255,255,255,0.09);}
 .gym-ex-stat-card.selected{border-color:rgba(167,139,250,0.6);background:rgba(167,139,250,0.08);}
@@ -1170,9 +1168,9 @@ cursor:pointer;transition:opacity 0.15s;min-width:30px;
 </div>
 </div>
 <div class="sec-divider">Por categoría</div>
-<div class="chart-card"><div class="chart-title">Distribución</div><div class="chart-sub">Tareas por tipo</div><canvas id="cat-chart" height="150"></canvas></div>
+<div class="chart-card"><div class="chart-title">Distribución</div><div class="chart-sub">Tareas por tipo</div><div id="cat-chart-grid" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div></div>
 <div class="sec-divider">Actividad</div>
-<div class="chart-card"><div class="chart-title">Tareas completadas</div><div class="chart-sub">Por día · últimos 30 días</div><canvas id="activity-chart" height="120"></canvas></div>
+<div class="chart-card"><div class="chart-title">Tareas completadas</div><div class="chart-sub">Por día · últimos 30 días · cada cuadrito = 1 día</div><div id="activity-chart-grid" style="margin-top:10px;"></div></div>
 <div class="sec-divider">Datos</div>
 <div class="backup-section" style="padding:0;">
 <div class="backup-row">
@@ -1262,17 +1260,32 @@ Importar
 <div class="habit-section-label" id="habit-section-lbl">Toca para marcar como completado</div>
 <div class="habit-grid" id="habit-grid"></div>
 
-<!-- HABIT MATRIX — % por día (replaces the bar chart) -->
+<!-- HABIT MATRIX — calendar del mes actual -->
 <div class="habit-matrix-wrap">
-<div class="habit-matrix-title">% completado por día · últimos 70 días</div>
-<div class="habit-matrix-scroll">
-<div class="habit-matrix-table" id="habit-matrix-table"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+  <div class="habit-matrix-title" style="margin-bottom:0;" id="habit-matrix-month-label">Este mes</div>
+  <div class="habit-matrix-legend">
+    <div class="habit-matrix-legend-cell" style="background:var(--gray-800);"></div>
+    <div class="habit-matrix-legend-cell" style="background:rgba(167,139,250,0.3);"></div>
+    <div class="habit-matrix-legend-cell" style="background:rgba(167,139,250,0.65);"></div>
+    <div class="habit-matrix-legend-cell" style="background:rgba(167,139,250,0.95);"></div>
+    <div class="habit-matrix-legend-label">0 → 100%</div>
+  </div>
 </div>
+<div class="habit-month-grid" id="habit-matrix-table"></div>
 </div>
 
 <div class="habits-charts-section">
-<div class="hchart-card"><div class="hchart-title">% por semana</div><div class="hchart-sub">Últimas 7 semanas</div><canvas id="habit-week-chart" height="120"></canvas></div>
-<div class="hchart-card"><div class="hchart-title">Promedio mensual</div><div class="hchart-sub">% por mes</div><canvas id="habit-month-chart" height="120"></canvas></div>
+<div class="hchart-card">
+  <div class="hchart-title">% por semana</div>
+  <div class="hchart-sub">Últimas 7 semanas · cada día un cuadrito</div>
+  <div id="habit-week-grid" style="margin-top:10px;"></div>
+</div>
+<div class="hchart-card">
+  <div class="hchart-title">Promedio mensual</div>
+  <div class="hchart-sub">Últimos 6 meses</div>
+  <div id="habit-month-grid" style="margin-top:10px;"></div>
+</div>
 </div>
 </div>
 
@@ -1356,22 +1369,22 @@ Importar
 
 <!-- CHARTS TAB -->
 <div id="gym-tab-charts" class="gym-tab-content" style="display:none;">
-  <!-- 4 line charts -->
+  <!-- gym stat grids -->
   <div style="padding:0 24px 4px;">
-    <div class="gym-chart-card" style="margin-bottom:10px;">
-      <div class="hchart-title">Duración</div>
-      <div class="hchart-sub">Minutos por sesión · últimas sesiones</div>
-      <canvas id="gym-line-duration" height="100"></canvas>
+    <div style="margin-bottom:16px;">
+      <div class="hchart-title">Duración por sesión</div>
+      <div class="hchart-sub" style="margin-bottom:10px;">Minutos · últimas 20 sesiones</div>
+      <div id="gym-grid-duration"></div>
     </div>
-    <div class="gym-chart-card" style="margin-bottom:10px;">
-      <div class="hchart-title">Volumen total</div>
-      <div class="hchart-sub">Series × Reps × Kg · por semana</div>
-      <canvas id="gym-line-volume" height="100"></canvas>
+    <div style="margin-bottom:16px;">
+      <div class="hchart-title">Ejercicios por sesión</div>
+      <div class="hchart-sub" style="margin-bottom:10px;">Últimos 30 días · cada cuadrito = 1 día</div>
+      <div id="gym-grid-exercises"></div>
     </div>
-    <div class="gym-chart-card" style="margin-bottom:10px;">
-      <div class="hchart-title">Ejercicios realizados</div>
-      <div class="hchart-sub">Por día · últimos 30 días</div>
-      <canvas id="gym-line-exercises" height="100"></canvas>
+    <div style="margin-bottom:16px;">
+      <div class="hchart-title">Volumen semanal</div>
+      <div class="hchart-sub" style="margin-bottom:10px;">Series × Reps × Kg · últimas 12 semanas</div>
+      <div id="gym-grid-volume"></div>
     </div>
   </div>
   <!-- custom dropdowns row -->
@@ -1401,16 +1414,14 @@ Importar
       <div id="gym-ex-dd-list" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--gray-800);border:1px solid var(--gray-600);border-radius:12px;overflow:hidden;z-index:300;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-height:200px;overflow-y:auto;"></div>
     </div>
   </div>
-  <!-- progression chart -->
+  <!-- progression grid -->
   <div id="gym-ex-prog-wrap" style="display:none;padding:0 24px 8px;">
-    <div class="gym-chart-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
-        <div class="hchart-title" id="gym-ex-prog-title">Progresión</div>
-        <button onclick="closeGymProg()" style="background:transparent;border:none;color:var(--gray-500);cursor:pointer;font-size:20px;line-height:1;padding:0 4px;">×</button>
-      </div>
-      <div class="hchart-sub" id="gym-ex-prog-sub">Mejor peso por sesión</div>
-      <canvas id="gym-ex-prog-chart" height="130"></canvas>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <div class="hchart-title" id="gym-ex-prog-title">Progresión</div>
+      <button onclick="closeGymProg()" style="background:transparent;border:none;color:var(--gray-500);cursor:pointer;font-size:20px;line-height:1;padding:0 4px;">×</button>
     </div>
+    <div class="hchart-sub" id="gym-ex-prog-sub" style="margin-bottom:10px;">Mejor peso por sesión</div>
+    <div id="gym-grid-progression"></div>
   </div>
   <!-- exercise cards grid -->
   <div style="padding:0 24px 20px;">
@@ -2169,7 +2180,7 @@ let currentPhotoBase64=null;
 function triggerPhotoInput(){document.getElementById('inp-photo').click();}
 function handlePhotoChange(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{currentPhotoBase64=ev.target.result;document.getElementById('photo-preview-img').src=currentPhotoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-placeholder').style.display='none';document.getElementById('photo-remove-btn').style.display='flex';};r.readAsDataURL(file);}
 function removePhoto(e){e.stopPropagation();currentPhotoBase64=null;document.getElementById('photo-preview-img').style.display='none';document.getElementById('photo-preview-img').src='';document.getElementById('photo-placeholder').style.display='block';document.getElementById('photo-remove-btn').style.display='none';document.getElementById('inp-photo').value='';}
-function resetPhotoUI(photo){currentPhotoBase64=photo||null;if(photo){document.getElementById('photo-preview-img').src=photo;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-placeholder').style.display='none';document.getElementById('photo-remove-btn').style.display='flex';}else{document.getElementById('photo-preview-img').style.display='none';document.getElementById('photo-preview-img').src='';document.getElementById('photo-placeholder').style.display='block';document.getElementById('photo-remove-btn').style.display='none';}document.getElementById('inp-photo').value='';}
+function resetPhotoUI(photo){currentPhotoBase64=photo||null;}
 
 /* SUBTASKS */
 let currentSubtasks=[];
@@ -2261,23 +2272,54 @@ document.getElementById('kpi-total').textContent=total;document.getElementById('
 document.getElementById('rl-done').textContent=done;document.getElementById('rl-pending').textContent=pending;document.getElementById('rl-overdue').textContent=overdue;document.getElementById('ring-pct-text').textContent=rate+'%';
 const circ=276.46;document.getElementById('ring-done').style.strokeDashoffset=circ-(circ*done/Math.max(total,1));
 const pEl=document.getElementById('ring-pending');pEl.style.strokeDashoffset=circ-(circ*pending/Math.max(total,1));pEl.setAttribute('transform',`rotate(${-90+360*done/Math.max(total,1)} 55 55)`);
-const cats=['work','personal','urgent','other'],cLabels=['Trabajo','Personal','Urgente','Otro'],cColors=['rgba(74,158,255,0.85)','rgba(167,139,250,0.8)','rgba(192,57,43,0.85)','rgba(90,90,90,0.7)'];
-const ctx1=document.getElementById('cat-chart').getContext('2d');if(catChart)catChart.destroy();
-catChart=new Chart(ctx1,{type:'bar',data:{labels:cLabels,datasets:[{data:cats.map(c=>filtered.filter(t=>t.cat===c).length),backgroundColor:cColors,borderRadius:6}]},options:{responsive:true,animation:{duration:600},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',titleColor:'#5a5a5a',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1}},scales:{x:{grid:{display:false},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12}},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#a0a0a0',font:{family:'Arial',size:12},stepSize:1},border:{color:'rgba(255,255,255,0.05)'}}}}});
-const days=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return d.toISOString().split('T')[0];});
-// 30-day task completion bar chart
-const days30=[],actLabels=[],actVals=[],actColors=[];
+const cats=['work','personal','urgent','other'],cLabels=['Trabajo','Personal','Urgente','Otro'];
+const cColors=['rgba(74,158,255,0.85)','rgba(167,139,250,0.8)','rgba(192,57,43,0.85)','rgba(90,90,90,0.6)'];
+const catGrid=document.getElementById('cat-chart-grid');
+if(catGrid){
+const maxCat=Math.max(1,...cats.map(c=>filtered.filter(t=>t.cat===c).length));
+let chtml='';
+cats.forEach((c,i)=>{
+const cnt=filtered.filter(t=>t.cat===c).length;
+const pct=Math.round(cnt/Math.max(total,1)*100);
+const w=Math.round(cnt/maxCat*100);
+chtml+='<div style="display:flex;align-items:center;gap:8px;">';
+chtml+='<div style="font-size:11px;color:rgba(255,255,255,0.5);width:60px;flex-shrink:0;text-align:right;">'+cLabels[i]+'</div>';
+chtml+='<div style="flex:1;height:18px;border-radius:6px;background:var(--gray-800);overflow:hidden;">';
+if(cnt>0)chtml+='<div style="height:100%;width:'+w+'%;border-radius:6px;background:'+cColors[i]+';transition:width 0.5s ease;"></div>';
+chtml+='</div>';
+chtml+='<div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);width:22px;flex-shrink:0;">'+cnt+'</div>';
+chtml+='</div>';
+});
+catGrid.innerHTML=chtml;
+}
+// 30-day activity grid (same style as habit matrix — 5 columns of 6 days)
+const actGrid=document.getElementById('activity-chart-grid');
+if(actGrid){
+const days30=[];
 for(let i=29;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days30.push(d.toISOString().split('T')[0]);}
+const maxTasks=Math.max(1,...days30.map(day=>TASKS.filter(t=>t.done&&t.completedAt&&t.completedAt.startsWith(day)).length));
+// render as 6 columns × 5 rows
+let aghtml='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;">';
 days30.forEach((day,i)=>{
 const cnt=TASKS.filter(t=>t.done&&t.completedAt&&t.completedAt.startsWith(day)).length;
-actVals.push(cnt);
-// show date label every 7 days and last day
-const d=new Date(day+'T12:00:00');
-actLabels.push((i===0||i===29||i%7===0)?d.toLocaleDateString('es',{day:'numeric',month:'short'}):'');
-actColors.push(cnt>0?'rgba(57,255,106,0.75)':'rgba(255,255,255,0.06)');
+const ratio=cnt/maxTasks;
+const isToday=day===TODAY;
+let bg=cnt===0?'var(--gray-800)':ratio<=0.33?'rgba(57,255,106,0.3)':ratio<=0.66?'rgba(57,255,106,0.6)':'rgba(57,255,106,0.9)';
+aghtml+='<div style="aspect-ratio:1;border-radius:5px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,0.4);'+(isToday?'outline:2px solid rgba(255,255,255,0.5);outline-offset:1px;':'')+'" title="'+day+': '+cnt+' tareas">'+(cnt>0?cnt:'')+'</div>';
 });
-const ctx2=document.getElementById('activity-chart').getContext('2d');if(actChart)actChart.destroy();
-actChart=new Chart(ctx2,{type:'bar',data:{labels:actLabels,datasets:[{data:actVals,backgroundColor:actColors,borderRadius:3,borderSkipped:false,barPercentage:0.8}]},options:{responsive:true,animation:{duration:600},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,callbacks:{label:i=>i.raw+' tarea'+(i.raw!==1?'s':'')}}},scales:{x:{grid:{display:false},ticks:{color:'#7a7a7a',font:{family:'Arial',size:9},maxRotation:0},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7a7a7a',font:{family:'Arial',size:11},stepSize:1},border:{color:'rgba(255,255,255,0.05)'},min:0}}}});
+aghtml+='</div>';
+// add date labels below
+aghtml+='<div style="display:flex;justify-content:space-between;margin-top:5px;">';
+[0,5,11,17,23,29].forEach(i=>{
+const d=new Date(days30[i]+'T12:00:00');
+aghtml+='<div style="font-size:9px;color:rgba(255,255,255,0.25);">'+d.getDate()+'/'+(d.getMonth()+1)+'</div>';
+});
+aghtml+='</div>';
+actGrid.innerHTML=aghtml;
+}
+// destroy old Chart instances
+if(catChart){try{catChart.destroy();}catch(e){}}
+if(actChart){try{actChart.destroy();}catch(e){}}
 renderRadarChart(filtered);
 }
 
@@ -2443,14 +2485,13 @@ html+='</div>';
 // ── Hábitos ──
 if(HABITS.length){
 html+='<div style="font-size:10px;letter-spacing:0.22em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:10px;">Hábitos · '+habDone.length+'/'+HABITS.length+'</div>';
-html+='<div style="border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);margin-bottom:20px;">';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">';
 HABITS.forEach(function(h){
 var done=(h.log||[]).includes(TODAY);
-html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(255,255,255,0.05);">';
-html+='<span style="font-size:14px;color:var(--white);">'+h.name+'</span>';
-html+='<div style="width:20px;height:20px;border-radius:6px;border:1.5px solid '+(done?'var(--white)':'rgba(255,255,255,0.2)')+';background:'+(done?'var(--white)':'transparent')+';display:flex;align-items:center;justify-content:center;">';
-if(done)html+='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
-html+='</div></div>';
+html+='<button onclick="toggleHabitFromPopup(\''+h.id+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;border:1px solid '+(done?'var(--white)':'var(--gray-700)')+';background:'+(done?'var(--gray-900)':'var(--gray-800)')+';cursor:pointer;transition:all 0.22s;text-align:left;width:100%;">';
+html+='<span style="font-size:15px;letter-spacing:0.06em;text-transform:uppercase;color:'+(done?'var(--white)':'var(--gray-400)')+';font-weight:600;">'+h.name+'</span>';
+if(done)html+='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+html+='</button>';
 });
 html+='</div>';
 }
@@ -2460,6 +2501,16 @@ popup.style.display='flex';
 }
 function closeTodayPopup(){
 document.getElementById('today-popup').style.display='none';
+}
+function toggleHabitFromPopup(id){
+const h=HABITS.find(x=>x.id===id);if(!h)return;
+h.log=h.log||[];
+const idx=h.log.indexOf(TODAY);
+if(idx>=0)h.log.splice(idx,1);else h.log.push(TODAY);
+saveHabits();
+renderHabitMatrix();updateHomeMenu();renderRadarHome();
+// re-render popup habits section
+openTodayPopup();
 }
 
 function getSpendScorePct(){
@@ -2894,7 +2945,7 @@ html+='</div>';
 }
 wrap.innerHTML=html;
 }
-function toggleHabit(id){const h=HABITS.find(x=>x.id===id);if(!h)return;const day=habitSelectedDate||getTodayKey();h.log=h.log||[];const idx=h.log.indexOf(day);if(idx>=0)h.log.splice(idx,1);else h.log.push(day);saveHabits();const pill=document.getElementById('hpill-'+id);if(pill){pill.classList.add('just-toggled');setTimeout(()=>pill.classList.remove('just-toggled'),350);}renderHabits();updateHomeMenu();}
+function toggleHabit(id){const h=HABITS.find(x=>x.id===id);if(!h)return;const day=habitSelectedDate||getTodayKey();h.log=h.log||[];const idx=h.log.indexOf(day);if(idx>=0)h.log.splice(idx,1);else h.log.push(day);saveHabits();const pill=document.getElementById('hpill-'+id);if(pill){pill.classList.add('just-toggled');setTimeout(()=>pill.classList.remove('just-toggled'),350);}renderHabits();renderHabitMatrix();updateHomeMenu();}
 function deleteHabit(id){HABITS=HABITS.filter(h=>h.id!==id);saveHabits();renderManageList();renderHabits();toast('Hábito eliminado');}
 function selectHabitTime(el){document.querySelectorAll('.habit-time-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('habit-inp-time').value=el.dataset.val;}
 function openHabitModal(){document.getElementById('habit-inp-name').value='';document.getElementById('habit-inp-time').value='mañana';document.querySelectorAll('.habit-time-btn').forEach((b,i)=>b.classList.toggle('active',i===0));renderManageList();document.getElementById('habit-modal').classList.add('open');}
@@ -2921,18 +2972,81 @@ grid.innerHTML=filtered.map(h=>{const done=isHabitDoneToday(h);return`<button cl
 }
 function renderHabitCharts(){
 if(!HABITS.length)return;
-const purple='rgba(167,139,250,0.9)',purpleFill='rgba(167,139,250,0.10)';
-const mkChart=(id,labels,data,ex)=>{const ctx=document.getElementById(id).getContext('2d');if(ex)ex.destroy();return new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:data.map(v=>v>=80?'rgba(167,139,250,0.9)':v>=50?'rgba(167,139,250,0.6)':'rgba(167,139,250,0.35)'),borderRadius:6,borderSkipped:false}]},options:{responsive:true,animation:{duration:700},plugins:{legend:{display:false},tooltip:{backgroundColor:'#111',bodyColor:'#f5f5f5',borderColor:'#2a2a2a',borderWidth:1,callbacks:{label:i=>` ${i.raw}%`}}},scales:{x:{grid:{display:false},ticks:{color:'rgba(255,255,255,0.7)',font:{family:'Arial',size:11}},border:{color:'rgba(255,255,255,0.05)'}},y:{min:0,max:100,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'rgba(255,255,255,0.7)',font:{family:'Arial',size:11},callback:v=>v+'%'},border:{color:'rgba(255,255,255,0.05)'}}}}});};
-const now=new Date(),dow=now.getDay(),mon=new Date(now);mon.setDate(now.getDate()-(dow===0?6:dow-1));
-const wk=Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d;});
-const dayLabels=wk.map(d=>d.getDate()+' '+d.toLocaleDateString('es',{month:'short'}).slice(0,3));
-const dayData=wk.map(d=>{const key=d.toISOString().split('T')[0];return HABITS.length>0?Math.round(HABITS.filter(h=>(h.log||[]).includes(key)).length/HABITS.length*100):0;});
-// habit-day-chart removed
-// habitDayChart removed
-const wkLabels=[],wkData=[];for(let w=6;w>=0;w--){const m=new Date();m.setDate(m.getDate()-(m.getDay()===0?6:m.getDay()-1)-w*7);const days=Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return d.toISOString().split('T')[0];});wkLabels.push('S'+(7-w));let tot=0;days.forEach(day=>HABITS.forEach(h=>{if((h.log||[]).includes(day))tot++;}));wkData.push(HABITS.length>0?Math.round(tot/(HABITS.length*7)*100):0);}
-habitWeekChart=mkChart('habit-week-chart',wkLabels,wkData,habitWeekChart);
-const moLabels=[],moData=[];for(let m=5;m>=0;m--){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-m);const y=d.getFullYear(),mo=d.getMonth(),dim=new Date(y,mo+1,0).getDate();const days=Array.from({length:dim},(_,i)=>`${y}-${String(mo+1).padStart(2,'0')}-${String(i+1).padStart(2,'0')}`);moLabels.push(d.toLocaleDateString('es',{month:'short'}).toUpperCase().slice(0,3));let tot=0;days.forEach(day=>HABITS.forEach(h=>{if((h.log||[]).includes(day))tot++;}));moData.push(HABITS.length>0?Math.round(tot/(HABITS.length*dim)*100):0);}
-habitMonthChart=mkChart('habit-month-chart',moLabels,moData,habitMonthChart);
+
+function pctToClass(v){
+if(v===0)return'';
+if(v<=33)return' hd-1';
+if(v<=66)return' hd-2';
+if(v<100)return' hd-3';
+return' hd-full';
+}
+
+// ── % por semana: 7 columns (weeks) × 7 rows (days Mon-Sun) ──
+const weekEl=document.getElementById('habit-week-grid');
+if(weekEl){
+const DAYS=['L','M','X','J','V','S','D'];
+let html='<div style="display:grid;grid-template-columns:auto repeat(7,1fr);gap:3px;align-items:center;">';
+// empty top-left corner
+html+='<div></div>';
+// week labels S1..S7
+for(let w=6;w>=0;w--){
+const wStart=new Date();wStart.setDate(wStart.getDate()-(wStart.getDay()||7)+1-w*7);
+const lbl=wStart.getDate()+'/'+(wStart.getMonth()+1);
+html+='<div style="font-size:8px;color:rgba(255,255,255,0.3);text-align:center;padding-bottom:2px;">'+lbl+'</div>';
+}
+// rows per day of week
+for(let d=0;d<7;d++){
+html+='<div style="font-size:9px;color:rgba(255,255,255,0.3);padding-right:4px;text-align:right;">'+DAYS[d]+'</div>';
+for(let w=6;w>=0;w--){
+const wStart=new Date();wStart.setDate(wStart.getDate()-(wStart.getDay()||7)+1-w*7);
+const date=new Date(wStart);date.setDate(wStart.getDate()+d);
+const key=date.toISOString().split('T')[0];
+const done=HABITS.filter(h=>(h.log||[]).includes(key)).length;
+const pct=Math.round(done/HABITS.length*100);
+const isToday=key===TODAY;
+const isFuture=key>TODAY;
+const cls='habit-day-cell'+( isFuture?'':pctToClass(pct));
+html+='<div class="'+cls+'"'+(isToday?' style="outline:2px solid var(--white);outline-offset:1px;"':'')
++' title="'+key+': '+pct+'%"'+(isFuture?'':' onclick="setHabitDate(\''+key+'\')"')+'></div>';
+}
+}
+html+='</div>';
+weekEl.innerHTML=html;
+}
+
+// ── Promedio mensual: 6 meses como bloques con % ──
+const monthEl=document.getElementById('habit-month-grid');
+if(monthEl){
+const monthNames=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+let html='<div style="display:flex;flex-direction:column;gap:6px;">';
+for(let m=5;m>=0;m--){
+const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-m);
+const y=d.getFullYear(),mo=d.getMonth();
+const dim=new Date(y,mo+1,0).getDate();
+const days=[];
+for(let i=1;i<=dim;i++)days.push(y+'-'+('0'+(mo+1)).slice(-2)+'-'+('0'+i).slice(-2));
+let tot=0;days.forEach(day=>HABITS.forEach(h=>{if((h.log||[]).includes(day))tot++;}));
+const pct=Math.round(tot/(HABITS.length*dim)*100);
+const cls='hd-'+(pct===0?'0':pct<=33?'1':pct<=66?'2':pct<100?'3':'full');
+const isCurrentMonth=(m===0);
+// bar-style row with month name + mini cuadritos filling width
+html+='<div style="display:flex;align-items:center;gap:6px;">';
+html+='<div style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;flex-shrink:0;">'+monthNames[mo]+'</div>';
+html+='<div style="flex:1;height:18px;border-radius:6px;background:var(--gray-800);overflow:hidden;position:relative;">';
+if(pct>0){
+html+='<div style="height:100%;width:'+pct+'%;border-radius:6px;background:'+(pct>=80?'rgba(167,139,250,0.95)':pct>=50?'rgba(167,139,250,0.65)':'rgba(167,139,250,0.35)')+';transition:width 0.6s ease;"></div>';
+}
+html+='</div>';
+html+='<div style="font-size:11px;font-weight:600;color:'+(pct>=80?'rgba(167,139,250,0.9)':'rgba(255,255,255,0.5)')+';width:34px;text-align:right;flex-shrink:0;">'+pct+'%</div>';
+html+='</div>';
+}
+html+='</div>';
+monthEl.innerHTML=html;
+}
+
+// destroy old Chart instances if any
+if(habitWeekChart){try{habitWeekChart.destroy();}catch(e){}}
+if(habitMonthChart){try{habitMonthChart.destroy();}catch(e){}}
 }
 
 /* ══════════════════════════════════════════
@@ -3276,32 +3390,50 @@ function renderHabitMatrix(){
 const el=document.getElementById('habit-matrix-table');
 if(!el) return;
 const now=new Date();
-const dow=now.getDay();
-const monday=new Date(now);
-monday.setDate(now.getDate()-(dow===0?6:dow-1)-69);
-let html='';
-for(let w=0;w<10;w++){
-html+='<div class="habit-matrix-col">';
-for(let d=0;d<7;d++){
-const date=new Date(monday);date.setDate(monday.getDate()+w*7+d);
-const key=date.toISOString().split('T')[0];
+const year=now.getFullYear(), month=now.getMonth();
+const daysInMonth=new Date(year,month+1,0).getDate();
+const firstDow=new Date(year,month,1).getDay(); // 0=Sun
+// convert to Mon=0
+const firstOffset=(firstDow===0?6:firstDow-1);
+const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const lbl=document.getElementById('habit-matrix-month-label');
+if(lbl)lbl.textContent=monthNames[month]+' '+year;
+// day of week headers
+const DAYS=['L','M','X','J','V','S','D'];
+let html='<div class="habit-month-dow">';
+DAYS.forEach(d=>html+='<div class="habit-month-dow-lbl">'+d+'</div>');
+html+='</div><div class="habit-month-weeks">';
+// build rows
+let cellIdx=0;
+const totalCells=Math.ceil((firstOffset+daysInMonth)/7)*7;
+html+='<div class="habit-month-row">';
+for(let i=0;i<totalCells;i++){
+if(i>0&&i%7===0){html+='</div><div class="habit-month-row">';}
+const dayNum=i-firstOffset+1;
+if(dayNum<1||dayNum>daysInMonth){
+html+='<div class="habit-day-cell empty"></div>';
+continue;
+}
+const key=year+'-'+('0'+(month+1)).slice(-2)+'-'+('0'+dayNum).slice(-2);
 const done=HABITS.filter(h=>(h.log||[]).includes(key)).length;
 const total=HABITS.length||1;
 const ratio=done/total;
-let cls='habit-matrix-cell';
-if(ratio===0) cls+='';
-else if(ratio<=0.33) cls+=' done-1';
-else if(ratio<=0.66) cls+=' done-2';
-else if(ratio<1) cls+=' done-3';
-else cls+=' done-full';
-const isToday2=key===TODAY;
-html+=`<div class="${cls}" title="${key}: ${done}/${total} hábitos"${isToday2?' style="outline:1px solid rgba(255,255,255,0.4);outline-offset:1px;"':''}></div>`;
+const isToday=key===TODAY;
+const isSelected=key===(habitSelectedDate||TODAY);
+const isFuture=key>TODAY;
+let cls='habit-day-cell';
+if(isFuture)cls+=' empty'; // future days dimmed
+else if(ratio===0)cls+='';
+else if(ratio<=0.33)cls+=' hd-1';
+else if(ratio<=0.66)cls+=' hd-2';
+else if(ratio<1)cls+=' hd-3';
+else cls+=' hd-full';
+if(isToday)cls+=' hd-today';
+if(isSelected&&!isFuture)cls+=' hd-selected';
+const title=done+'/'+total+' hábitos';
+html+='<div class="'+cls+'" '+(isFuture?'':'onclick="setHabitDate(\''+key+'\')"')+' title="'+title+'">'+dayNum+'</div>';
 }
-const weekStart=new Date(monday);weekStart.setDate(monday.getDate()+w*7);
-const lbl=weekStart.getDate()+'/'+('0'+(weekStart.getMonth()+1)).slice(-2);
-html+=`<div class="habit-matrix-day-label">${lbl}</div>`;
-html+='</div>';
-}
+html+='</div></div>';
 el.innerHTML=html;
 }
 
@@ -4431,7 +4563,6 @@ var subEl=document.getElementById('gym-ex-prog-sub');
 if(titleEl)titleEl.textContent=name;
 wrap.style.display='';
 
-// collect best weight per session for this exercise
 var points=[];
 GYM_SESSIONS.slice().sort(function(a,b){return a.date.localeCompare(b.date);}).forEach(function(s){
   var ex=s.exercises.find(function(e){return e.name===name;});
@@ -4440,32 +4571,23 @@ GYM_SESSIONS.slice().sort(function(a,b){return a.date.localeCompare(b.date);}).f
   if(best>0)points.push({date:s.date.slice(5).replace('-','/'),weight:best});
 });
 
-if(subEl)subEl.textContent=points.length?points.length+' sesiones registradas':'Sin datos de peso aun';
+if(subEl)subEl.textContent=points.length?points.length+' sesiones':'Sin datos de peso';
 
-if(gymProgChartInstance){try{gymProgChartInstance.destroy();}catch(e){}}
+var el=document.getElementById('gym-grid-progression');
+if(!el)return;
+if(!points.length){el.innerHTML='<div style="color:var(--gray-700);font-size:13px;">Registra peso en los sets para ver la progresión</div>';return;}
 
-var ctx=document.getElementById('gym-ex-prog-chart');
-if(!ctx||!points.length)return;
-
-gymProgChartInstance=new Chart(ctx,{type:'line',
-  data:{
-    labels:points.map(function(p){return p.date;}),
-    datasets:[{
-      data:points.map(function(p){return p.weight;}),
-      borderColor:'rgba(167,139,250,0.9)',
-      backgroundColor:'rgba(167,139,250,0.08)',
-      borderWidth:2.5,
-      pointBackgroundColor:'rgba(167,139,250,1)',
-      pointRadius:5,
-      pointHoverRadius:7,
-      tension:0.3,
-      fill:true
-    }]
-  },
-  options:gymChartOpts(
-    {y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7a7a7a',font:{family:'Arial',size:11},callback:function(v){return v+'kg';}},border:{color:'rgba(255,255,255,0.05)'},min:0}},
-    function(i){return i.raw+'kg';}
-  )
+var maxW=Math.max.apply(null,points.map(function(p){return p.weight;}));
+var html=points.slice(-15).map(function(p){
+var pct=Math.round(p.weight/maxW*100);
+var color=pct>=80?'rgba(167,139,250,0.95)':pct>=50?'rgba(167,139,250,0.65)':'rgba(167,139,250,0.35)';
+return'<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">'
++'<div style="font-size:10px;color:rgba(255,255,255,0.4);width:38px;flex-shrink:0;text-align:right;">'+p.date+'</div>'
++'<div style="flex:1;height:16px;border-radius:5px;background:var(--gray-800);overflow:hidden;">'
++'<div style="height:100%;width:'+pct+'%;border-radius:5px;background:'+color+';transition:width 0.5s;"></div>'
++'</div>'
++'<div style="font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;width:36px;flex-shrink:0;">'+p.weight+'kg</div>'
++'</div>';
 });
 }
 
@@ -4558,52 +4680,86 @@ gymChartInstances.forEach(function(ch){try{ch.destroy();}catch(e){}});
 gymChartInstances=[];
 
 var allSessions=GYM_SESSIONS.slice().sort(function(a,b){return a.date.localeCompare(b.date);});
-var pts=allSessions.slice(-30);
-var labels=pts.map(function(s){return s.date.slice(5).replace('-','/');});
 
-function lineDs(data,color){
-return{data:data,borderColor:color,backgroundColor:color.replace(/[\d.]+\)$/,'0.08)'),borderWidth:2.5,pointBackgroundColor:color,pointRadius:data.map(function(v){return v>0?4:0;}),pointHoverRadius:6,tension:0.35,fill:true,spanGaps:false};
+function pctColor(ratio,r,g,b){
+if(ratio<=0)return'var(--gray-800)';
+var a=ratio<=0.33?0.3:ratio<=0.66?0.6:0.95;
+return'rgba('+r+','+g+','+b+','+a+')';
 }
-function lineOpts(ttFn){
-return{responsive:true,maintainAspectRatio:true,animation:{duration:400},plugins:{legend:{display:false},tooltip:{callbacks:{label:ttFn}}},scales:{x:{grid:{display:false},ticks:{color:'#7a7a7a',font:{family:'Arial',size:9},maxRotation:0,maxTicksLimit:6},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7a7a7a',font:{family:'Arial',size:10}},border:{color:'rgba(255,255,255,0.05)'},min:0}}};
+function hBar(val,max,color,label,sub){
+var pct=max>0?Math.round(val/max*100):0;
+var w=max>0?Math.round(val/max*100):0;
+return'<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">'
++'<div style="font-size:10px;color:rgba(255,255,255,0.4);width:38px;flex-shrink:0;text-align:right;">'+label+'</div>'
++'<div style="flex:1;height:16px;border-radius:5px;background:var(--gray-800);overflow:hidden;">'
++(val>0?'<div style="height:100%;width:'+w+'%;border-radius:5px;background:'+color+';transition:width 0.5s;"></div>':'')
++'</div>'
++'<div style="font-size:10px;color:rgba(255,255,255,0.5);width:36px;flex-shrink:0;text-align:left;">'+sub+'</div>'
++'</div>';
 }
 
-// 1 — Duración (line, per session)
-var durData=pts.map(function(s){return s.duration||0;});
-var c1=document.getElementById('gym-line-duration');
-if(c1){var ch1=new Chart(c1,{type:'line',data:{labels:labels,datasets:[lineDs(durData,'rgba(167,139,250,0.9)')]},options:lineOpts(function(i){return i.raw+' min';})});gymChartInstances.push(ch1);}
+// 1 — Duración: last 20 sessions as horizontal bars
+var durEl=document.getElementById('gym-grid-duration');
+if(durEl){
+var pts=allSessions.slice(-20);
+var maxDur=Math.max(1,Math.max.apply(null,pts.map(function(s){return s.duration||0;})));
+var html=pts.map(function(s){
+var lbl=s.date.slice(5).replace('-','/');
+return hBar(s.duration||0,maxDur,'rgba(167,139,250,0.85)',lbl,(s.duration||0)+'m');
+}).join('');
+if(!pts.length)html='<div style="color:var(--gray-700);font-size:13px;">Sin sesiones aún</div>';
+durEl.innerHTML=html;
+}
 
-// 2 — Volumen semanal (line, grouped by week)
+// 2 — Ejercicios por día: 30-day grid
+var exEl=document.getElementById('gym-grid-exercises');
+if(exEl){
+var days30=[];
+for(var i=29;i>=0;i--){var dd=new Date();dd.setDate(dd.getDate()-i);days30.push(dd.toISOString().split('T')[0]);}
+var maxEx=Math.max(1,Math.max.apply(null,days30.map(function(day){
+return allSessions.filter(function(s){return s.date===day;}).reduce(function(a,s){return a+s.exercises.length;},0);
+})));
+var ghtml='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;">';
+days30.forEach(function(day){
+var cnt=allSessions.filter(function(s){return s.date===day;}).reduce(function(a,s){return a+s.exercises.length;},0);
+var isToday=day===TODAY;
+var bg=pctColor(cnt/maxEx,74,158,255);
+ghtml+='<div style="aspect-ratio:1;border-radius:5px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,0.5);'+(isToday?'outline:2px solid rgba(255,255,255,0.5);outline-offset:1px;':'')+'" title="'+day+': '+cnt+' ejercicios">'+(cnt>0?cnt:'')+'</div>';
+});
+ghtml+='</div>';
+ghtml+='<div style="display:flex;justify-content:space-between;margin-top:4px;">';
+[0,5,11,17,23,29].forEach(function(idx){
+var d=new Date(days30[idx]+'T12:00:00');
+ghtml+='<div style="font-size:9px;color:rgba(255,255,255,0.2);">'+d.getDate()+'/'+(d.getMonth()+1)+'</div>';
+});
+ghtml+='</div>';
+exEl.innerHTML=ghtml;
+}
+
+// 3 — Volumen semanal: horizontal bars per week
+var volEl=document.getElementById('gym-grid-volume');
+if(volEl){
 var weekVolMap={};
 allSessions.forEach(function(s){
 var d=new Date(s.date+'T12:00:00');
-// get Monday of that week
-var day=d.getDay()||7;d.setDate(d.getDate()-day+1);
+var dow=d.getDay()||7;d.setDate(d.getDate()-dow+1);
 var wk=d.toISOString().split('T')[0];
 if(!weekVolMap[wk])weekVolMap[wk]=0;
 s.exercises.forEach(function(e){(e.sets||[]).forEach(function(st){if(st.done)weekVolMap[wk]+=(st.sets||1)*(st.reps||0)*(st.weight||0);});});
 });
 var wkKeys=Object.keys(weekVolMap).sort().slice(-12);
-var volLabels=wkKeys.map(function(k){return k.slice(5).replace('-','/');});
-var volData=wkKeys.map(function(k){return weekVolMap[k];});
-var c2=document.getElementById('gym-line-volume');
-if(c2){var ch2=new Chart(c2,{type:'line',data:{labels:volLabels,datasets:[lineDs(volData,'rgba(45,212,191,0.9)')]},options:lineOpts(function(i){return i.raw+' vol';})});gymChartInstances.push(ch2);}
-
-// 3 — Ejercicios por día (bar, last 30 days)
-var dayLabels=[],dayData=[],dayColors=[];
-for(var d=29;d>=0;d--){
-var dd=new Date();dd.setDate(dd.getDate()-d);
-var ds=dd.toISOString().split('T')[0];
-var daySess=allSessions.filter(function(s){return s.date===ds;});
-var exCount=daySess.reduce(function(acc,s){return acc+s.exercises.length;},0);
-var lbl=d===29||d===0||d%7===0?dd.toLocaleDateString('es',{day:'numeric',month:'short'}):'';
-dayLabels.push(lbl);dayData.push(exCount);
-dayColors.push(exCount>0?'rgba(74,158,255,0.85)':'rgba(255,255,255,0.06)');
+var maxVol=Math.max(1,Math.max.apply(null,wkKeys.map(function(k){return weekVolMap[k];})));
+var vhtml=wkKeys.map(function(k){
+var v=weekVolMap[k];
+var lbl=k.slice(5).replace('-','/');
+var sub=v>=1000?(Math.round(v/100)/10)+'k':v+'';
+return hBar(v,maxVol,'rgba(45,212,191,0.85)',lbl,sub);
+}).join('');
+if(!wkKeys.length)vhtml='<div style="color:var(--gray-700);font-size:13px;">Sin datos aún</div>';
+volEl.innerHTML=vhtml;
 }
-var c3=document.getElementById('gym-line-exercises');
-if(c3){var ch3=new Chart(c3,{type:'bar',data:{labels:dayLabels,datasets:[{data:dayData,backgroundColor:dayColors,borderRadius:3,borderSkipped:false,barPercentage:0.8}]},options:{responsive:true,maintainAspectRatio:true,animation:{duration:400},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(i){return i.raw+' ejercicio'+(i.raw!==1?'s':'');}}}},scales:{x:{grid:{display:false},ticks:{color:'#7a7a7a',font:{family:'Arial',size:9},maxRotation:0},border:{color:'rgba(255,255,255,0.05)'}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#7a7a7a',font:{family:'Arial',size:10},stepSize:1},border:{color:'rgba(255,255,255,0.05)'},min:0}}}});gymChartInstances.push(ch3);}
 
-// exercise cards
+// exercise cards + progression
 populateGymExDd();
 renderGymExCards();
 if(gymChartExSelected)renderGymExProgression(gymChartExSelected);
