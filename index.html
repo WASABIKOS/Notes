@@ -878,7 +878,7 @@ cursor:pointer;transition:opacity 0.15s;min-width:30px;
 /* event modal */
 .event-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:800;align-items:flex-end;backdrop-filter:blur(6px);}
 .event-modal-overlay.open{display:flex;}
-.event-modal{background:rgba(20,20,20,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid rgba(255,255,255,0.08);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
+.event-modal{background:var(--gray-900);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;border-top:1px solid rgba(255,255,255,0.08);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);max-height:92vh;overflow-y:auto;}
 .event-type-toggle{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .evt-type-btn{background:var(--gray-800);border:1px solid var(--gray-700);border-radius:12px;color:var(--gray-400);font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:11px 6px;cursor:pointer;transition:all 0.18s;text-align:center;}
 .evt-type-btn.active[data-val="event"]{background:var(--teal-dim);border-color:var(--teal);color:var(--teal);}
@@ -1514,7 +1514,7 @@ Importar
 <div id="gym-picker-modal" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center;" onclick="bgCloseGymPicker(event)">
 <div style="background:var(--gray-900);border-radius:24px 24px 0 0;border-top:1px solid rgba(255,255,255,0.08);padding:20px 20px 40px;width:100%;max-height:82vh;overflow-y:auto;animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);">
   <div class="modal-handle"></div>
-  <div style="font-size:17px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);margin-bottom:16px;">Agregar ejercicio</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><div style="font-size:17px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);">Agregar ejercicio</div><button onclick="document.getElementById('gym-picker-modal').style.display='none'" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
   <!-- accordion groups -->
   <div id="gym-picker-accordion"></div>
   <!-- custom exercise -->
@@ -1610,7 +1610,7 @@ Importar
 <div class="modal-overlay" id="w-tx-modal" onclick="bgCloseWalletModal(event)">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title" id="w-tx-modal-title">Nueva transacción</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div class="modal-title" style="margin-bottom:0;" id="w-tx-modal-title">Nueva transacción</div><button onclick="closeWalletTxModal()" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
   <!-- TYPE TOGGLE -->
   <div class="form-group">
     <label class="form-label">Tipo</label>
@@ -1631,11 +1631,13 @@ Importar
   </div>
   <div class="form-group" id="w-bucket-group">
     <label class="form-label">Bucket</label>
-    <select class="input-plain" id="w-tx-bucket" style="appearance:none;cursor:pointer;"></select>
+    <div id="w-bucket-btn-group" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+    <input type="hidden" id="w-tx-bucket" value="">
   </div>
   <div class="form-group" id="w-bucket-to-group" style="display:none;">
     <label class="form-label">Bucket destino</label>
-    <select class="input-plain" id="w-tx-bucket-to" style="appearance:none;cursor:pointer;"></select>
+    <div id="w-bucket-to-btn-group" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+    <input type="hidden" id="w-tx-bucket-to" value="">
   </div>
   <div class="form-group">
     <label class="form-label">Fecha</label>
@@ -1790,7 +1792,7 @@ stroke-dasharray="502.65" stroke-dashoffset="0"/>
 <div class="modal-overlay" id="modal" onclick="bgClose(event)">
 <div class="modal">
 <div class="modal-handle"></div>
-<div class="modal-title" id="modal-title">Nueva tarea</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div class="modal-title" style="margin-bottom:0;" id="modal-title">Nueva tarea</div><button onclick="closeModal()" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
 <div class="form-group"><label class="form-label">Título</label><input type="text" class="input-plain" id="inp-title" placeholder="¿Qué hay que hacer?"></div>
 <div class="form-group"><label class="form-label">Descripción (opcional)</label><input type="text" class="input-plain" id="inp-desc" placeholder="Detalles adicionales..."></div>
 <div class="form-group"><label class="form-label">Categoría</label>
@@ -1841,7 +1843,7 @@ stroke-dasharray="502.65" stroke-dashoffset="0"/>
 <div class="event-modal-overlay" id="event-modal" onclick="bgCloseEvent(event)">
 <div class="event-modal">
 <div class="modal-handle"></div>
-<div class="modal-title" id="event-modal-title">Nuevo evento</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div class="modal-title" style="margin-bottom:0;" id="event-modal-title">Nuevo evento</div><button onclick="closeEventModal()" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
 <div class="form-group"><label class="form-label">Tipo</label>
 <div class="event-type-toggle">
 <button class="evt-type-btn active" data-val="event" onclick="setEvtType('event',this)">Evento</button>
@@ -3862,9 +3864,35 @@ wrap.classList.toggle('on',isRecurring);
 document.getElementById('w-recurring-freq-group').style.display=isRecurring?'':'none';
 }
 function populateBucketSelects(){
-const opts=WALLET_BUCKETS.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
-document.getElementById('w-tx-bucket').innerHTML=opts;
-document.getElementById('w-tx-bucket-to').innerHTML=opts;
+function renderBucketBtns(groupId,hiddenId,selectedVal){
+var el=document.getElementById(groupId);if(!el)return;
+var current=selectedVal||(WALLET_BUCKETS[0]?WALLET_BUCKETS[0].id:'');
+var html=WALLET_BUCKETS.map(function(b){
+var active=b.id===current;
+return'<button type="button" onclick="selectBucketBtn(\''+groupId+'\',\''+hiddenId+'\',\''+b.id+'\')" style="padding:10px 8px;border-radius:10px;border:1.5px solid '+(active?'var(--white)':'var(--gray-700)')+';background:'+(active?'rgba(255,255,255,0.1)':'var(--gray-800)')+';color:'+(active?'var(--white)':'var(--gray-400)')+';font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.05em;cursor:pointer;transition:all 0.15s;text-align:center;">'+b.name+'</button>';
+}).join('');
+el.innerHTML=html;
+if(document.getElementById(hiddenId))document.getElementById(hiddenId).value=current;
+}
+var curBucket=document.getElementById('w-tx-bucket').value||( WALLET_BUCKETS[0]?WALLET_BUCKETS[0].id:'');
+var curBucketTo=document.getElementById('w-tx-bucket-to').value||( WALLET_BUCKETS[0]?WALLET_BUCKETS[0].id:'');
+renderBucketBtns('w-bucket-btn-group','w-tx-bucket',curBucket);
+renderBucketBtns('w-bucket-to-btn-group','w-tx-bucket-to',curBucketTo);
+}
+function selectBucketBtn(groupId,hiddenId,bucketId){
+document.getElementById(hiddenId).value=bucketId;
+// re-render just that group
+var current=bucketId;
+var el=document.getElementById(groupId);if(!el)return;
+el.querySelectorAll('button').forEach(function(btn){
+var bid=btn.getAttribute('onclick').match(/'([^']+)'\)$/);
+if(bid){
+var active=bid[1]===current;
+btn.style.borderColor=active?'var(--white)':'var(--gray-700)';
+btn.style.background=active?'rgba(255,255,255,0.1)':'var(--gray-800)';
+btn.style.color=active?'var(--white)':'var(--gray-400)';
+}
+});
 }
 function openWalletTxModal(txId,defaultBucket){
 editingTxId=txId||null;
@@ -3965,13 +3993,45 @@ function bgCloseBucketModal(e){if(e.target===document.getElementById('w-bucket-m
 function renderBucketManageList(){
 const el=document.getElementById('w-bucket-manage-list');
 el.innerHTML=WALLET_BUCKETS.map(b=>`
-<div style="display:flex;align-items:center;gap:10px;background:var(--gray-800);border:1px solid var(--gray-700);border-radius:12px;padding:11px 14px;">
-<span style="flex:1;font-size:15px;color:var(--white);">${b.name}</span>
-${b.goal>0?`<span style="font-size:12px;color:var(--gray-500);">Meta: ${fmtMoney(b.goal)}</span>`:''}
-<button onclick="deleteBucket('${b.id}')" style="background:transparent;border:none;color:var(--gray-600);cursor:pointer;padding:4px;display:flex;align-items:center;" title="Eliminar">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
-</button>
+<div id="bucket-row-${b.id}" style="display:flex;align-items:center;gap:8px;background:var(--gray-800);border:1px solid var(--gray-700);border-radius:12px;padding:10px 12px;">
+  <div id="bucket-view-${b.id}" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+    <span style="flex:1;font-size:15px;color:var(--white);font-weight:500;">${b.name}</span>
+    ${b.goal>0?`<span style="font-size:12px;color:var(--gray-500);">${fmtMoney(b.goal)}</span>`:''}
+  </div>
+  <div id="bucket-edit-${b.id}" style="display:none;flex:1;gap:6px;display:none;">
+    <input type="text" class="input-plain" id="bucket-inp-${b.id}" value="${b.name}" style="flex:1;font-size:14px;padding:6px 10px;" placeholder="Nombre">
+  </div>
+  <button onclick="toggleBucketEdit('${b.id}')" id="bucket-edit-btn-${b.id}" style="background:transparent;border:1px solid var(--gray-700);border-radius:8px;color:var(--gray-400);font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 9px;cursor:pointer;">Editar</button>
+  <button onclick="saveBucketEdit('${b.id}')" id="bucket-save-btn-${b.id}" style="display:none;background:var(--white);border:none;border-radius:8px;color:var(--black);font-family:Arial,sans-serif;font-size:11px;font-weight:700;padding:5px 9px;cursor:pointer;">OK</button>
+  <button onclick="deleteBucket('${b.id}')" style="background:transparent;border:none;color:var(--gray-600);cursor:pointer;padding:4px;display:flex;align-items:center;" title="Eliminar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+  </button>
 </div>`).join('');
+}
+function toggleBucketEdit(id){
+const view=document.getElementById('bucket-view-'+id);
+const editDiv=document.getElementById('bucket-edit-'+id);
+const editBtn=document.getElementById('bucket-edit-btn-'+id);
+const saveBtn=document.getElementById('bucket-save-btn-'+id);
+const inp=document.getElementById('bucket-inp-'+id);
+const isEditing=editDiv.style.display!=='none'&&editDiv.style.display!=='';
+if(isEditing){
+editDiv.style.display='none';view.style.display='flex';
+editBtn.style.display='';saveBtn.style.display='none';
+}else{
+editDiv.style.display='flex';view.style.display='none';
+editBtn.style.display='none';saveBtn.style.display='';
+setTimeout(()=>inp&&inp.focus(),50);
+}
+}
+function saveBucketEdit(id){
+const inp=document.getElementById('bucket-inp-'+id);
+const name=inp?inp.value.trim():'';
+if(!name){toast('Escribe un nombre');return;}
+const b=WALLET_BUCKETS.find(x=>x.id===id);
+if(b){b.name=name;}
+saveWalletBuckets();renderBucketManageList();renderWallet();
+toast('Bucket actualizado ✓');
 }
 function addBucket(){
 const name=document.getElementById('w-new-bucket-name').value.trim();
