@@ -1029,9 +1029,15 @@ cursor:pointer;transition:opacity 0.15s;min-width:30px;
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round" style="opacity:0.7"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
 <div class="summary-block-title" style="margin-bottom:0;">Wallet</div>
 </div>
+<div style="display:flex;align-items:center;gap:8px;">
+<!-- lock/unlock circular button — shown when unlocked -->
+<button id="hdr-w-lock-btn" onclick="lockWalletFromHome(event)" style="display:none;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);cursor:pointer;display:none;align-items:center;justify-content:center;transition:all 0.15s;" title="Bloquear wallet">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+</button>
 <div id="hdr-w-lock-icon" style="display:flex;align-items:center;gap:5px;opacity:0.35;">
 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
 <span style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);">Bloqueado</span>
+</div>
 </div>
 </div>
 <!-- locked -->
@@ -3670,10 +3676,16 @@ _pGrid.removeEventListener('touchend',patternTouchEnd);
 }
 }
 
+function lockWalletFromHome(e){
+e.stopPropagation(); // don't trigger walletHomeCard
+walletUnlocked=false;
+refreshWalletLockUI();
+toast('Wallet bloqueado');
+}
 function walletHomeCard(){
 if(!hasPin()){openPinOverlay('setup',()=>{walletUnlocked=true;refreshWalletLockUI();});}
 else if(!walletUnlocked){openPinOverlay('unlock',()=>{refreshWalletLockUI();});}
-else{refreshWalletLockUI();}
+else{goTo('wallet');}
 }
 function walletMenuCard(){
 if(!hasPin()){openPinOverlay('setup',()=>{walletUnlocked=true;goTo('wallet');});}
@@ -3684,17 +3696,20 @@ function refreshWalletLockUI(){
 const locked=document.getElementById('hdr-w-locked');
 const unlocked=document.getElementById('hdr-w-unlocked');
 const lockIcon=document.getElementById('hdr-w-lock-icon');
+const lockBtn=document.getElementById('hdr-w-lock-btn');
 const menuLock=document.getElementById('hm-wallet-lock');
 if(walletUnlocked){
 if(locked)locked.style.display='none';
 if(unlocked)unlocked.style.display='';
 if(lockIcon)lockIcon.style.display='none';
+if(lockBtn){lockBtn.style.display='flex';}
 if(menuLock)menuLock.style.display='none';
 updateWalletHome();
 }else{
 if(locked)locked.style.display='';
 if(unlocked)unlocked.style.display='none';
 if(lockIcon)lockIcon.style.display='flex';
+if(lockBtn){lockBtn.style.display='none';}
 if(menuLock)menuLock.style.display='flex';
 }
 }
