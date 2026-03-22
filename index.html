@@ -6588,7 +6588,6 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById('view-' + tab).classList.add('active');
         currentTab = tab;
-        history.pushState({screen:tab},'');
         document.body.setAttribute('data-section', tab);
         document.getElementById('bottom-nav').style.display = '';
         const actionBtn = document.getElementById('bottom-action-btn');
@@ -9630,18 +9629,31 @@ ${dur}
       document.body.removeAttribute('data-section');
 
       /* ── ANDROID BACK GESTURE ── */
-      history.replaceState({screen:'home'},'');
+      // Always keep a buffer entry so popstate fires instead of closing app
+      history.replaceState({dp:true},'');
+      history.pushState({dp:true},'');
+      var _backHandling=false;
       window.addEventListener('popstate',function(e){
-        var state=e.state;
-        // PDF reader open? close it
-        if(document.getElementById('pdf-reader-overlay').classList.contains('open')){savePdfProgress();closePdfReader();history.pushState({screen:currentTab},'');return;}
-        // Any modal open? close it
-        var modals=document.querySelectorAll('.modal-overlay.open,.book-detail-overlay.open,.habit-modal-overlay.open,.event-modal-overlay.open,.event-detail-overlay.open,.detail-overlay.open,.pomo-overlay.open');
-        if(modals.length){modals.forEach(function(m){m.classList.remove('open');});history.pushState({screen:currentTab},'');return;}
+        if(_backHandling)return;
+        _backHandling=true;
+        // Re-push buffer immediately so next back also triggers popstate
+        history.pushState({dp:true},'');
+        // PDF reader open?
+        if(document.getElementById('pdf-reader-overlay').classList.contains('open')){savePdfProgress();closePdfReader();_backHandling=false;return;}
+        // Settings panel in reader?
+        var sp=document.getElementById('pdf-settings-panel');var bp=document.getElementById('pdf-bookmarks-panel');
+        if(sp&&sp.style.display!=='none'){sp.style.display='none';_backHandling=false;return;}
+        if(bp&&bp.style.display!=='none'){bp.style.display='none';_backHandling=false;return;}
+        // Any modal/overlay open?
+        var modals=document.querySelectorAll('.modal-overlay.open,.book-detail-overlay.open,.habit-modal-overlay.open,.event-modal-overlay.open,.event-detail-overlay.open,.detail-overlay.open,.pomo-overlay.open,#gym-new-popup[style*="flex"],#gym-picker-modal[style*="flex"],#gym-ex-modal[style*="flex"],#today-popup[style*="flex"],#app-settings-modal.open');
+        var closedOne=false;
+        modals.forEach(function(m){if(!closedOne){if(m.classList.contains('open')){m.classList.remove('open');closedOne=true;}else if(m.style.display==='flex'){m.style.display='none';closedOne=true;}}});
+        if(closedOne){_backHandling=false;return;}
         // In a section view? go home
-        if(currentTab!=='home'){goHome();history.pushState({screen:'home'},'');return;}
-        // On home - let Android close the app (push state back so next back exits)
-        history.back();
+        if(currentTab!=='home'){goHome();_backHandling=false;return;}
+        // On home - actually exit: remove buffer and go back twice
+        _backHandling=false;
+        history.go(-2);
       });
     </script>
     <!-- PATTERN LOCK OVERLAY -->
