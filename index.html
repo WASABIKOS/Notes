@@ -763,19 +763,11 @@
     .section-topbar {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px 24px 8px;
-      position: sticky;
-      top: 0;
-      background: rgba(20, 20, 20, 0.92);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
       justify-content: center;
       padding: 52px 24px 14px;
       position: sticky;
       top: 0;
-      background: rgba(20, 20, 20, 0.95);
+      background: rgba(20, 20, 20, 0.98);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 90;
@@ -994,7 +986,6 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-y: contain;
       padding-bottom: 100px;
-      padding-top: env(safe-area-inset-top, 0px);
       touch-action: pan-y;
     }
 
@@ -8174,7 +8165,7 @@ ${item.done ? '<span style="font-size:10px;letter-spacing:0.1em;text-transform:u
       /* ── APP SETTINGS ── */
       function openAppSettings(){document.getElementById('app-settings-modal').classList.add('open');var info=document.getElementById('settings-backup-info');var keys=['do_tasks_v1','do_habits_v2','do_events_v1','do_sleep_v1','do_wallet_v1','do_buckets_v1','do_gym_v1','do_books_v1','do_book_pdfs_v1','do_perf_goals_v2','do_workout_v1','do_wallet_pin_v1'];var total=0;keys.forEach(function(k){var d=localStorage.getItem(k);if(d)total+=d.length;});info.textContent='Datos almacenados: '+(total>1024*1024?(total/1024/1024).toFixed(1)+' MB':(total/1024).toFixed(0)+' KB');}
       function closeAppSettings(){document.getElementById('app-settings-modal').classList.remove('open');}
-      function exportFullBackup(){var data={version:2,exportedAt:new Date().toISOString(),tasks:TASKS,habits:HABITS,events:EVENTS,sleep:SLEEP_LOG,wallet_txs:WALLET_TXS,wallet_buckets:WALLET_BUCKETS,gym_sessions:GYM_SESSIONS,gym_custom_ex:GYM_CUSTOM_EX,books:BOOKS,book_pdfs:bookPdfData,goals:GOALS,workout_log:WORKOUT_LOG};var blob=new Blob([JSON.stringify(data)],{type:'application/json'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='dayplanner-full-backup-'+TODAY+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('Backup completo exportado ✓');}
+      function exportFullBackup(){try{var data={version:2,exportedAt:new Date().toISOString(),tasks:TASKS,habits:HABITS,events:EVENTS,sleep:SLEEP_LOG,wallet_txs:WALLET_TXS,wallet_buckets:WALLET_BUCKETS,gym_sessions:GYM_SESSIONS,gym_custom_ex:GYM_CUSTOM_EX,books:BOOKS,goals:GOALS,workout_log:WORKOUT_LOG};var hasPdfs=Object.keys(bookPdfData).length>0;if(hasPdfs&&confirm('Incluir archivos PDF en el backup?\n\nSí = backup completo (puede ser grande)\nNo = solo datos (más rápido)')){data.book_pdfs=bookPdfData;}closeAppSettings();var json=JSON.stringify(data);var blob=new Blob([json],{type:'application/json'});var url=URL.createObjectURL(blob);setTimeout(function(){var a=document.createElement('a');a.href=url;a.download='dayplanner-backup.json';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},500);toast('Backup exportado ✓');},300);}catch(err){toast('Error: '+err.message);}}
       function importFullBackup(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var data=JSON.parse(ev.target.result);if(data.tasks){TASKS=data.tasks;save();}if(data.habits){HABITS=data.habits;saveHabits();}if(data.events){EVENTS=data.events;saveEvents();}if(data.sleep){SLEEP_LOG=data.sleep;saveSleep();}if(data.wallet_txs){WALLET_TXS=data.wallet_txs;saveWallet();}if(data.wallet_buckets){WALLET_BUCKETS=data.wallet_buckets;saveWalletBuckets();}if(data.gym_sessions){GYM_SESSIONS=data.gym_sessions;saveGym();}if(data.gym_custom_ex){GYM_CUSTOM_EX=data.gym_custom_ex;saveGymEx();}if(data.books){BOOKS=data.books;saveBooks();}if(data.book_pdfs){bookPdfData=data.book_pdfs;saveBookPdfs();}if(data.goals){GOALS=data.goals;try{localStorage.setItem(GOALS_KEY,JSON.stringify(GOALS));}catch(x){}}if(data.workout_log){WORKOUT_LOG=data.workout_log;saveWorkoutData();}renderAll();toast('Backup restaurado ✓');closeAppSettings();}catch(err){toast('Archivo inválido ✗');}};reader.readAsText(file);e.target.value='';}
       function clearAllData(){if(!confirm('¿Estás seguro? Se borrarán TODOS los datos.'))return;if(!confirm('ÚLTIMA OPORTUNIDAD. ¿Borrar todo?'))return;['do_tasks_v1','do_habits_v2','do_events_v1','do_sleep_v1','do_wallet_v1','do_buckets_v1','do_gym_v1','do_gym_ex_v1','do_books_v1','do_book_pdfs_v1','do_perf_goals_v2','do_workout_v1','do_wallet_pin_v1'].forEach(function(k){localStorage.removeItem(k);});location.reload();}
 
