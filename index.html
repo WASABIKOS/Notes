@@ -6588,6 +6588,7 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById('view-' + tab).classList.add('active');
         currentTab = tab;
+        history.pushState({screen:tab},'');
         document.body.setAttribute('data-section', tab);
         document.getElementById('bottom-nav').style.display = '';
         const actionBtn = document.getElementById('bottom-action-btn');
@@ -9627,6 +9628,21 @@ ${dur}
       scheduleNotifs();
       document.getElementById('main-fab').classList.remove('visible');
       document.body.removeAttribute('data-section');
+
+      /* ── ANDROID BACK GESTURE ── */
+      history.replaceState({screen:'home'},'');
+      window.addEventListener('popstate',function(e){
+        var state=e.state;
+        // PDF reader open? close it
+        if(document.getElementById('pdf-reader-overlay').classList.contains('open')){savePdfProgress();closePdfReader();history.pushState({screen:currentTab},'');return;}
+        // Any modal open? close it
+        var modals=document.querySelectorAll('.modal-overlay.open,.book-detail-overlay.open,.habit-modal-overlay.open,.event-modal-overlay.open,.event-detail-overlay.open,.detail-overlay.open,.pomo-overlay.open');
+        if(modals.length){modals.forEach(function(m){m.classList.remove('open');});history.pushState({screen:currentTab},'');return;}
+        // In a section view? go home
+        if(currentTab!=='home'){goHome();history.pushState({screen:'home'},'');return;}
+        // On home - let Android close the app (push state back so next back exits)
+        history.back();
+      });
     </script>
     <!-- PATTERN LOCK OVERLAY -->
     <div id="pin-overlay"
