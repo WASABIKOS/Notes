@@ -4976,6 +4976,61 @@
     .pattern-trail-line.error {
       stroke: rgba(192, 57, 43, 0.6);
     }
+    /* ═══════════════════════════════════
+  BOOKS / LECTURAS
+═══════════════════════════════════ */
+    .book-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .book-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; overflow:hidden; cursor:pointer; transition:all 0.2s cubic-bezier(0.16,1,0.3,1); }
+    .book-card:active { transform:scale(0.97); }
+    .book-card-cover { width:100%; aspect-ratio:3/4; background:linear-gradient(145deg,rgba(167,139,250,0.12),rgba(74,158,255,0.06),rgba(45,212,191,0.04)); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .book-card-cover canvas { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; }
+    .book-card-cover-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:18px; text-align:center; }
+    .book-card-cover-title { font-size:12px; font-weight:700; color:rgba(255,255,255,0.4); letter-spacing:0.04em; line-height:1.3; max-height:3.9em; overflow:hidden; text-transform:uppercase; }
+    .book-progress-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(0,0,0,0.5); }
+    .book-progress-fill { height:100%; background:var(--white); border-radius:0 2px 2px 0; transition:width 0.5s cubic-bezier(0.16,1,0.3,1); }
+    .book-card-info { padding:12px 13px; }
+    .book-card-title { font-size:14px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .book-card-author { font-size:11px; color:var(--gray-500); letter-spacing:0.04em; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .book-card-meta { display:flex; align-items:center; justify-content:space-between; }
+    .book-card-pages { font-size:10px; letter-spacing:0.1em; color:var(--gray-600); }
+    .book-status { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; padding:2px 8px; border-radius:20px; border:1px solid; }
+    .book-status.reading { color:var(--purple); border-color:rgba(167,139,250,0.35); background:rgba(167,139,250,0.08); }
+    .book-status.completed { color:var(--neon); border-color:rgba(74,222,128,0.35); background:rgba(74,222,128,0.08); }
+    .book-status.to-read { color:var(--gray-400); border-color:rgba(255,255,255,0.15); background:rgba(255,255,255,0.04); }
+    .book-upload-area { border:2px dashed rgba(255,255,255,0.1); border-radius:18px; padding:32px 20px; text-align:center; cursor:pointer; transition:all 0.2s; background:rgba(255,255,255,0.015); }
+    .book-upload-area:active { border-color:rgba(167,139,250,0.4); background:rgba(167,139,250,0.04); }
+    .book-notes-area { width:100%; background:var(--gray-800); border:1px solid var(--gray-700); border-radius:12px; color:var(--white); font-family:Arial,sans-serif; font-size:15px; padding:13px 16px; outline:none; resize:vertical; min-height:80px; }
+    .book-notes-area:focus { border-color:var(--gray-400); }
+    .book-detail-overlay { display:none; position:fixed; inset:0; z-index:810; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:flex-end; }
+    .book-detail-overlay.open { display:flex; }
+    .book-detail-modal { background:var(--gray-900); border-radius:24px 24px 0 0; border-top:1px solid rgba(255,255,255,0.08); padding:24px 20px 40px; width:100%; max-height:88vh; overflow-y:auto; animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
+    .pdf-reader-overlay { display:none; position:fixed; inset:0; z-index:900; background:var(--black); flex-direction:column; }
+    .pdf-reader-overlay.open { display:flex; }
+    .pdf-reader-topbar { display:flex; align-items:center; justify-content:space-between; padding:48px 16px 12px; background:rgba(20,20,20,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.06); flex-shrink:0; }
+    .pdf-reader-title { font-size:14px; font-weight:600; color:var(--white); flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 12px; }
+    .pdf-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--gray-300); width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.15s; }
+    .pdf-btn:active { background:rgba(255,255,255,0.18); }
+    .pdf-reader-body { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; display:flex; flex-direction:column; align-items:center; padding:12px 0; background:#0a0a0a; }
+    .pdf-reader-body canvas { max-width:100%; display:block; margin-bottom:4px; }
+    .pdf-reader-bottombar { display:flex; align-items:center; justify-content:center; gap:16px; padding:12px 16px 34px; background:rgba(20,20,20,0.95); backdrop-filter:blur(12px); border-top:1px solid rgba(255,255,255,0.06); flex-shrink:0; }
+    .pdf-page-input { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:var(--white); font-family:Arial,sans-serif; font-size:16px; font-weight:600; width:56px; text-align:center; padding:8px 4px; outline:none; }
+    .pdf-nav-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:12px; color:var(--white); width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s; }
+    .pdf-nav-btn:active { background:rgba(255,255,255,0.2); }
+    .pdf-nav-btn:disabled { opacity:0.25; pointer-events:none; }
+    .pdf-setting-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:var(--gray-400); font-family:Arial,sans-serif; font-size:12px; font-weight:600; padding:8px 10px; cursor:pointer; transition:all 0.15s; flex:1; text-align:center; }
+    .pdf-setting-btn.active { background:rgba(167,139,250,0.15); border-color:var(--purple); color:var(--purple); }
+    .pdf-setting-btn:active { transform:scale(0.96); }
+    .pdf-reader-body.theme-sepia { background:#2a2520 !important; }
+    .pdf-reader-body.theme-sepia canvas { filter:sepia(0.3) brightness(0.95); }
+    .pdf-reader-body.theme-light { background:#e8e8e8 !important; }
+    .pdf-reader-body.theme-light canvas { filter:invert(0); }
+    .pdf-bookmark-item { display:flex; align-items:center; gap:8px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,0.06); cursor:pointer; transition:opacity 0.15s; }
+    .pdf-bookmark-item:active { opacity:0.7; }
+    .pdf-bookmark-item:last-child { border-bottom:none; }
+    .books-stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+    .book-stat-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px 10px; text-align:center; }
+    .book-stat-val { font-size:24px; font-weight:300; color:var(--white); line-height:1; }
+    .book-stat-lbl { font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray-500); margin-top:5px; }
   </style>
 </head>
 
@@ -5000,6 +5055,7 @@
       <!-- HEADER (only visible in home) -->
       <div class="header">
         <div class="header-top">
+          <button onclick="openAppSettings()" style="position:absolute;right:24px;top:52px;background:transparent;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;justify-content:center;opacity:0.5;transition:opacity 0.15s;z-index:10;" title="Configuración"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
           <div class="app-name">Day Planner</div>
           <div class="header-greeting" id="header-greeting">Buenos días</div>
           <div class="header-date" id="today-date"></div>
@@ -5249,6 +5305,14 @@
             </div>
             <div class="home-menu-label">Calendario</div>
             <div class="home-menu-sub" id="hm-cal-sub">Ver eventos</div>
+          </div>
+
+          <div class="home-menu-btn wide" onclick="goTo('books')">
+            <div class="home-menu-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+            </div>
+            <div class="home-menu-label">Books</div>
+            <div class="home-menu-sub" id="hm-books-sub">0 libros</div>
           </div>
 
         </div>
@@ -6333,7 +6397,153 @@
       </div>
     </div>
 
+    <!-- BOOKS / LECTURAS -->
+    <div class="view" id="view-books">
+      <div class="section-topbar"><button class="back-btn" onclick="goHome()"></button><span class="section-topbar-title">Books</span></div>
+      <div style="padding:12px 24px 8px;"><div class="books-stats-row"><div class="book-stat-card"><div class="book-stat-val" id="book-stat-reading" style="color:var(--purple);">0</div><div class="book-stat-lbl">Leyendo</div></div><div class="book-stat-card"><div class="book-stat-val" style="color:var(--neon);" id="book-stat-done">0</div><div class="book-stat-lbl">Terminados</div></div><div class="book-stat-card"><div class="book-stat-val" id="book-stat-total">0</div><div class="book-stat-lbl">Total</div></div></div></div>
+      <div style="padding:4px 24px 16px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray-500);">Progreso general</span><span style="font-size:13px;color:var(--white);font-weight:600;" id="book-total-pct">0%</span></div><div style="height:3px;background:rgba(255,255,255,0.07);border-radius:20px;overflow:hidden;"><div id="book-total-bar" style="height:100%;border-radius:20px;background:var(--purple);width:0%;transition:width 0.7s cubic-bezier(0.16,1,0.3,1);"></div></div></div>
+      <div class="filter-bar" id="books-filter-bar"><div class="filter-chip active" onclick="setBookFilter('all',this)">Todos</div><div class="filter-chip" onclick="setBookFilter('reading',this)">Leyendo</div><div class="filter-chip" onclick="setBookFilter('to-read',this)">Por leer</div><div class="filter-chip" onclick="setBookFilter('completed',this)">Terminados</div></div>
+      <div style="padding:0 24px 20px;"><div class="book-grid" id="book-grid"></div></div>
+    </div>
+
+    <!-- BOOK ADD MODAL -->
+    <div class="modal-overlay" id="book-add-modal" onclick="if(event.target===this)closeBookAddModal()">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div class="modal-title" style="margin-bottom:0;" id="book-modal-title">Agregar libro</div><button onclick="closeBookAddModal()" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="form-group"><label class="form-label">Archivo PDF</label><div class="book-upload-area" onclick="document.getElementById('book-pdf-input').click()"><div id="book-upload-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg><div style="font-size:14px;color:var(--gray-400);margin-bottom:4px;">Toca para seleccionar PDF</div><div style="font-size:11px;color:var(--gray-700);">Se almacena en tu navegador</div></div><div id="book-upload-selected" style="display:none;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" style="margin-bottom:6px;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div style="font-size:14px;color:var(--white);" id="book-upload-filename"></div><div style="font-size:11px;color:var(--gray-500);margin-top:2px;" id="book-upload-pages"></div></div></div><input type="file" id="book-pdf-input" accept=".pdf" style="display:none" onchange="handleBookPdfSelect(event)"></div>
+        <div class="form-group"><label class="form-label">Título</label><input type="text" class="input-plain" id="book-inp-title" placeholder="Nombre del libro..."></div>
+        <div class="form-group"><label class="form-label">Autor (opcional)</label><input type="text" class="input-plain" id="book-inp-author" placeholder="Autor..."></div>
+        <div class="form-group"><label class="form-label">Estado</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><button class="cat-btn" data-val="to-read" onclick="setBookStatusBtn('to-read',this)">Por leer</button><button class="cat-btn active" data-val="reading" onclick="setBookStatusBtn('reading',this)" style="background:var(--purple-dim);border-color:var(--purple);color:var(--purple);">Leyendo</button><button class="cat-btn" data-val="completed" onclick="setBookStatusBtn('completed',this)">Terminado</button></div><input type="hidden" id="book-inp-status" value="reading"></div>
+        <div class="form-group"><label class="form-label">Notas (opcional)</label><textarea class="book-notes-area" id="book-inp-notes" placeholder="Tus notas sobre este libro..."></textarea></div>
+        <button class="btn-submit" onclick="saveBook()">Guardar libro</button>
+        <button class="btn-submit danger-btn" id="book-delete-btn" onclick="deleteCurrentBook()" style="display:none;">Eliminar libro</button>
+      </div>
+    </div>
+
+    <!-- BOOK DETAIL -->
+    <div class="book-detail-overlay" id="book-detail-overlay" onclick="if(event.target===this)closeBookDetail()">
+      <div class="book-detail-modal">
+        <div class="modal-handle"></div>
+        <div id="book-detail-cover" style="width:100%;height:200px;border-radius:16px;background:linear-gradient(145deg,rgba(167,139,250,0.1),rgba(74,158,255,0.06));margin-bottom:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;"><canvas id="book-detail-canvas" style="max-height:100%;max-width:100%;"></canvas></div>
+        <div style="font-size:21px;font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.3;" id="book-detail-title"></div>
+        <div style="font-size:14px;color:var(--gray-500);margin-bottom:14px;" id="book-detail-author"></div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray-500);">Progreso</span><span style="font-size:14px;font-weight:600;color:var(--white);" id="book-detail-pct">0%</span></div><div style="height:4px;background:rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;margin-bottom:8px;"><div id="book-detail-bar" style="height:100%;border-radius:20px;background:var(--purple);width:0%;transition:width 0.5s;"></div></div><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--gray-600);" id="book-detail-pages">Página 0 de 0</span><span class="book-status reading" id="book-detail-status-badge">Leyendo</span></div></div>
+        <div id="book-detail-notes-wrap" style="margin-bottom:16px;"><div style="font-size:11px;letter-spacing:0.2em;color:var(--gray-600);text-transform:uppercase;margin-bottom:6px;">Notas</div><div style="font-size:14px;color:var(--gray-300);line-height:1.6;background:rgba(255,255,255,0.03);border-radius:12px;padding:12px 14px;" id="book-detail-notes"></div></div>
+        <div class="detail-actions"><button class="detail-btn edit" onclick="openBookReader()" id="book-detail-read-btn" style="flex:2;">Leer PDF</button><button class="detail-btn close-btn" onclick="editBookFromDetail()" style="flex:1;">Editar</button><button class="detail-btn close-btn" onclick="closeBookDetail()" style="flex:1;">Cerrar</button></div>
+      </div>
+    </div>
+
+    <!-- PDF READER -->
+    <div class="pdf-reader-overlay" id="pdf-reader-overlay">
+      <div class="pdf-reader-topbar">
+        <button class="pdf-btn" onclick="closePdfReader()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="pdf-reader-title" id="pdf-reader-title">—</div>
+        <div style="display:flex;gap:6px;">
+          <button class="pdf-btn" onclick="toggleReaderSettings()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+          <button class="pdf-btn" onclick="toggleBookmarkPanel()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="height:2px;background:rgba(255,255,255,0.06);flex-shrink:0;"><div id="pdf-progress-bar" style="height:100%;background:var(--purple);width:0%;transition:width 0.3s;"></div></div>
+      <div class="pdf-reader-body" id="pdf-reader-body"></div>
+      <!-- Settings panel (hidden by default) -->
+      <div id="pdf-settings-panel" style="display:none;position:absolute;top:90px;left:12px;right:12px;background:var(--gray-900);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:20px;z-index:10;animation:slideUp 0.2s ease;">
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-500);margin-bottom:14px;">Configuración del lector</div>
+        <!-- Zoom -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:var(--white);">Zoom</span><span style="font-size:13px;color:var(--purple);font-weight:600;" id="pdf-zoom-label">100%</span></div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="setPdfZoom(0.75)" class="pdf-setting-btn" id="pz-75">75%</button>
+            <button onclick="setPdfZoom(1)" class="pdf-setting-btn active" id="pz-100">100%</button>
+            <button onclick="setPdfZoom(1.25)" class="pdf-setting-btn" id="pz-125">125%</button>
+            <button onclick="setPdfZoom(1.5)" class="pdf-setting-btn" id="pz-150">150%</button>
+            <button onclick="setPdfZoom(2)" class="pdf-setting-btn" id="pz-200">200%</button>
+          </div>
+        </div>
+        <!-- Scroll mode -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:13px;color:var(--white);margin-bottom:8px;">Modo de vista</div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="setPdfScrollMode('page')" class="pdf-setting-btn active" id="psm-page">Página</button>
+            <button onclick="setPdfScrollMode('scroll')" class="pdf-setting-btn" id="psm-scroll">Scroll continuo</button>
+          </div>
+        </div>
+        <!-- Brightness -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:var(--white);">Brillo</span><span style="font-size:13px;color:var(--gray-400);" id="pdf-brightness-label">100%</span></div>
+          <input type="range" id="pdf-brightness" min="30" max="100" value="100" oninput="setPdfBrightness(this.value)" style="width:100%;accent-color:var(--purple);">
+        </div>
+        <!-- Theme -->
+        <div>
+          <div style="font-size:13px;color:var(--white);margin-bottom:8px;">Tema</div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="setPdfTheme('dark')" class="pdf-setting-btn active" id="pt-dark" style="flex:1;">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#0a0a0a;border:1.5px solid rgba(255,255,255,0.2);vertical-align:middle;margin-right:4px;"></span>Oscuro
+            </button>
+            <button onclick="setPdfTheme('sepia')" class="pdf-setting-btn" id="pt-sepia" style="flex:1;">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#f4ecd8;border:1.5px solid rgba(255,255,255,0.1);vertical-align:middle;margin-right:4px;"></span>Sepia
+            </button>
+            <button onclick="setPdfTheme('light')" class="pdf-setting-btn" id="pt-light" style="flex:1;">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:#ffffff;border:1.5px solid rgba(255,255,255,0.1);vertical-align:middle;margin-right:4px;"></span>Claro
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Bookmarks panel -->
+      <div id="pdf-bookmarks-panel" style="display:none;position:absolute;top:90px;right:12px;width:260px;background:var(--gray-900);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:16px;z-index:10;animation:slideUp 0.2s ease;max-height:60vh;overflow-y:auto;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-500);">Marcadores</span>
+          <button onclick="addBookmark()" style="background:var(--purple);border:none;border-radius:8px;color:var(--white);font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.06em;padding:5px 10px;cursor:pointer;">+ Marcar</button>
+        </div>
+        <div id="pdf-bookmarks-list"></div>
+      </div>
+      <div class="pdf-reader-bottombar" style="flex-direction:column;gap:10px;padding:10px 16px 34px;">
+        <div style="width:100%;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:10px;color:var(--gray-600);flex-shrink:0;min-width:20px;text-align:right;" id="pdf-slider-cur">1</span>
+          <input type="range" id="pdf-page-slider" min="1" max="1" value="1" oninput="pdfSliderChange(this.value)" style="flex:1;accent-color:var(--purple);height:20px;">
+          <span style="font-size:10px;color:var(--gray-600);flex-shrink:0;min-width:20px;" id="pdf-slider-total">1</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <button class="pdf-nav-btn" id="pdf-prev-btn" onclick="pdfPrevPage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <input type="number" class="pdf-page-input" id="pdf-page-input" min="1" value="1" onchange="pdfGoToPage(this.value)">
+            <span style="font-size:14px;color:var(--gray-500);">/ <span id="pdf-total-pages">0</span></span>
+          </div>
+          <button class="pdf-nav-btn" id="pdf-next-btn" onclick="pdfNextPage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- APP SETTINGS MODAL -->
+    <div class="modal-overlay" id="app-settings-modal" onclick="if(event.target===this)closeAppSettings()">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div class="modal-title" style="margin-bottom:0;">Configuración</div>
+          <button onclick="closeAppSettings()" style="background:var(--white);border:none;border-radius:10px;color:var(--gray-600);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-500);margin-bottom:12px;">Backup &amp; Restore</div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:13px;color:var(--gray-300);line-height:1.6;margin-bottom:14px;">Exporta todos tus datos (tareas, hábitos, eventos, wallet, gym, books, sueño, metas) a un archivo JSON. Importa para restaurar.</div>
+          <div style="display:flex;gap:10px;">
+            <button onclick="exportFullBackup()" style="flex:1;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:12px;color:var(--neon);font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:13px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.15s;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar</button>
+            <button onclick="document.getElementById('full-import-input').click()" style="flex:1;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);border-radius:12px;color:var(--teal);font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:13px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.15s;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar</button>
+          </div>
+          <input type="file" id="full-import-input" accept=".json" style="display:none" onchange="importFullBackup(event)">
+          <div id="settings-backup-info" style="margin-top:10px;font-size:11px;color:var(--gray-600);text-align:center;"></div>
+        </div>
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-500);margin-bottom:12px;">Danger Zone</div>
+        <div style="background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-radius:16px;padding:16px;">
+          <div style="font-size:13px;color:var(--gray-400);line-height:1.6;margin-bottom:12px;">Elimina todos los datos de la app. Esta acción no se puede deshacer.</div>
+          <button onclick="clearAllData()" style="width:100%;background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);border-radius:12px;color:var(--danger);font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:13px;cursor:pointer;">Borrar todos los datos</button>
+        </div>
+      </div>
+    </div>
+
     <div class="toast" id="toast"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <script>
       /* ── BG CANVAS ── */
@@ -6392,6 +6602,7 @@
         else if (tab === 'calendar') { actionBtn.style.display = 'flex'; actionLabel.textContent = 'Nuevo evento'; }
         else if (tab === 'wallet') { actionBtn.style.display = 'flex'; actionLabel.textContent = '+ Movimiento'; }
         else if (tab === 'gym') { actionBtn.style.display = 'flex'; actionLabel.textContent = 'Entreno'; }
+        else if (tab === 'books') { actionBtn.style.display = 'flex'; actionLabel.textContent = 'Add Book'; }
         else { actionBtn.style.display = 'none'; }
         if (tab === 'habits') { renderHabits(); renderHabitCharts(); renderHabitMatrix(); renderSleepUI(); renderWorkoutUI(); }
         else if (tab === 'calendar') { renderCalendar(); }
@@ -6399,6 +6610,7 @@
         else if (tab === 'today') { renderTodayFull(); }
         else if (tab === 'wallet') { renderWallet(); }
         else if (tab === 'gym') { renderGym(); }
+        else if (tab === 'books') { renderBooks(); }
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
       function goHome() {
@@ -6416,6 +6628,7 @@
         if (currentTab === 'calendar') openEventModal();
         else if (currentTab === 'wallet') openWalletTxModal(null);
         else if (currentTab === 'gym') startNewWorkout();
+        else if (currentTab === 'books') openBookAddModal();
         else openModal();
       }
       function fabAction() { bottomAction(); }
@@ -6461,6 +6674,7 @@
         document.getElementById('hm-habits-sub').textContent = habPct + '% hoy (' + habDone + '/' + habTotal + ')';
         document.getElementById('hm-cal-sub').textContent = todayEvts.length > 0 ? todayEvts.length + ' evento' + (todayEvts.length !== 1 ? 's' : '') + ' hoy' : 'Ver eventos';
         renderHomeTodayPreview(todayC, todayEvts);
+        var _bkR=(typeof BOOKS!=='undefined'?BOOKS:[]).filter(function(b){return b.status==='reading';}).length;var _bkT=(typeof BOOKS!=='undefined'?BOOKS:[]).length;var _bkEl=document.getElementById('hm-books-sub');if(_bkEl)_bkEl.textContent=_bkR>0?_bkR+' leyendo':_bkT+' libro'+(_bkT!==1?'s':'');
         updateWalletHome();
       }
 
@@ -6822,9 +7036,9 @@
       /* ── PERFORMANCE GOALS ── */
       const GOALS_KEY = 'do_perf_goals_v2';
       let GOALS = {
-        day: { tasks: 3, habits: 80, sleep: 8, spend: 50, workout: 1 },
-        week: { tasks: 15, habits: 80, sleep: 8, spend: 300, workout: 4 },
-        month: { tasks: 60, habits: 80, sleep: 8, spend: 1200, workout: 16 }
+        day: { tasks: 3, habits: 80, sleep: 8, spend: 50, workout: 1, reading: 20 },
+        week: { tasks: 15, habits: 80, sleep: 8, spend: 300, workout: 4, reading: 100 },
+        month: { tasks: 60, habits: 80, sleep: 8, spend: 1200, workout: 16, reading: 400 }
       };
       let goalPeriod = 'day';
 
@@ -6900,6 +7114,13 @@
           html += '<span id="gfv-workout" style="font-size:18px;font-weight:600;color:var(--white);min-width:28px;text-align:right;">' + g.workout + '</span>';
           html += '</div></div>';
         }
+        // Reading pages
+        var readMax = {day:100, week:500, month:2000};
+        html += '<div class="form-group"><label class="form-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Páginas leídas ' + suf + '</label>';
+        html += '<div style="display:flex;align-items:center;gap:10px;">';
+        html += '<input type="range" id="gf-reading" min="1" max="' + readMax[goalPeriod] + '" step="1" value="' + (g.reading||20) + '" oninput="document.getElementById(\'gfv-reading\').textContent=this.value" style="flex:1;accent-color:var(--white);">';
+        html += '<span id="gfv-reading" style="font-size:18px;font-weight:600;color:var(--white);min-width:36px;text-align:right;">' + (g.reading||20) + '</span>';
+        html += '</div></div>';
         document.getElementById('goals-form-body').innerHTML = html;
       }
 
@@ -6911,6 +7132,8 @@
         g.spend = parseFloat(document.getElementById('gf-spend').value) || 0;
         var wo = document.getElementById('gf-workout');
         if (wo) g.workout = parseInt(wo.value) || g.workout;
+        var rd = document.getElementById('gf-reading');
+        if (rd) g.reading = parseInt(rd.value) || g.reading;
         try { localStorage.setItem(GOALS_KEY, JSON.stringify(GOALS)); } catch (e) { }
         closeGoalsModal();
         toast('Metas guardadas ✓');
@@ -7066,6 +7289,11 @@
         var hasWO = WORKOUT_LOG[TODAY];
         return (hasGym || hasWO) ? 100 : 0;
       }
+      /* Reading score functions */
+      function _getPagesReadInRange(days){var total=0;if(typeof BOOKS==='undefined')return 0;BOOKS.forEach(function(b){if(!b.readingLog)return;days.forEach(function(d){if(b.readingLog[d])total+=b.readingLog[d];});});return total;}
+      function getDayReadingPct(){var goal=Math.max(1,(GOALS.day&&GOALS.day.reading)||20);var pages=_getPagesReadInRange([TODAY]);return Math.min(100,Math.round(pages/goal*100));}
+      function getWeekReadingPct(){var days=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().split('T')[0]);}var goal=Math.max(1,(GOALS.week&&GOALS.week.reading)||100);return Math.min(100,Math.round(_getPagesReadInRange(days)/goal*100));}
+      function getMonthReadingPct(){var days=[];var now=new Date();var start=new Date(now.getFullYear(),now.getMonth(),1);var d=new Date(start);while(d<=now){days.push(d.toISOString().split('T')[0]);d.setDate(d.getDate()+1);}var goal=Math.max(1,(GOALS.month&&GOALS.month.reading)||400);return Math.min(100,Math.round(_getPagesReadInRange(days)/goal*100));}
       /* ── Monthly scores ── */
       function getMonthRange() {
         var now = new Date();
@@ -7143,14 +7371,14 @@
         var userData, labels;
 
         if (radarPeriod === 'day') {
-          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entreno'];
-          userData = [getDayTasksPct(), getDayHabitsPct(), getDaySleepPct(), getDaySpendPct(), getDayWorkoutPct()];
+          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entreno', 'Books'];
+          userData = [getDayTasksPct(), getDayHabitsPct(), getDaySleepPct(), getDaySpendPct(), getDayWorkoutPct(), getDayReadingPct()];
         } else if (radarPeriod === 'week') {
-          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entrenos'];
-          userData = [getTasksWeekScorePct(), getHabitsGoalPct(), getSleepGoalPct(), getSpendScorePct(), getWorkoutScorePct()];
+          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entrenos', 'Books'];
+          userData = [getTasksWeekScorePct(), getHabitsGoalPct(), getSleepGoalPct(), getSpendScorePct(), getWorkoutScorePct(), getWeekReadingPct()];
         } else {
-          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entrenos'];
-          userData = [getMonthTasksPct(), getMonthHabitsPct(), getMonthSleepPct(), getMonthSpendPct(), getMonthWorkoutPct()];
+          labels = ['Tareas', 'Hábitos', 'Sueño', 'Gasto', 'Entrenos', 'Books'];
+          userData = [getMonthTasksPct(), getMonthHabitsPct(), getMonthSleepPct(), getMonthSpendPct(), getMonthWorkoutPct(), getMonthReadingPct()];
         }
 
         const goalData = new Array(userData.length).fill(100);
@@ -7940,6 +8168,13 @@ ${item.done ? '<span style="font-size:10px;letter-spacing:0.1em;text-transform:u
       }
 
       /* ── EXPORT / IMPORT ── */
+      /* ── APP SETTINGS ── */
+      function openAppSettings(){document.getElementById('app-settings-modal').classList.add('open');var info=document.getElementById('settings-backup-info');var keys=['do_tasks_v1','do_habits_v2','do_events_v1','do_sleep_v1','do_wallet_v1','do_buckets_v1','do_gym_v1','do_books_v1','do_book_pdfs_v1','do_perf_goals_v2','do_workout_v1','do_wallet_pin_v1'];var total=0;keys.forEach(function(k){var d=localStorage.getItem(k);if(d)total+=d.length;});info.textContent='Datos almacenados: '+(total>1024*1024?(total/1024/1024).toFixed(1)+' MB':(total/1024).toFixed(0)+' KB');}
+      function closeAppSettings(){document.getElementById('app-settings-modal').classList.remove('open');}
+      function exportFullBackup(){var data={version:2,exportedAt:new Date().toISOString(),tasks:TASKS,habits:HABITS,events:EVENTS,sleep:SLEEP_LOG,wallet_txs:WALLET_TXS,wallet_buckets:WALLET_BUCKETS,gym_sessions:GYM_SESSIONS,gym_custom_ex:GYM_CUSTOM_EX,books:BOOKS,book_pdfs:bookPdfData,goals:GOALS,workout_log:WORKOUT_LOG};var blob=new Blob([JSON.stringify(data)],{type:'application/json'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='dayplanner-full-backup-'+TODAY+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('Backup completo exportado ✓');}
+      function importFullBackup(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var data=JSON.parse(ev.target.result);if(data.tasks){TASKS=data.tasks;save();}if(data.habits){HABITS=data.habits;saveHabits();}if(data.events){EVENTS=data.events;saveEvents();}if(data.sleep){SLEEP_LOG=data.sleep;saveSleep();}if(data.wallet_txs){WALLET_TXS=data.wallet_txs;saveWallet();}if(data.wallet_buckets){WALLET_BUCKETS=data.wallet_buckets;saveWalletBuckets();}if(data.gym_sessions){GYM_SESSIONS=data.gym_sessions;saveGym();}if(data.gym_custom_ex){GYM_CUSTOM_EX=data.gym_custom_ex;saveGymEx();}if(data.books){BOOKS=data.books;saveBooks();}if(data.book_pdfs){bookPdfData=data.book_pdfs;saveBookPdfs();}if(data.goals){GOALS=data.goals;try{localStorage.setItem(GOALS_KEY,JSON.stringify(GOALS));}catch(x){}}if(data.workout_log){WORKOUT_LOG=data.workout_log;saveWorkoutData();}renderAll();toast('Backup restaurado ✓');closeAppSettings();}catch(err){toast('Archivo inválido ✗');}};reader.readAsText(file);e.target.value='';}
+      function clearAllData(){if(!confirm('¿Estás seguro? Se borrarán TODOS los datos.'))return;if(!confirm('ÚLTIMA OPORTUNIDAD. ¿Borrar todo?'))return;['do_tasks_v1','do_habits_v2','do_events_v1','do_sleep_v1','do_wallet_v1','do_buckets_v1','do_gym_v1','do_gym_ex_v1','do_books_v1','do_book_pdfs_v1','do_perf_goals_v2','do_workout_v1','do_wallet_pin_v1'].forEach(function(k){localStorage.removeItem(k);});location.reload();}
+
       function exportBackup() {
         const data = { tasks: TASKS, habits: HABITS, events: EVENTS, exportedAt: new Date().toISOString() };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -9343,8 +9578,52 @@ ${dur}
         if (sub) { const w = getGymWeekCount(); sub.textContent = `${w} entreno${w !== 1 ? 's' : ''}/sem`; }
       }
 
+      /* ══════════════ BOOKS / LECTURAS ══════════════ */
+      const BOOKS_KEY='do_books_v1',BOOK_PDF_KEY='do_book_pdfs_v1';
+      let BOOKS=[],bookPdfData={},bookFilter='all',editingBookId=null,viewingBookId=null;
+      let pdfDocRef=null,pdfCurrentPage=1,pdfTotalPages=0,pdfZoomLevel=1,pendingPdfBase64=null,pendingPdfPages=0;
+      function loadBooks(){try{const d=localStorage.getItem(BOOKS_KEY);if(d)BOOKS=JSON.parse(d);}catch(e){BOOKS=[];}try{const d=localStorage.getItem(BOOK_PDF_KEY);if(d)bookPdfData=JSON.parse(d);}catch(e){bookPdfData={};}}
+      function saveBooks(){try{localStorage.setItem(BOOKS_KEY,JSON.stringify(BOOKS));}catch(e){}}
+      function saveBookPdfs(){try{localStorage.setItem(BOOK_PDF_KEY,JSON.stringify(bookPdfData));}catch(e){console.warn('PDF storage limit');}}
+      function base64ToUint8(b64){const raw=atob(b64);const arr=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);return arr;}
+      function handleBookPdfSelect(e){const file=e.target.files[0];if(!file)return;if(file.size>50*1024*1024){toast('Archivo muy grande (max 50MB)');return;}const reader=new FileReader();reader.onload=function(ev){pendingPdfBase64=ev.target.result;const fname=file.name.replace(/\.pdf$/i,'');const ti=document.getElementById('book-inp-title');if(!ti.value)ti.value=fname;document.getElementById('book-upload-placeholder').style.display='none';document.getElementById('book-upload-selected').style.display='';document.getElementById('book-upload-filename').textContent=file.name;if(typeof pdfjsLib!=='undefined'){const td=base64ToUint8(pendingPdfBase64.split(',')[1]);pdfjsLib.getDocument({data:td}).promise.then(function(doc){pendingPdfPages=doc.numPages;document.getElementById('book-upload-pages').textContent=doc.numPages+' páginas';}).catch(function(){document.getElementById('book-upload-pages').textContent='PDF cargado';});}};reader.readAsDataURL(file);}
+      function setBookFilter(f,el){bookFilter=f;document.querySelectorAll('#books-filter-bar .filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderBooks();}
+      function setBookStatusBtn(val,el){document.getElementById('book-inp-status').value=val;document.querySelectorAll('#book-add-modal .cat-btn').forEach(b=>{b.classList.remove('active');b.style.background='';b.style.borderColor='';b.style.color='';});el.classList.add('active');if(val==='reading'){el.style.background='var(--purple-dim)';el.style.borderColor='var(--purple)';el.style.color='var(--purple)';}else if(val==='completed'){el.style.background='var(--neon-dim)';el.style.borderColor='var(--neon)';el.style.color='var(--neon)';}else{el.style.background='var(--gray-700)';el.style.borderColor='var(--gray-500)';el.style.color='var(--white)';}}
+      function openBookAddModal(bookId){editingBookId=bookId||null;pendingPdfBase64=null;pendingPdfPages=0;document.getElementById('book-modal-title').textContent=bookId?'Editar libro':'Agregar libro';document.getElementById('book-delete-btn').style.display=bookId?'block':'none';document.getElementById('book-upload-placeholder').style.display='';document.getElementById('book-upload-selected').style.display='none';document.getElementById('book-pdf-input').value='';if(bookId){const b=BOOKS.find(x=>x.id===bookId);if(!b)return;document.getElementById('book-inp-title').value=b.title;document.getElementById('book-inp-author').value=b.author||'';document.getElementById('book-inp-notes').value=b.notes||'';document.getElementById('book-inp-status').value=b.status||'reading';document.querySelectorAll('#book-add-modal .cat-btn').forEach(btn=>{const a=btn.dataset.val===b.status;btn.classList.toggle('active',a);btn.style.background='';btn.style.borderColor='';btn.style.color='';if(a){if(b.status==='reading'){btn.style.background='var(--purple-dim)';btn.style.borderColor='var(--purple)';btn.style.color='var(--purple)';}else if(b.status==='completed'){btn.style.background='var(--neon-dim)';btn.style.borderColor='var(--neon)';btn.style.color='var(--neon)';}else{btn.style.background='var(--gray-700)';btn.style.borderColor='var(--gray-500)';btn.style.color='var(--white)';}}});if(bookPdfData[bookId]){document.getElementById('book-upload-placeholder').style.display='none';document.getElementById('book-upload-selected').style.display='';document.getElementById('book-upload-filename').textContent=b.title+'.pdf';document.getElementById('book-upload-pages').textContent=(b.totalPages||'?')+' páginas';}}else{document.getElementById('book-inp-title').value='';document.getElementById('book-inp-author').value='';document.getElementById('book-inp-notes').value='';document.getElementById('book-inp-status').value='reading';document.querySelectorAll('#book-add-modal .cat-btn').forEach((b,i)=>{b.classList.toggle('active',i===1);b.style.background='';b.style.borderColor='';b.style.color='';if(i===1){b.style.background='var(--purple-dim)';b.style.borderColor='var(--purple)';b.style.color='var(--purple)';}});}document.getElementById('book-add-modal').classList.add('open');setTimeout(()=>document.getElementById('book-inp-title').focus(),350);}
+      function closeBookAddModal(){document.getElementById('book-add-modal').classList.remove('open');editingBookId=null;}
+      function saveBook(){const title=document.getElementById('book-inp-title').value.trim();if(!title){toast('Escribe un título');return;}const author=document.getElementById('book-inp-author').value.trim();const status=document.getElementById('book-inp-status').value;const notes=document.getElementById('book-inp-notes').value.trim();if(editingBookId){const idx=BOOKS.findIndex(b=>b.id===editingBookId);if(idx>=0){BOOKS[idx].title=title;BOOKS[idx].author=author;BOOKS[idx].status=status;BOOKS[idx].notes=notes;if(pendingPdfBase64){bookPdfData[editingBookId]=pendingPdfBase64;BOOKS[idx].totalPages=pendingPdfPages||BOOKS[idx].totalPages;BOOKS[idx].hasPdf=true;saveBookPdfs();}}toast('Libro actualizado ✓');}else{const id=uid();BOOKS.unshift({id,title,author,status,notes,currentPage:0,totalPages:pendingPdfPages||0,hasPdf:!!pendingPdfBase64,createdAt:new Date().toISOString(),lastReadAt:null});if(pendingPdfBase64){bookPdfData[id]=pendingPdfBase64;saveBookPdfs();}toast('Libro agregado ✓');}saveBooks();closeBookAddModal();renderBooks();updateHomeMenu();}
+      function deleteCurrentBook(){if(!editingBookId)return;delete bookPdfData[editingBookId];BOOKS=BOOKS.filter(b=>b.id!==editingBookId);saveBooks();saveBookPdfs();closeBookAddModal();closeBookDetail();renderBooks();updateHomeMenu();toast('Libro eliminado');}
+      function openBookDetail(id){const b=BOOKS.find(x=>x.id===id);if(!b)return;viewingBookId=id;document.getElementById('book-detail-title').textContent=b.title;document.getElementById('book-detail-author').textContent=b.author||'Sin autor';const pct=b.totalPages>0?Math.round(b.currentPage/b.totalPages*100):0;document.getElementById('book-detail-pct').textContent=pct+'%';document.getElementById('book-detail-bar').style.width=pct+'%';document.getElementById('book-detail-pages').textContent='Página '+(b.currentPage||0)+' de '+(b.totalPages||'?');const badge=document.getElementById('book-detail-status-badge');badge.className='book-status '+b.status;badge.textContent={reading:'Leyendo','to-read':'Por leer',completed:'Terminado'}[b.status]||b.status;const nw=document.getElementById('book-detail-notes-wrap');if(b.notes){nw.style.display='';document.getElementById('book-detail-notes').textContent=b.notes;}else{nw.style.display='none';}document.getElementById('book-detail-read-btn').style.display=b.hasPdf?'':'none';const canvas=document.getElementById('book-detail-canvas');const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);if(b.hasPdf&&bookPdfData[b.id]&&typeof pdfjsLib!=='undefined'){const data=base64ToUint8(bookPdfData[b.id].split(',')[1]);pdfjsLib.getDocument({data}).promise.then(doc=>{doc.getPage(1).then(page=>{const vp=page.getViewport({scale:0.6});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(()=>{});}document.getElementById('book-detail-overlay').classList.add('open');}
+      function closeBookDetail(){document.getElementById('book-detail-overlay').classList.remove('open');viewingBookId=null;}
+      function editBookFromDetail(){const id=viewingBookId;closeBookDetail();if(id)openBookAddModal(id);}
+      function openBookReader(){var id=viewingBookId;if(!id)return;var b=BOOKS.find(function(x){return x.id===id;});if(!b||!b.hasPdf)return;var data=bookPdfData[id];if(!data){toast('PDF no encontrado');return;}closeBookDetail();document.getElementById('pdf-reader-title').textContent=b.title;document.getElementById('pdf-reader-body').innerHTML='<div style="color:var(--gray-600);padding:60px 24px;text-align:center;font-size:14px;">Cargando PDF...</div>';document.getElementById('pdf-settings-panel').style.display='none';document.getElementById('pdf-bookmarks-panel').style.display='none';var typed=base64ToUint8(data.split(',')[1]);pdfjsLib.getDocument({data:typed}).promise.then(function(doc){pdfDocRef=doc;pdfTotalPages=doc.numPages;pdfCurrentPage=b.currentPage>0?Math.min(b.currentPage,pdfTotalPages):1;document.getElementById('pdf-total-pages').textContent=pdfTotalPages;document.getElementById('pdf-page-input').max=pdfTotalPages;document.getElementById('pdf-page-input').value=pdfCurrentPage;pdfZoomLevel=1;pdfScrollMode='page';pdfBrightness=100;pdfTheme='dark';updatePdfSettingsUI();if(pdfScrollMode==='scroll'){renderPdfAllPages();}else{renderPdfPage();}}).catch(function(){document.getElementById('pdf-reader-body').innerHTML='<div style="color:var(--danger);padding:60px 24px;text-align:center;">Error al cargar el PDF</div>';});document.getElementById('pdf-reader-overlay').classList.add('open');}
+      function openBookReaderDirect(id){viewingBookId=id;var b=BOOKS.find(function(x){return x.id===id;});if(!b)return;if(!b.hasPdf||!bookPdfData[id]){openBookDetail(id);return;}openBookReader();}
+      var pdfScrollMode='page',pdfBrightness=100,pdfTheme='dark';
+      function renderPdfPage(){if(!pdfDocRef)return;pdfDocRef.getPage(pdfCurrentPage).then(function(page){var container=document.getElementById('pdf-reader-body');var cw=container.clientWidth-16;var bvp=page.getViewport({scale:1});var scale=(cw/bvp.width)*pdfZoomLevel;var vp=page.getViewport({scale:scale});container.innerHTML='';var canvas=document.createElement('canvas');canvas.width=vp.width;canvas.height=vp.height;canvas.style.maxWidth='100%';container.appendChild(canvas);page.render({canvasContext:canvas.getContext('2d'),viewport:vp});document.getElementById('pdf-page-input').value=pdfCurrentPage;document.getElementById('pdf-prev-btn').disabled=pdfCurrentPage<=1;document.getElementById('pdf-next-btn').disabled=pdfCurrentPage>=pdfTotalPages;updatePdfProgress();savePdfProgress();});}
+      function renderPdfAllPages(){if(!pdfDocRef)return;var container=document.getElementById('pdf-reader-body');container.innerHTML='';var cw=container.clientWidth-16;for(var i=1;i<=pdfTotalPages;i++){(function(pageNum){pdfDocRef.getPage(pageNum).then(function(page){var bvp=page.getViewport({scale:1});var scale=(cw/bvp.width)*pdfZoomLevel;var vp=page.getViewport({scale:scale});var canvas=document.createElement('canvas');canvas.width=vp.width;canvas.height=vp.height;canvas.style.maxWidth='100%';canvas.style.marginBottom='8px';canvas.dataset.page=pageNum;var existing=container.querySelectorAll('canvas');var inserted=false;for(var j=0;j<existing.length;j++){if(parseInt(existing[j].dataset.page)>pageNum){container.insertBefore(canvas,existing[j]);inserted=true;break;}}if(!inserted)container.appendChild(canvas);page.render({canvasContext:canvas.getContext('2d'),viewport:vp});});})(i);}document.getElementById('pdf-prev-btn').disabled=true;document.getElementById('pdf-next-btn').disabled=true;updatePdfProgress();}
+      function updatePdfProgress(){var pct=pdfTotalPages>0?Math.round(pdfCurrentPage/pdfTotalPages*100):0;var bar=document.getElementById('pdf-progress-bar');if(bar)bar.style.width=pct+'%';var slider=document.getElementById('pdf-page-slider');if(slider){slider.max=pdfTotalPages;slider.value=pdfCurrentPage;}var sc=document.getElementById('pdf-slider-cur');if(sc)sc.textContent=pdfCurrentPage;var st=document.getElementById('pdf-slider-total');if(st)st.textContent=pdfTotalPages;}
+      function savePdfProgress(){if(viewingBookId){var b=BOOKS.find(function(x){return x.id===viewingBookId;});if(b){b.currentPage=pdfCurrentPage;b.lastReadAt=new Date().toISOString();if(!b.readingLog)b.readingLog={};if(!b.readingLog[TODAY])b.readingLog[TODAY]=0;b.readingLog[TODAY]++;if(pdfCurrentPage>=pdfTotalPages)b.status='completed';saveBooks();}}}
+      function pdfSliderChange(val){var p=parseInt(val);if(p>=1&&p<=pdfTotalPages){pdfCurrentPage=p;if(pdfScrollMode==='page'){renderPdfPage();}else{var target=document.querySelector('#pdf-reader-body canvas[data-page="'+p+'"]');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});savePdfProgress();updatePdfProgress();}}}
+      function pdfNextPage(){if(pdfCurrentPage<pdfTotalPages){pdfCurrentPage++;if(pdfScrollMode==='page')renderPdfPage();else{document.getElementById('pdf-page-input').value=pdfCurrentPage;savePdfProgress();}}}
+      function pdfPrevPage(){if(pdfCurrentPage>1){pdfCurrentPage--;if(pdfScrollMode==='page')renderPdfPage();else{document.getElementById('pdf-page-input').value=pdfCurrentPage;savePdfProgress();}}}
+      function pdfGoToPage(n){var p=parseInt(n);if(p>=1&&p<=pdfTotalPages){pdfCurrentPage=p;if(pdfScrollMode==='page'){renderPdfPage();}else{var target=document.querySelector('#pdf-reader-body canvas[data-page="'+p+'"]');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});savePdfProgress();}}}
+      function togglePdfZoom(){pdfZoomLevel=pdfZoomLevel>=2?1:pdfZoomLevel+0.5;updatePdfSettingsUI();if(pdfScrollMode==='scroll')renderPdfAllPages();else renderPdfPage();toast('Zoom: '+Math.round(pdfZoomLevel*100)+'%');}
+      function setPdfZoom(z){pdfZoomLevel=z;updatePdfSettingsUI();if(pdfScrollMode==='scroll')renderPdfAllPages();else renderPdfPage();}
+      function setPdfScrollMode(mode){pdfScrollMode=mode;updatePdfSettingsUI();if(mode==='scroll')renderPdfAllPages();else renderPdfPage();}
+      function setPdfBrightness(v){pdfBrightness=parseInt(v);document.getElementById('pdf-brightness-label').textContent=v+'%';document.getElementById('pdf-reader-body').style.filter='brightness('+v/100+')';}
+      function setPdfTheme(t){pdfTheme=t;var body=document.getElementById('pdf-reader-body');body.classList.remove('theme-sepia','theme-light');if(t==='sepia')body.classList.add('theme-sepia');else if(t==='light')body.classList.add('theme-light');updatePdfSettingsUI();}
+      function updatePdfSettingsUI(){document.getElementById('pdf-zoom-label').textContent=Math.round(pdfZoomLevel*100)+'%';['75','100','125','150','200'].forEach(function(v){var el=document.getElementById('pz-'+v);if(el)el.classList.toggle('active',pdfZoomLevel===parseFloat(v)/100);});['page','scroll'].forEach(function(v){var el=document.getElementById('psm-'+v);if(el)el.classList.toggle('active',pdfScrollMode===v);});['dark','sepia','light'].forEach(function(v){var el=document.getElementById('pt-'+v);if(el)el.classList.toggle('active',pdfTheme===v);});}
+      function toggleReaderSettings(){var p=document.getElementById('pdf-settings-panel');document.getElementById('pdf-bookmarks-panel').style.display='none';p.style.display=p.style.display==='none'?'':'none';}
+      function toggleBookmarkPanel(){var p=document.getElementById('pdf-bookmarks-panel');document.getElementById('pdf-settings-panel').style.display='none';p.style.display=p.style.display==='none'?'':'none';renderBookmarks();}
+      function addBookmark(){if(!viewingBookId)return;var b=BOOKS.find(function(x){return x.id===viewingBookId;});if(!b)return;if(!b.bookmarks)b.bookmarks=[];var exists=b.bookmarks.some(function(bm){return bm.page===pdfCurrentPage;});if(exists){toast('Ya tienes un marcador en esta página');return;}b.bookmarks.push({page:pdfCurrentPage,label:'Página '+pdfCurrentPage,createdAt:new Date().toISOString()});saveBooks();renderBookmarks();toast('Marcador añadido ✓');}
+      function removeBookmark(page){if(!viewingBookId)return;var b=BOOKS.find(function(x){return x.id===viewingBookId;});if(!b||!b.bookmarks)return;b.bookmarks=b.bookmarks.filter(function(bm){return bm.page!==page;});saveBooks();renderBookmarks();}
+      function goToBookmark(page){pdfCurrentPage=page;document.getElementById('pdf-bookmarks-panel').style.display='none';if(pdfScrollMode==='page')renderPdfPage();else pdfGoToPage(page);}
+      function renderBookmarks(){var el=document.getElementById('pdf-bookmarks-list');if(!viewingBookId){el.innerHTML='';return;}var b=BOOKS.find(function(x){return x.id===viewingBookId;});if(!b||!b.bookmarks||!b.bookmarks.length){el.innerHTML='<div style="font-size:13px;color:var(--gray-700);text-align:center;padding:16px 0;">Sin marcadores aún</div>';return;}el.innerHTML=b.bookmarks.sort(function(a,c){return a.page-c.page;}).map(function(bm){return '<div class="pdf-bookmark-item" onclick="goToBookmark('+bm.page+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span style="flex:1;font-size:13px;color:var(--white);">'+bm.label+'</span><button onclick="event.stopPropagation();removeBookmark('+bm.page+')" style="background:none;border:none;color:var(--gray-700);cursor:pointer;padding:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';}).join('');}
+      function closePdfReader(){document.getElementById('pdf-reader-overlay').classList.remove('open');document.getElementById('pdf-reader-body').style.filter='';document.getElementById('pdf-reader-body').classList.remove('theme-sepia','theme-light');pdfDocRef=null;renderBooks();updateHomeMenu();}
+      function renderBooks(){let list=[...BOOKS];if(bookFilter!=='all')list=list.filter(b=>b.status===bookFilter);const reading=BOOKS.filter(b=>b.status==='reading').length;const completed=BOOKS.filter(b=>b.status==='completed').length;document.getElementById('book-stat-reading').textContent=reading;document.getElementById('book-stat-done').textContent=completed;document.getElementById('book-stat-total').textContent=BOOKS.length;const wp=BOOKS.filter(b=>b.totalPages>0);const tr=wp.reduce((s,b)=>s+(b.currentPage||0),0);const tp=wp.reduce((s,b)=>s+b.totalPages,0);const pct=tp>0?Math.round(tr/tp*100):0;document.getElementById('book-total-pct').textContent=pct+'%';document.getElementById('book-total-bar').style.width=pct+'%';const grid=document.getElementById('book-grid');if(!list.length){grid.innerHTML='<div style="grid-column:span 2;padding:48px 0;text-align:center;"><div style="margin-bottom:14px;opacity:0.15;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="empty-text">Sin libros aún.<br>Toca + para agregar.</div></div>';return;}grid.innerHTML=list.map(b=>{const pc=b.totalPages>0?Math.round(b.currentPage/b.totalPages*100):0;const sl={reading:'Leyendo','to-read':'Por leer',completed:'Terminado'}[b.status]||'';const pl=b.totalPages>0?(b.currentPage>0?'Pág. '+b.currentPage+'/'+b.totalPages:'0/'+b.totalPages):'';return '<div class="book-card" onclick="openBookReaderDirect(\''+b.id+'\')"><div class="book-card-cover"><div class="book-card-cover-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><div class="book-card-cover-title">'+b.title+'</div></div>'+(b.totalPages>0?'<div class="book-progress-bar"><div class="book-progress-fill" style="width:'+pc+'%"></div></div>':'')+'</div><div class="book-card-info"><div class="book-card-title">'+b.title+'</div>'+(b.author?'<div class="book-card-author">'+b.author+'</div>':'')+'<div class="book-card-meta"><span class="book-card-pages">'+pl+'</span><span class="book-status '+b.status+'">'+sl+'</span></div></div></div>';}).join('');if(typeof pdfjsLib!=='undefined'){list.forEach(b=>{if(!b.hasPdf||!bookPdfData[b.id])return;const card=document.querySelector('[onclick="openBookReaderDirect(\''+b.id+'\')"] .book-card-cover');if(!card)return;const data=base64ToUint8(bookPdfData[b.id].split(',')[1]);pdfjsLib.getDocument({data}).promise.then(doc=>{doc.getPage(1).then(page=>{const canvas=document.createElement('canvas');const vp=page.getViewport({scale:0.4});canvas.width=vp.width;canvas.height=vp.height;canvas.style.cssText='width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;';page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise.then(()=>{const ph=card.querySelector('.book-card-cover-placeholder');if(ph)ph.style.display='none';card.insertBefore(canvas,card.firstChild);});});}).catch(()=>{});});}}
+
       /* ── INIT ── */
-      load(); loadHabits(); loadEvents(); loadSleep(); loadWallet(); loadGoals(); loadWorkout(); loadGym();
+      load(); loadHabits(); loadEvents(); loadSleep(); loadWallet(); loadGoals(); loadWorkout(); loadGym(); loadBooks();
       renderAll();
       checkNotifBanner();
       scheduleNotifs();
