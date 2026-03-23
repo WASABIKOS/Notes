@@ -9628,125 +9628,180 @@ ${dur}
       document.getElementById('main-fab').classList.remove('visible');
       document.body.removeAttribute('data-section');
 
-// In your Notes.html file, search for this line:
-//   /* ── ANDROID BACK GESTURE ── */
-// Delete everything from that line until (and including):
-//   });  (the closing of the popstate listener)
-// Then paste this code in its place.
-// =============================================================
+      /* ══════════════════════════════════════════════════════
+         ANDROID BACK BUTTON — HTMLtoAPK compatible
+         Flujo: cerrar modal → volver a sección → home → doble-tap salir
+      ══════════════════════════════════════════════════════ */
 
-      /* ── ANDROID BACK GESTURE (robust fix for HTMLtoAPK) ── */
-      
-      // Wrap goTo and goHome to push history states on each navigation
-      var _origGoTo = goTo;
+      // ── Navigation history stack ──
+      var _backStack = [];
+
+      // Intercept goTo: push section onto stack + history
+      var _rawGoTo = goTo;
       goTo = function(tab) {
-        _origGoTo(tab);
-        // Push a new history entry for each section navigation
-        try { history.pushState({dp:true, tab:tab}, ''); } catch(e){}
-      };
-      var _origGoHome = goHome;
-      goHome = function() {
-        _origGoHome();
-        try { history.pushState({dp:true, tab:'home'}, ''); } catch(e){}
+        _backStack.push({ type: 'section', tab: tab });
+        _rawGoTo(tab);
+        try { history.pushState({ dp: true, action: 'section', tab: tab }, ''); } catch(e){}
       };
 
-      // Initialize: replace current state + push a buffer entry
-      // This ensures the first "back" fires popstate instead of closing the WebView
+      // Intercept goHome: clear stack + push history
+      var _rawGoHome = goHome;
+      goHome = function() {
+        _backStack = [];
+        _rawGoHome();
+        try { history.pushState({ dp: true, action: 'home' }, ''); } catch(e){}
+      };
+
+      // Track every modal/overlay open so back can close them
+      function _pushModalState(id) {
+        _backStack.push({ type: 'modal', id: id });
+        try { history.pushState({ dp: true, action: 'modal', id: id }, ''); } catch(e){}
+      }
+
+      // Monkey-patch common modal openers to register in back stack
+      (function() {
+        var modalOpeners = {
+          'openModal': '#modal',
+          'openEditModal': '#modal',
+          'openDetail': '#detail-modal',
+          'openEventModal': '#event-modal',
+          'openEditEventModal': '#event-modal',
+          'openEventDetail': '#event-detail-overlay',
+          'openHabitModal': '#habit-modal',
+          'openGoalsModal': '#goals-modal',
+          'openWalletTxModal': '#w-tx-modal',
+          'openBucketModal': '#w-bucket-modal',
+          'openBookAddModal': '#book-add-modal',
+          'openBookDetail': '#book-detail-overlay',
+          'openBookReader': '#pdf-reader-overlay',
+          'openPomo': '#pomo-overlay',
+          'openMonthDayPopup': '#month-day-popup',
+          'openAppSettings': '#app-settings-modal',
+          'openTodayPopup': '#today-popup',
+          'openGymSession': '#gym-session-modal',
+          'openExerciseModal': '#gym-ex-modal',
+          'startNewWorkout': '#gym-new-popup',
+          'openGymPicker': '#gym-picker-modal',
+          'openPinOverlay': '#pin-overlay'
+        };
+        Object.keys(modalOpeners).forEach(function(fnName) {
+          if (typeof window[fnName] === 'function') {
+            var orig = window[fnName];
+            window[fnName] = function() {
+              var result = orig.apply(this, arguments);
+              _pushModalState(modalOpeners[fnName]);
+              return result;
+            };
+          }
+        });
+      })();
+
+      // Initialize history buffer: 2 entries so first back fires popstate
       try {
-        history.replaceState({dp:true, tab:'home'}, '');
-        history.pushState({dp:true, tab:'home'}, '');
+        history.replaceState({ dp: true, action: 'init' }, '');
+        history.pushState({ dp: true, action: 'buffer' }, '');
       } catch(e){}
 
-      // Double-tap-to-exit tracking
-      var _lastBackTime = 0;
+      // Double-back-to-exit timer
+      var _lastBackPress = 0;
 
-      window.addEventListener('popstate', function backHandler(e) {
-        // CRITICAL: immediately re-push a buffer entry
-        // Without this, the NEXT back press would exit the WebView/app
-        try { history.pushState({dp:true, tab:currentTab}, ''); } catch(ex){}
+      window.addEventListener('popstate', function _backHandler(e) {
+        // CRITICAL: re-push buffer so next back also triggers popstate
+        try { history.pushState({ dp: true, action: 'buffer' }, ''); } catch(ex){}
 
         try {
-          // ── 1. PDF reader open? ──
-          var pdfOverlay = document.getElementById('pdf-reader-overlay');
-          if (pdfOverlay && pdfOverlay.classList.contains('open')) {
+          // ── Helper: check if element is actually visible ──
+          function _isVisible(el) {
+            if (!el) return false;
+            if (el.classList.contains('open')) return true;
+            var cs = window.getComputedStyle(el);
+            return cs.display === 'flex' || cs.display === 'block';
+          }
+
+          // ── Helper: close a modal/overlay ──
+          function _closeEl(el) {
+            if (!el) return false;
+            if (el.classList.contains('open')) { el.classList.remove('open'); return true; }
+            var cs = window.getComputedStyle(el);
+            if (cs.display !== 'none') { el.style.display = 'none'; return true; }
+            return false;
+          }
+
+          // ══ PRIORITY 1: PDF reader panels (settings/bookmarks) ══
+          var pdfOv = document.getElementById('pdf-reader-overlay');
+          if (pdfOv && _isVisible(pdfOv)) {
             var sp = document.getElementById('pdf-settings-panel');
             var bp = document.getElementById('pdf-bookmarks-panel');
             if (sp && sp.style.display !== 'none') { sp.style.display = 'none'; return; }
             if (bp && bp.style.display !== 'none') { bp.style.display = 'none'; return; }
+            // Close the reader itself
             if (typeof savePdfProgress === 'function') savePdfProgress();
             if (typeof closePdfReader === 'function') closePdfReader();
+            _backStack = _backStack.filter(function(s) { return s.id !== '#pdf-reader-overlay'; });
             return;
           }
 
-          // ── 2. Pattern lock overlay? ──
+          // ══ PRIORITY 2: Pattern lock ══
           var pinOv = document.getElementById('pin-overlay');
-          if (pinOv && pinOv.classList.contains('open')) {
+          if (pinOv && _isVisible(pinOv)) {
             if (typeof patternCancel === 'function') patternCancel();
+            _backStack = _backStack.filter(function(s) { return s.id !== '#pin-overlay'; });
             return;
           }
 
-          // ── 3. Close topmost modal/overlay ──
-          var modalSelectors = [
-            '#gym-ex-modal',
-            '#gym-new-popup',
-            '#gym-picker-modal',
-            '#gym-session-modal',
-            '#today-popup',
-            '#app-settings-modal',
-            '#w-tx-modal',
-            '#w-bucket-modal',
-            '#goals-modal',
-            '#book-add-modal',
-            '#event-modal',
-            '#month-day-popup',
-            '#modal',
-            '#habit-modal',
-            '#book-detail-overlay',
-            '#event-detail-overlay',
-            '#detail-modal',
-            '#pomo-overlay'
-          ];
-          
-          for (var i = 0; i < modalSelectors.length; i++) {
-            var mel = document.querySelector(modalSelectors[i]);
-            if (!mel) continue;
-            
-            var hasOpenClass = mel.classList.contains('open');
-            var computedDisplay = window.getComputedStyle(mel).display;
-            var isVisible = hasOpenClass || computedDisplay === 'flex';
-            
-            if (isVisible) {
-              if (hasOpenClass) {
-                mel.classList.remove('open');
+          // ══ PRIORITY 3: Close topmost visible modal/overlay ══
+          // Check back stack first (most recently opened)
+          for (var s = _backStack.length - 1; s >= 0; s--) {
+            if (_backStack[s].type === 'modal') {
+              var stackEl = document.querySelector(_backStack[s].id);
+              if (stackEl && _isVisible(stackEl)) {
+                _closeEl(stackEl);
+                _backStack.splice(s, 1);
+                return;
               } else {
-                mel.style.display = 'none';
+                // Already closed, clean up stack
+                _backStack.splice(s, 1);
               }
-              return; // Only close ONE modal per back press
             }
           }
 
-          // ── 4. In a section view? Navigate back to home ──
-          if (typeof currentTab !== 'undefined' && currentTab !== 'home') {
-            _origGoHome();
+          // Fallback: scan ALL known modals (in case opened without stack)
+          var allModals = [
+            '#gym-ex-modal', '#gym-new-popup', '#gym-picker-modal',
+            '#gym-session-modal', '#today-popup', '#app-settings-modal',
+            '#w-tx-modal', '#w-bucket-modal', '#goals-modal',
+            '#book-add-modal', '#book-detail-overlay',
+            '#event-modal', '#event-detail-overlay',
+            '#month-day-popup', '#modal', '#habit-modal',
+            '#detail-modal', '#pomo-overlay'
+          ];
+          for (var m = 0; m < allModals.length; m++) {
+            var mel = document.querySelector(allModals[m]);
+            if (mel && _isVisible(mel)) {
+              _closeEl(mel);
+              return;
+            }
+          }
+
+          // ══ PRIORITY 4: In a section? Go back to home ══
+          if (currentTab !== 'home') {
+            _backStack = [];
+            _rawGoHome();
             return;
           }
 
-          // ── 5. Already on home screen — double-tap to exit ──
+          // ══ PRIORITY 5: On home — double-tap to exit ══
           var now = Date.now();
-          if (now - _lastBackTime < 2500) {
-            // User pressed back twice quickly — actually exit the app
-            window.removeEventListener('popstate', backHandler);
-            // Go back enough to exit the WebView
-            history.go(-(history.length));
+          if (now - _lastBackPress < 2500) {
+            // Actually exit
+            window.removeEventListener('popstate', _backHandler);
+            try { history.go(-(history.length + 1)); } catch(ex){}
             return;
           }
-          _lastBackTime = now;
-          if (typeof toast === 'function') {
-            toast('Presiona atrás de nuevo para salir');
-          }
+          _lastBackPress = now;
+          toast('Presiona atrás de nuevo para salir');
 
         } catch (err) {
-          // Safety net: never break the back button
           console.error('Back handler error:', err);
         }
       });
