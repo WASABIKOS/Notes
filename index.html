@@ -9628,32 +9628,127 @@ ${dur}
       document.getElementById('main-fab').classList.remove('visible');
       document.body.removeAttribute('data-section');
 
-      /* ── ANDROID BACK GESTURE ── */
-      // Always keep a buffer entry so popstate fires instead of closing app
-      history.replaceState({dp:true},'');
-      history.pushState({dp:true},'');
-      var _backHandling=false;
-      window.addEventListener('popstate',function(e){
-        if(_backHandling)return;
-        _backHandling=true;
-        // Re-push buffer immediately so next back also triggers popstate
-        history.pushState({dp:true},'');
-        // PDF reader open?
-        if(document.getElementById('pdf-reader-overlay').classList.contains('open')){savePdfProgress();closePdfReader();_backHandling=false;return;}
-        // Settings panel in reader?
-        var sp=document.getElementById('pdf-settings-panel');var bp=document.getElementById('pdf-bookmarks-panel');
-        if(sp&&sp.style.display!=='none'){sp.style.display='none';_backHandling=false;return;}
-        if(bp&&bp.style.display!=='none'){bp.style.display='none';_backHandling=false;return;}
-        // Any modal/overlay open?
-        var modals=document.querySelectorAll('.modal-overlay.open,.book-detail-overlay.open,.habit-modal-overlay.open,.event-modal-overlay.open,.event-detail-overlay.open,.detail-overlay.open,.pomo-overlay.open,#gym-new-popup[style*="flex"],#gym-picker-modal[style*="flex"],#gym-ex-modal[style*="flex"],#today-popup[style*="flex"],#app-settings-modal.open');
-        var closedOne=false;
-        modals.forEach(function(m){if(!closedOne){if(m.classList.contains('open')){m.classList.remove('open');closedOne=true;}else if(m.style.display==='flex'){m.style.display='none';closedOne=true;}}});
-        if(closedOne){_backHandling=false;return;}
-        // In a section view? go home
-        if(currentTab!=='home'){goHome();_backHandling=false;return;}
-        // On home - actually exit: remove buffer and go back twice
-        _backHandling=false;
-        history.go(-2);
+// In your Notes.html file, search for this line:
+//   /* ── ANDROID BACK GESTURE ── */
+// Delete everything from that line until (and including):
+//   });  (the closing of the popstate listener)
+// Then paste this code in its place.
+// =============================================================
+
+      /* ── ANDROID BACK GESTURE (robust fix for HTMLtoAPK) ── */
+      
+      // Wrap goTo and goHome to push history states on each navigation
+      var _origGoTo = goTo;
+      goTo = function(tab) {
+        _origGoTo(tab);
+        // Push a new history entry for each section navigation
+        try { history.pushState({dp:true, tab:tab}, ''); } catch(e){}
+      };
+      var _origGoHome = goHome;
+      goHome = function() {
+        _origGoHome();
+        try { history.pushState({dp:true, tab:'home'}, ''); } catch(e){}
+      };
+
+      // Initialize: replace current state + push a buffer entry
+      // This ensures the first "back" fires popstate instead of closing the WebView
+      try {
+        history.replaceState({dp:true, tab:'home'}, '');
+        history.pushState({dp:true, tab:'home'}, '');
+      } catch(e){}
+
+      // Double-tap-to-exit tracking
+      var _lastBackTime = 0;
+
+      window.addEventListener('popstate', function backHandler(e) {
+        // CRITICAL: immediately re-push a buffer entry
+        // Without this, the NEXT back press would exit the WebView/app
+        try { history.pushState({dp:true, tab:currentTab}, ''); } catch(ex){}
+
+        try {
+          // ── 1. PDF reader open? ──
+          var pdfOverlay = document.getElementById('pdf-reader-overlay');
+          if (pdfOverlay && pdfOverlay.classList.contains('open')) {
+            var sp = document.getElementById('pdf-settings-panel');
+            var bp = document.getElementById('pdf-bookmarks-panel');
+            if (sp && sp.style.display !== 'none') { sp.style.display = 'none'; return; }
+            if (bp && bp.style.display !== 'none') { bp.style.display = 'none'; return; }
+            if (typeof savePdfProgress === 'function') savePdfProgress();
+            if (typeof closePdfReader === 'function') closePdfReader();
+            return;
+          }
+
+          // ── 2. Pattern lock overlay? ──
+          var pinOv = document.getElementById('pin-overlay');
+          if (pinOv && pinOv.classList.contains('open')) {
+            if (typeof patternCancel === 'function') patternCancel();
+            return;
+          }
+
+          // ── 3. Close topmost modal/overlay ──
+          var modalSelectors = [
+            '#gym-ex-modal',
+            '#gym-new-popup',
+            '#gym-picker-modal',
+            '#gym-session-modal',
+            '#today-popup',
+            '#app-settings-modal',
+            '#w-tx-modal',
+            '#w-bucket-modal',
+            '#goals-modal',
+            '#book-add-modal',
+            '#event-modal',
+            '#month-day-popup',
+            '#modal',
+            '#habit-modal',
+            '#book-detail-overlay',
+            '#event-detail-overlay',
+            '#detail-modal',
+            '#pomo-overlay'
+          ];
+          
+          for (var i = 0; i < modalSelectors.length; i++) {
+            var mel = document.querySelector(modalSelectors[i]);
+            if (!mel) continue;
+            
+            var hasOpenClass = mel.classList.contains('open');
+            var computedDisplay = window.getComputedStyle(mel).display;
+            var isVisible = hasOpenClass || computedDisplay === 'flex';
+            
+            if (isVisible) {
+              if (hasOpenClass) {
+                mel.classList.remove('open');
+              } else {
+                mel.style.display = 'none';
+              }
+              return; // Only close ONE modal per back press
+            }
+          }
+
+          // ── 4. In a section view? Navigate back to home ──
+          if (typeof currentTab !== 'undefined' && currentTab !== 'home') {
+            _origGoHome();
+            return;
+          }
+
+          // ── 5. Already on home screen — double-tap to exit ──
+          var now = Date.now();
+          if (now - _lastBackTime < 2500) {
+            // User pressed back twice quickly — actually exit the app
+            window.removeEventListener('popstate', backHandler);
+            // Go back enough to exit the WebView
+            history.go(-(history.length));
+            return;
+          }
+          _lastBackTime = now;
+          if (typeof toast === 'function') {
+            toast('Presiona atrás de nuevo para salir');
+          }
+
+        } catch (err) {
+          // Safety net: never break the back button
+          console.error('Back handler error:', err);
+        }
       });
     </script>
     <!-- PATTERN LOCK OVERLAY -->
